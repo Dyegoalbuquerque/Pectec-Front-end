@@ -1,0 +1,66 @@
+<h5>Vendas</h5>
+
+
+<p>
+    Saiba todo lucro de vendas do seu negócio aqui.
+
+    <button mat-raised-button color="success" class="right">Criar venda</button>
+</p>
+
+<br />
+
+<mat-divider></mat-divider>
+
+<mat-form-field>
+    <input matInput (keyup)="filtrar($event)" placeholder="Ex. Fevereiro">
+</mat-form-field>
+
+<div class="example-container  mat-elevation-z8">
+    <br />
+    <table mat-table [dataSource]="dataSourceVenda">
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="data">
+            <th mat-header-cell *matHeaderCellDef> Data da venda </th>
+            <td mat-cell *matCellDef="let element"> {{element.data | date: 'dd/MM/yyyy'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ano">
+            <th mat-header-cell *matHeaderCellDef> Ano </th>
+            <td mat-cell *matCellDef="let element"> {{element.ano}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="tipo">
+            <th mat-header-cell *matHeaderCellDef> Tipo </th>
+            <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="item">
+            <th mat-header-cell *matHeaderCellDef> Item vendido </th>
+            <td mat-cell *matCellDef="let element">
+                <mat-icon svgIcon="done-24px" aria-label="Status"> {{element.itemId}}</mat-icon>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="valor">
+            <th mat-header-cell *matHeaderCellDef> Valor </th>
+            <td mat-cell *matCellDef="let element">
+                <h6> {{element.valor | currency:'R$ ':true:'1.2-2'}} </h6>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="recibo">
+
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let element">
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                <a class="recibo" mat-raised-button>recibo</a>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="colunasVenda; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: colunasVenda;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[1000]" showFirstLastButtons></mat-paginator>
+</div>

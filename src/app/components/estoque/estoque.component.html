@@ -1,0 +1,64 @@
+<h5>Estoque</h5>
+
+<p>
+    Veja seu estoque de insumo, ração e farmácia em tempo real e controle todo gasto.
+
+    <button mat-raised-button color="success" class="botao-acoes-estoque" [matMenuTriggerFor]="estoque">
+        Ações do estoque
+    </button>
+    <mat-menu #estoque="matMenu">
+        <button mat-menu-item (click)="abrirEstoqueFormDialog()">Cadastrar item de estoque</button>
+        <button mat-menu-item (click)="abrirRacaoDialog()">Cadastrar ração</button>
+        <button mat-menu-item (click)="abrirEntradaNoEstoqueDialog()">Entradas no estoque</button>
+    </mat-menu>
+</p>
+
+
+<mat-tab-group>
+    <!-- tab ração -->
+    <mat-tab>
+        <ng-template mat-tab-label>
+            &nbsp;&nbsp;
+            Ração
+        </ng-template>
+        <br />
+        <div>
+            <canvas mdbChart [chartType]="chartType" [datasets]="chartDatasetsRacao"
+                [labels]="chartLabelsRacao" [colors]="chartColors" [options]="chartOptions" [legend]="false"
+                (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+            </canvas>
+        </div>
+        <div>
+
+        </div>
+    </mat-tab>
+    <!-- tab insumos -->
+    <mat-tab>
+        <ng-template mat-tab-label>
+            &nbsp;&nbsp;
+            Insumo
+        </ng-template>
+        <br />
+        <div style="display: block">
+            <canvas size="50" mdbChart [chartType]="chartType" [datasets]="chartDatasetsInsumo"
+                [labels]="chartLabelsInsumo" [colors]="chartColors" [options]="chartOptions" [legend]="false"
+                (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+            </canvas>
+        </div>
+
+    </mat-tab>
+    <!-- tab medicamentos e material -->
+    <mat-tab>
+        <ng-template mat-tab-label>
+            &nbsp;&nbsp;
+            Farmácia
+        </ng-template>
+        <br />
+        <div style="display: block">
+            <canvas size="50" mdbChart [chartType]="chartType" [datasets]="chartDatasetsMedicamento"
+                [labels]="chartLabelsMedicamento" [colors]="chartColors" [options]="chartOptions" [legend]="false"
+                (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+            </canvas>
+        </div>
+    </mat-tab>
+</mat-tab-group>

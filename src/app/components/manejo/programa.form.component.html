@@ -1,0 +1,90 @@
+<h5>Programa do animal</h5>
+<br />
+<mat-divider></mat-divider>
+<span class="required legenda-campos-obrigatorios">campos obrigatórios</span>
+<br />
+<br />
+
+
+<span>
+  <mat-chip-list>
+    <mat-chip color="primary">{{situacao.nome}}</mat-chip>
+    <span>&nbsp;&nbsp;</span> -  <span>&nbsp;&nbsp;</span> 
+    <i>{{situacao.descricao}}</i>
+  </mat-chip-list>
+</span>
+
+<br />
+
+<igx-radio *ngFor="let intervalo of intervalosDias" name="intervalo.nome" [value]="intervalo.valor"
+  [(ngModel)]="intervaloDia.valor">
+  {{intervalo.nome}}
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</igx-radio>
+
+<mat-form-field>
+  <mat-label *ngIf="intervaloDia.valor == 'UD'" class="required">Dia</mat-label>
+  <mat-label *ngIf="intervaloDia.valor == 'MUD'" class="required">De</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="programaItem.inicio">
+</mat-form-field>
+
+<span *ngIf="intervaloDia.valor == 'MUD'">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field *ngIf="intervaloDia.valor == 'MUD'">
+  <mat-label class="required">Até</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="programaItem.fim">
+</mat-form-field>
+
+<br />
+
+<igx-radio *ngFor="let objetivo of objetivosPrograma" name="objetivo.nome" [value]="objetivo.valor"
+  [(ngModel)]="objetivoPrograma.valor">
+  {{objetivo.nome}}
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</igx-radio>
+
+<mat-form-field *ngIf="objetivoPrograma.valor == 'C'">
+  <mat-label class="required">Unidade de medida</mat-label>
+  <mat-select [(ngModel)]="programaItem.unidadeMedida">
+    <mat-option *ngFor="let unidade of unidadeMedidas" [value]="unidade.codigo">
+      {{unidade.mostrarDescricao()}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<span *ngIf="objetivoPrograma.valor == 'C'">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field *ngIf="objetivoPrograma.valor == 'C'">
+  <mat-label class="required">Quantidade</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="programaItem.quantidade">
+</mat-form-field>
+
+
+<mat-form-field>
+  <mat-label class="required">Objetivo do item</mat-label>
+  <mat-select [(ngModel)]="programaItem.objetivoId">
+    <mat-option *ngFor="let objetivo of objetivos" [value]="objetivo.id">
+      {{objetivo.descricao}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field >
+  <mat-label>Descrição</mat-label>
+  <input type="text" matInput [(ngModel)]="programaItem.descricao"/>
+</mat-form-field>
+
+<br/>
+
+<mat-form-field class="textarea-observacao">
+  <mat-label>Observação</mat-label>
+  <textarea matInput [(ngModel)]="programaItem.observacao"></textarea>
+</mat-form-field>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="fechar()">Cancelar</button>
+  <button mat-button color="success" cdkFocusInitial (click)="salvar()">Salvar</button>
+</mat-dialog-actions>

@@ -1,0 +1,66 @@
+<h5>Evento</h5>
+
+<br />
+<mat-divider></mat-divider>
+<span class="required legenda-campos-obrigatorios">campos obrigatórios</span>
+<br />
+
+<mat-chip-list *ngIf="limiteDeQuantidade != ''">
+    <mat-chip color="primary">Limite de quantidade {{limiteDeQuantidade}}</mat-chip>
+</mat-chip-list>
+
+<br />
+
+<mat-form-field>
+  <mat-label class="required">Data do venda</mat-label>
+  <input matInput [matDatepicker]="picker" [(ngModel)]="venda.data" [disabled]="venda.id > 0 && venda.data">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Categoria do venda</mat-label>
+  <mat-select (selectionChange)="mudarCategoriaEvento(venda)" [(ngModel)]="venda.categoriaId" [disabled]="venda.id > 0 && venda.categoriaId > 0">
+    <mat-option *ngFor="let destino of destinos" [value]="destino.id">
+      {{destino.descricao}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Origem do venda</mat-label>
+  <mat-select (selectionChange)="mudarOrigemEvento(venda.origemId)" [disabled]="venda.id > 0 && venda.origemId" [(ngModel)]="venda.origemId">
+    <mat-option *ngFor="let origem of origens" [value]="origem.id">
+      {{origem.descricao}} - 
+      {{origem.quantidadeEntradaReal}}
+      {{origem.unidadeMedida}}&nbsp;disponível
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Quantidade </mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="venda.quantidade">
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label>Valor da venda</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="venda.valor">
+  <span matPrefix>R$&nbsp;</span>
+</mat-form-field>
+
+<br /><br />
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="fechar()">Cancelar</button>
+  <button mat-button color="success" cdkFocusInitial (click)="salvar()">Salvar</button>
+</mat-dialog-actions>

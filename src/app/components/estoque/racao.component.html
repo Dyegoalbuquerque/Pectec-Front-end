@@ -1,0 +1,109 @@
+<h5>Ração</h5>
+
+<br />
+<mat-divider></mat-divider>
+<span class="required legenda-campos-obrigatorios">campos obrigatórios</span>
+<br />
+<br />
+
+<igx-switch [checked]="comprouRacaoPronta" (change)="mudarCompraRacaoPronta(comprouRacaoPronta)">
+  Ração pronta
+</igx-switch>
+
+<br />
+
+<mat-form-field>
+  <mat-label class="required">Data da entrada</mat-label>
+  <input matInput [matDatepicker]="picker" [(ngModel)]="racao.dataEntrada">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Descrição</mat-label>
+  <input matInput type="text" class="example-right-align" [(ngModel)]="racao.descricao">
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Subcategoria</mat-label>
+  <mat-select [(ngModel)]="racao.subcategoriaId">
+    <mat-option *ngFor="let subcategoria of subcategorias" [value]="subcategoria.id">
+      {{subcategoria.descricao}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Unidade de medida</mat-label>
+  <mat-select [(ngModel)]="racao.unidadeMedida">
+    <mat-option *ngFor="let unidade of unidadeMedidas" [value]="unidade.codigo">
+      {{unidade.mostrarDescricao()}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Quantidade da embalagem</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="racao.quantidadeEmbalagem">
+</mat-form-field>
+
+<span *ngIf="comprouRacaoPronta">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field *ngIf="comprouRacaoPronta">
+  <mat-label class="required">Quantidade</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="racao.quantidade">
+</mat-form-field>
+
+<span *ngIf="comprouRacaoPronta">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field *ngIf="comprouRacaoPronta">
+  <mat-label class="required">Valor da embalagem</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="racao.valorEmbalagem">
+  <span matPrefix>R$&nbsp;</span>
+</mat-form-field>
+
+<br />
+
+<label class="required" *ngIf="!comprouRacaoPronta">Insumos</label>
+
+<ul class="list-group lista-insumos" *ngIf="!comprouRacaoPronta">
+  <li class="list-group-item" *ngFor="let insumo of insumos">
+
+    {{insumo.id}} <span>&nbsp;</span>
+    {{insumo.descricao}} <span>&nbsp;&nbsp;</span>
+    {{insumo.valorKg | currency:'R$ ':true:'1.2-2'}}
+
+    <span>&nbsp;&nbsp;</span>
+
+    <mdb-badge pill="true" default="true" *ngIf="insumo.selecionado">{{insumo.disponivel}} kg</mdb-badge>
+    <mdb-badge pill="true" color="grey" *ngIf="!insumo.selecionado">{{insumo.disponivel}} kg</mdb-badge>
+
+    <span>&nbsp;&nbsp;</span>
+
+    <span class="switch-descricao">
+      <i>Incluir</i>
+    </span>
+    <igx-switch [checked]="false" class="switch" [checked]="insumo.selecionado" (change)="selecionarInsumo(insumo)">
+    </igx-switch>
+
+    <br /><br />
+    <ng5-slider *ngIf="insumo.selecionado" [(value)]="insumo.retirado"
+      [options]="insumo.option"></ng5-slider>
+    <label *ngIf="insumo.selecionado" for="slider">Retirado: {{insumo.retirado}} kg</label>
+  </li>
+</ul>
+
+<br />
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="fechar()">Cancelar</button>
+  <button mat-button color="success" cdkFocusInitial (click)="salvar()">Salvar</button>
+</mat-dialog-actions>

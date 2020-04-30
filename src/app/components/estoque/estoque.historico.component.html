@@ -1,0 +1,39 @@
+<h5>Entradas no estoque</h5>
+
+<br />
+
+<div class="grid-estoque">
+
+    <igx-tree-grid #treegrid2 [data]="estoques" expansionDepth="0" [autoGenerate]="false" height="480px" width="100%" primaryKey="id"
+        foreignKey="estoqueId">
+        <igx-column field="id" header="Identificação" [dataType]="'string'"> </igx-column>
+        <igx-column field="descricao" header="Descrição" [dataType]="'string'"> </igx-column>
+        <igx-column field="unidadeMedida" header="Unidade medida" [dataType]="'string'">
+            <ng-template igxCell let-cell="cell" let-val>
+                <span>{{val}}</span>
+            </ng-template>
+        </igx-column>
+        <igx-column field="quantidadeEntrada" header="Quantidade" dataType="number">
+            <ng-template igxCell let-cell="cell" let-val>
+                <span *ngIf="cell.row.rowData.quantidadeEntrada == 0">-</span>
+                <span *ngIf="cell.row.rowData.quantidadeEntrada != 0">{{val}}</span>
+            </ng-template>
+        </igx-column>
+        <igx-column field="dataEntrada" header="Data entrada" [dataType]="'date'">
+            <ng-template igxCell let-cell="cell" let-val>
+                <span *ngIf="cell.row.rowData.dataEntrada != ''">{{val | date: 'dd/MM/yyyy'}}</span>
+            </ng-template>
+        </igx-column>
+        <igx-column field="valor" header="Valor R$" [dataType]="number">
+            <ng-template igxCell let-cell="cell" let-val>
+                <span>{{val | currency:'R$ ':true:'1.2-2'}}</span>
+            </ng-template>
+        </igx-column>
+    </igx-tree-grid>
+</div>
+
+<br />
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close (click)="fechar()">Fechar</button>
+ </mat-dialog-actions>

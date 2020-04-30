@@ -1,0 +1,92 @@
+<h5>Animal</h5>
+
+<br />
+<mat-divider></mat-divider>
+<span class="required legenda-campos-obrigatorios">campos obrigatórios</span>
+<br />
+<br />
+
+<span *ngIf="animal.id">
+  <mat-chip-list>
+    <mat-chip color="primary">Nº do animal {{animal.id}}</mat-chip>
+  </mat-chip-list>
+  <br />
+</span>
+
+<mat-form-field>
+  <mat-label class="required">Data nascimento</mat-label>
+  <input matInput [matDatepicker]="picker" [(ngModel)]="animal.dataNascimento">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Raça</mat-label>
+  <input matInput type="text" class="example-right-align" [(ngModel)]="animal.raca">
+  <span matPrefix>&nbsp;</span>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Situação</mat-label>
+  <mat-select [(ngModel)]="animal.situacao">
+    <mat-option [value]="">
+      Selecione
+    </mat-option>
+    <mat-option *ngFor="let situacao of situacoes" [value]="situacao.sigla">
+      {{situacao.nome}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<span *ngIf="animal.situacao == 'O'">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field *ngIf="animal.situacao == 'O'">
+  <mat-label class="required">Data do óbito</mat-label>
+  <input matInput [matDatepicker]="picker" [(ngModel)]="animal.dataObito">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+<span *ngIf="animal.situacao == 'O'">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field *ngIf="animal.situacao == 'O'">
+  <mat-label class="required">Causa do óbito</mat-label>
+  <mat-select [(ngModel)]="animal.causaObitoId">
+    <mat-option [value]="">
+      Selecione
+    </mat-option>
+    <mat-option *ngFor="let causa of causaObitos" [value]="causa.id">
+      {{causa.nome}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Sexo do animal</mat-label>
+  <mat-select [(ngModel)]="animal.sexo">
+    <mat-option [value]="">
+      Selecione
+    </mat-option>
+    <mat-option *ngFor="let sexo of sexos" [value]="sexo.valor">
+      {{sexo.descricao}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label>Quantidade de ciclos</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="animal.quantidadeCiclo">
+</mat-form-field>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="fechar()">Cancelar</button>
+  <button mat-button color="success" cdkFocusInitial (click)="salvar()">Salvar</button>
+</mat-dialog-actions>

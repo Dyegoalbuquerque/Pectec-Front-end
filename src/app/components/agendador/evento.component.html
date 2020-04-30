@@ -1,0 +1,72 @@
+<h5>Evento</h5>
+
+<br />
+<mat-divider></mat-divider>
+<span class="required legenda-campos-obrigatorios">campos obrigatórios</span>
+<br />
+
+<mat-chip-list *ngIf="limiteDeQuantidade != ''">
+    <mat-chip color="primary">Limite de quantidade {{limiteDeQuantidade}}</mat-chip>
+</mat-chip-list>
+
+<br />
+
+
+<igx-radio *ngFor="let tipo of tipos" name="tipo.descricao" [value]="tipo.valor" [(ngModel)]="evento.tipo">
+  {{tipo.descricao}}
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</igx-radio>
+
+<mat-form-field>
+  <mat-label class="required">Data do evento</mat-label>
+  <input matInput [matDatepicker]="picker" [(ngModel)]="evento.data" [disabled]="evento.id > 0 && evento.data">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Categoria do evento</mat-label>
+  <mat-select (selectionChange)="mudarCategoriaEvento(evento)" [(ngModel)]="evento.categoriaId" [disabled]="evento.id > 0 && evento.categoriaId > 0">
+    <mat-option *ngFor="let destino of destinos" [value]="destino.id">
+      {{destino.descricao}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Origem do evento</mat-label>
+  <mat-select (selectionChange)="mudarOrigemEvento(evento.origemId)" [disabled]="evento.id > 0 && evento.origemId" [(ngModel)]="evento.origemId">
+    <mat-option *ngFor="let origem of origens" [value]="origem.id">
+      {{origem.descricao}} - 
+      {{origem.quantidadeEntradaReal}}
+      {{origem.unidadeMedida}}&nbsp;disponível
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Quantidade </mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="evento.quantidade">
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label>Valor da venda</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="evento.valor">
+  <span matPrefix>R$&nbsp;</span>
+</mat-form-field>
+
+<br /><br />
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="fechar()">Cancelar</button>
+  <button mat-button color="success" cdkFocusInitial (click)="salvar()">Salvar</button>
+</mat-dialog-actions>

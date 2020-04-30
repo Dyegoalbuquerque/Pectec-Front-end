@@ -1,0 +1,29 @@
+
+ng5-slider{
+    width: 65%;
+}
+
+.right{
+  position: absolute; 
+  right: 100px;
+}
+
+.mat-stepper-vertical {
+  margin-top: 8px;
+}
+
+.tabela-eventos {
+  height: 500px;
+  overflow: auto;
+  width: auto;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+table {
+  width: 100%;
+}
+
+
+

@@ -1,0 +1,152 @@
+<h5>Acompanhamento da matriz</h5>
+
+<br />
+<mat-divider></mat-divider>
+<span class="required legenda-campos-obrigatorios">campos obrigatórios</span>
+<br />
+<br />
+
+<igx-switch [disabled]="acompanhamento.dataFecundacao && acompanhamento.dataFecundacao != ''" [checked]="inceminacao"
+  (change)="mudarInceminacao(inceminacao)">
+  Inceminação
+</igx-switch>
+
+<br />
+<br />
+
+<mat-chip-list>
+  <mat-chip color="primary">Nº matriz {{acompanhamento.femeaId}}</mat-chip>
+
+  <mat-chip *ngIf="acompanhamento.dataPartoPrevisao" color="primary">Previsão de parto em
+    {{acompanhamento.dataPartoPrevisao | date: 'dd/MM/yyyy'}}
+  </mat-chip>
+
+  <mat-chip *ngIf="acompanhamento.dataApartarPrevisao" color="primary">Previsão de apartar em
+    {{acompanhamento.dataApartarPrevisao | date: 'dd/MM/yyyy'}}
+  </mat-chip>
+</mat-chip-list>
+
+<br />
+
+<mat-form-field class="example-full-width">
+
+  <mat-label class="required">Reprodutor</mat-label>
+  <input type="text" [disabled]="acompanhamento.id > 0" aria-label="Number" matInput [matAutocomplete]="auto"
+    [(ngModel)]="acompanhamento.reprodutorId">
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option *ngFor="let reprodutor of reprodutores" [value]="reprodutor.id">
+      {{reprodutor.nome }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Data cobertura</mat-label>
+  <input matInput [disabled]="acompanhamento.dataPartoReal != undefined" [matDatepicker]="picker"
+    [(ngModel)]="acompanhamento.dataFecundacao">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label>Data que pariu</mat-label>
+  <input matInput [matDatepicker]="picker2" [(ngModel)]="acompanhamento.dataPartoReal">
+  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+  <mat-datepicker #picker2></mat-datepicker>
+</mat-form-field>
+
+
+<div *ngIf="acompanhamento.dataPartoReal != undefined">
+
+  <mat-form-field>
+    <mat-label class="required"> Nº leitões nascidos</mat-label>
+    <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.quantidadeFilhote">
+  </mat-form-field>
+
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+  <mat-form-field>
+    <mat-label class="required">Nº leitões VV</mat-label>
+    <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.quantidadeFilhoteVV">
+  </mat-form-field>
+
+
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+  <mat-form-field>
+    <mat-label class="required">Nº leitões NM</mat-label>
+    <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.quantidadeFilhoteNM">
+  </mat-form-field>
+
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+  <mat-form-field>
+    <mat-label class="required">Nº leitões MF</mat-label>
+    <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.quantidadeFilhoteMF">
+  </mat-form-field>
+
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+  <mat-form-field>
+    <mat-label class="required">Peso médio de nascimento</mat-label>
+    <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.pesoFilhoteNascimento">
+  </mat-form-field>
+
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+  <mat-form-field>
+    <mat-label class="required">Situação de nascimento</mat-label>
+    <mat-select [(ngModel)]="acompanhamento.situacaoNascimento">
+      <mat-option [value]="">
+        Selecione
+      </mat-option>
+      <mat-option *ngFor="let situacao of situacoes" [value]="situacao.sigla">
+        {{situacao.nome}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+
+  <mat-form-field>
+    <mat-label class="required">Quantidade machos</mat-label>
+    <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.quantidadeSexoM">
+  </mat-form-field>
+
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+  <mat-form-field>
+    <mat-label class="required">Quantidade fêmeas</mat-label>
+    <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.quantidadeSexoF">
+  </mat-form-field>
+
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+  <mat-form-field>
+    <mat-label>Nº leitões mortos</mat-label>
+    <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.quantidadeFilhoteMorto">
+  </mat-form-field>
+
+</div>
+
+<mat-form-field>
+  <mat-label>Data que apartou</mat-label>
+  <input matInput [matDatepicker]="picker3" [(ngModel)]="acompanhamento.dataApartarReal">
+  <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+  <mat-datepicker #picker3></mat-datepicker>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field *ngIf="acompanhamento.dataApartarReal != undefined">
+  <mat-label class="required">Peso médio de apartado</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.pesoFilhoteApartar">
+</mat-form-field>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="fechar()">Cancelar</button>
+  <button mat-button color="success" cdkFocusInitial (click)="salvar()">Salvar</button>
+</mat-dialog-actions>

@@ -1,0 +1,8 @@
+.insumo-div {
+    height: 600px;
+    overflow: auto;
+    width: auto;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }

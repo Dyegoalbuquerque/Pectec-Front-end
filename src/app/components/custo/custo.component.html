@@ -1,0 +1,193 @@
+<h5>Custos</h5>
+
+<span>
+
+  <span> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</span>
+  <span> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</span>
+  <span> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</span>
+  <span> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</span>
+  <span> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</span>
+  <span> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</span>
+  <span> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</span>
+  <span> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</span>
+  <span> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</span>
+  <span> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</span>
+  <span> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</span>
+  <span> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+  <mat-form-field>
+    <mat-label>A partir de</mat-label>
+    <mat-select [(ngModel)]="ano" (change)="mudarAno(ano.valor)">
+      <mat-option *ngFor="let ano of anos" [value]="ano.valor">
+        {{ano.nome}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</span>
+
+<mat-tab-group>
+  <!-- tab visão geral -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Visão geral
+    </ng-template>
+
+    <p>Veja tudo o que você irá gastar em todo o ano detalhado mês a mês</p>
+
+    <br />
+
+    <div class="grid-cronograma">
+
+      <igx-tree-grid #treegrid [data]="cronogramas" expansionDepth="0" [autoGenerate]="false" height="480px"
+        width="100%" primaryKey="id" foreignKey="cronogramaId">
+        <igx-column field="id" header="Identificação" [dataType]="'string'"> </igx-column>
+        <igx-column field="descricao" header="Descrição" [dataType]="'string'"> </igx-column>
+        <igx-column field="valor" header="Valor" dataType="number">
+          <ng-template igxCell let-cell="cell" let-val>
+            <span *ngIf="cell.row.rowData.valor == 0">-</span>
+            <span *ngIf="cell.row.rowData.valor != 0">
+              <h6>{{val | currency:'R$ ':true:'1.2-2'}}</h6>
+            </span>
+          </ng-template>
+        </igx-column>
+        <igx-column field="vencimento" header="Vencimento" [dataType]="'date'">
+          <ng-template igxCell let-cell="cell" let-val>
+            <span
+              *ngIf="cell.row.rowData.vencimento != '' && cell.row.rowData.id > 0">{{val | date: 'dd/MM/yyyy'}}</span>
+          </ng-template>
+        </igx-column>
+        <igx-column field="tipo" header="Tipo" [dataType]="'boolean'">
+          <ng-template igxCell let-cell="cell" let-val>
+            <span *ngIf="cell.row.rowData.tipo == 'S'">
+              <mat-icon svgIcon="trending_down-24px"></mat-icon>
+            </span>
+            <span *ngIf="cell.row.rowData.tipo == 'E'">
+              <mat-icon svgIcon="trending_up-24px"></mat-icon>
+            </span>
+          </ng-template>
+        </igx-column>
+      </igx-tree-grid>
+    </div>
+
+
+  </mat-tab>
+  <!-- tab lançamentos -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      &nbsp;&nbsp;
+      Lançamentos
+    </ng-template>
+    <p>
+      Um lançamento registra um gasto de saída com data de vencimento ou uma entrada de valor.
+
+      <button mat-raised-button color="success" class="right" (click)="openLancamentoDialog()">Criar lançamento</button>
+    </p>
+
+    <br />
+
+    <mat-divider></mat-divider>
+
+    <mat-form-field>
+      <input matInput (keyup)="filtrar($event)" placeholder="Ex. Fevereiro">
+    </mat-form-field>
+
+    <div class="tabela-lancamento  mat-elevation-z8">
+      <br />
+      <span>
+        <h6>&nbsp;&nbsp;&nbsp;&nbsp;{{totalLancamentos | currency:'R$ ':true:'1.2-2'}}</h6>
+      </span>
+      <table mat-table [dataSource]="dataSourceLancamento">
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="n">
+          <th mat-header-cell *matHeaderCellDef> Nº </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="mes">
+          <th mat-header-cell *matHeaderCellDef> Mês</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-chip-list>
+              <span> &nbsp;</span>
+              <mat-chip>{{element.mes}}</mat-chip>
+            </mat-chip-list>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="vencimento">
+          <th mat-header-cell *matHeaderCellDef> Vencimento </th>
+          <td mat-cell *matCellDef="let element"> {{element.vencimento |  date: 'dd/MM/yyyy'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="categoria">
+          <th mat-header-cell *matHeaderCellDef> Categoria </th>
+          <td mat-cell *matCellDef="let element"> 
+            <span> &nbsp;</span>{{element.subcategoria.descricao}} 
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="descricao">
+          <th mat-header-cell *matHeaderCellDef> Descrição </th>
+          <td mat-cell *matCellDef="let element"> {{element.descricao}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef> Status </th>
+          <td mat-cell *matCellDef="let element">
+            <a class="button-confirmar-pagamento" mat-raised-button color="success" *ngIf="element.status == 'V'"
+              (click)="dialog.open(element.id)">confirmar</a>
+            <igx-dialog #dialog title="Confirmação" leftButtonLabel="Cancelar" (onLeftButtonSelect)="dialog.close()"
+              rightButtonLabel="Confirmar" (onRightButtonSelect)="confirmarPagamentoLancamento(element.id)"
+              message="Deseja confirmar pagamento ?">
+            </igx-dialog>
+            <mat-chip *ngIf="element.status == 'P'">Previsão</mat-chip>
+            <mat-icon svgIcon="done-24px" *ngIf="element.status == 'PG'" aria-label="Pago"></mat-icon>
+
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="valor">
+          <th mat-header-cell *matHeaderCellDef> Valor </th>
+          <td mat-cell *matCellDef="let element">
+            <h6> {{element.valor | currency:'R$ ':true:'1.2-2'}} </h6>
+          </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="tipo">
+          <th mat-header-cell *matHeaderCellDef> Tipo </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon svgIcon="trending_down-24px" *ngIf="element.tipo == 'S'"></mat-icon>
+            <mat-icon svgIcon="trending_up-24px" *ngIf="element.tipo == 'E'"></mat-icon>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="remover">
+
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let element">
+            <a class="remover" mat-raised-button color="warn" (click)="dialog.open(element.id)">remover</a>
+            <igx-dialog #dialog title="Confirmação" leftButtonLabel="Cancelar" (onLeftButtonSelect)="dialog.close()"
+              rightButtonLabel="Remover" (onRightButtonSelect)="removerLancamento(element.id)"
+              message="Deseja remover este registro ?">
+            </igx-dialog>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="recibo">
+
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let element">
+             <a class="recibo" mat-raised-button
+              (click)="openReciboDialog(element.id)">recibo</a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="colunasLancamentos; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: colunasLancamentos;"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[1000]" showFirstLastButtons></mat-paginator>
+    </div>
+  </mat-tab>
+</mat-tab-group>

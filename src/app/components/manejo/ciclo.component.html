@@ -1,0 +1,92 @@
+<h5>Crie seu ciclo de acordo com sua necessidade</h5>
+
+<br/>
+<mat-divider></mat-divider>
+<span class="required legenda-campos-obrigatorios">campos obrigatórios</span>
+<br />
+<br />
+
+<div *ngIf="ciclos.length > 0">
+  <mat-form-field>
+    <mat-label>Selecione o ciclo</mat-label>
+    <mat-select  [(ngModel)]="cicloFilho.cicloId">
+      <mat-option *ngFor="let ciclo of ciclos" [value]="ciclo.id">
+        {{ciclo.descricao}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<br />
+
+<igx-switch [checked]="simulacao" (change)="mudarSimulacao(simulacao)">
+  Simulação
+</igx-switch>
+
+<br />
+<br/>
+
+<ng-select [items]="items" bindLabel="name" placeholder="Selecione o nº matriz"
+            appendTo="body" multiple="true" [(ngModel)]="selected">
+</ng-select>
+
+<igx-radio *ngFor="let tipo of tipos"
+    name="tipo.nome"
+    [value]="tipo.valor"
+    [(ngModel)]="cicloFilho.tipo">
+    {{tipo.nome}}
+    <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</igx-radio>
+
+<br/>
+
+<mat-form-field>
+  <mat-label class="required">Data início</mat-label>
+  <input matInput [matDatepicker]="picker" [(ngModel)]="cicloFilho.dataInicio">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label  class="required">Quantidade de dias</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="cicloFilho.quantidadeDias">
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label  class="required">Valor da ração</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="cicloFilho.valorRacao">
+  <span matPrefix>R$&nbsp;</span>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Quantidade de ração</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="cicloFilho.quantidadeRacao">
+  <span matPrefix>Kg&nbsp;</span>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Gastos de medicamentos</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="cicloFilho.valorMedicamentos">
+  <span matPrefix>R$&nbsp;</span>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Gastos extras</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="cicloFilho.valorGastosExtra">
+  <span matPrefix>R$&nbsp;</span>
+</mat-form-field>
+
+<br /><br />
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="fechar()">Cancelar</button>
+  <button mat-button color="success" cdkFocusInitial (click)="salvar()">Salvar</button>
+</mat-dialog-actions>

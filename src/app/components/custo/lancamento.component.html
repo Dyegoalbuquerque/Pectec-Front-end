@@ -1,0 +1,71 @@
+<h5>Lançamento</h5>
+
+<br />
+<mat-divider></mat-divider>
+<span class="required legenda-campos-obrigatorios">campos obrigatórios</span>
+<br />
+<br />
+
+
+<mat-form-field>
+  <mat-label class="required">Vencimento</mat-label>
+  <input matInput [matDatepicker]="picker" [(ngModel)]="lancamento.vencimento">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Valor</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="lancamento.valor">
+  <span matPrefix>R$&nbsp;</span>
+</mat-form-field>
+
+<mat-form-field class="descricao">
+  <mat-label class="required">Descrição</mat-label>
+  <input matInput type="text" class="example-right-align" [(ngModel)]="lancamento.descricao">
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<igx-radio *ngFor="let tipo of tipos" name="tipo.nome" [value]="tipo.valor" [(ngModel)]="lancamento.tipo">
+  {{tipo.nome}}
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</igx-radio>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Categoria</mat-label>
+  <mat-select (selectionChange)="mudarCategoriaDoLancamento(categoriaSelecionada.codigo)" [(ngModel)]="categoriaSelecionada.codigo">
+    <mat-option *ngFor="let categoria of categorias" [value]="categoria.codigo">
+      {{categoria.descricao}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Subcategoria</mat-label>
+  <mat-select [(ngModel)]="lancamento.subcategoriaId">
+    <mat-option *ngFor="let subcategoria of subcategorias" [value]="subcategoria.id">
+      {{subcategoria.descricao}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<br/>
+
+<igx-radio *ngFor="let status of statusLista" name="status.nome" [value]="status.valor" [(ngModel)]="lancamento.status">
+  {{status.nome}}
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</igx-radio>
+
+<br /><br />
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="fechar()">Cancelar</button>
+  <button mat-button color="success" cdkFocusInitial (click)="salvar()">Salvar</button>
+</mat-dialog-actions>

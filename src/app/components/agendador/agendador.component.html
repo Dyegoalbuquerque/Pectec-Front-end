@@ -1,0 +1,106 @@
+<h5>Eventos</h5>
+
+<p>
+    Crie abaixo seus programas de consumo diário que automaticamente seu estoque será atualizado em tempo real.
+
+    <button mat-raised-button color="success" class="right" [matMenuTriggerFor]="programa">
+        Ações
+    </button>
+    <mat-menu #programa="matMenu">
+        <button mat-menu-item (click)="abrirEventoDialog()">Cadastrar evento</button>
+    </mat-menu>
+</p>
+
+<mat-tab-group>
+    <!-- tab tempo real -->
+    <!-- <mat-tab>
+        <ng-template mat-tab-label>
+            &nbsp;&nbsp;
+            Tempo real
+        </ng-template>
+        <br />
+
+        <mat-vertical-stepper [linear]="false" #stepper>
+            <mat-step>
+                <ng-template matStepLabel>Consumidos 340 kg de ração ás 8:00 hrs</ng-template>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Consumidos 200 ml de Farmacox ás 10:40 hrs</ng-template>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>5 femêas foram cobertas pela manhã</ng-template>
+            </mat-step>
+        </mat-vertical-stepper>
+    </mat-tab> -->
+    <!-- tab eventos -->
+    <mat-tab>
+        <ng-template mat-tab-label>
+            &nbsp;&nbsp;
+            Eventos
+        </ng-template>
+        <br />
+
+        <mat-form-field>
+            <input matInput (keyup)="filtrar($event)" placeholder="Ex. Ração">
+          </mat-form-field>
+
+        <div class="tabela-eventos  mat-elevation-z8">
+            <table mat-table [dataSource]="dataSourceEventos">
+
+                <ng-container matColumnDef="data">
+                    <th mat-header-cell *matHeaderCellDef> Data do evento</th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-chip-list>
+                            <mat-chip>{{element.data | date: 'dd/MM/yyyy'}}</mat-chip>
+                        </mat-chip-list>
+                    </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="tipo">
+                    <th mat-header-cell *matHeaderCellDef> Tipo </th>
+                    <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="descricao">
+                    <th mat-header-cell *matHeaderCellDef> Descrição </th>
+                    <td mat-cell *matCellDef="let element"> {{element.origem.subcategoria.descricao}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="quantidade" class="quantidade">
+                    <th mat-header-cell *matHeaderCellDef>Quantidade</th>
+                    <td mat-cell *matCellDef="let element"> 
+                        <h6>{{element.quantidade}}</h6>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="unidadeMedida">
+                    <th mat-header-cell *matHeaderCellDef> Un. medida </th>
+                    <td mat-cell *matCellDef="let element"> {{element.origem.unidadeMedida}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="custo">
+                    <th mat-header-cell *matHeaderCellDef> Custo </th>
+                    <td mat-cell *matCellDef="let element"> {{element.mostrarCustoDetalhado()}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="editar">
+
+                    <th mat-header-cell *matHeaderCellDef> </th>
+                    <td mat-cell *matCellDef="let element">
+                        <span>&nbsp;&nbsp;&nbsp;</span> <a class="editar" mat-raised-button color="primary" (click)="abrirEventoDialog(element)">editar</a>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="colunasEventos; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: colunasEventos;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[100, 1000]" showFirstLastButtons></mat-paginator>
+        </div>
+
+    </mat-tab>
+</mat-tab-group>
+
+
+<simple-notifications [options]="options"></simple-notifications>

@@ -1,0 +1,72 @@
+
+.tabela-lancamento {
+    height: 400px;
+    overflow: auto;
+    width: 100%;
+    margin-left: 2px;
+    margin-right: 2px;
+  }
+
+  .right{
+    position: absolute; 
+    right: 0px;
+  }
+
+  .required::before 
+{
+    content:"* "; 
+    color: red;
+}
+
+.legenda-campos-obrigatorios
+{
+  font-size: 12px;
+}
+
+  mat-form-field.mat-form-field {
+    font-size: 15px;
+    width: 155px;
+  }
+
+  p {
+    font-size: 18px;
+    color: #586069;
+    flex: 1 100%;
+}
+  
+
+.grid-cronograma{
+  margin: 0 16px;
+}
+
+.grid-cronograma-filtro{
+  width: rem(200px);
+}
+
+.cell__inner,
+.cell__inner_2 {
+display: flex;
+align-items: center;
+height: 100%;
+}
+
+.cell__inner {
+position: relative;
+justify-content: space-between;
+}
+
+
+.example-tree-invisible {
+  display: none;
+}
+
+.example-tree ul,
+.example-tree li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}
+
+.button-confirmar-pagamento{
+  height: 32px;
+}

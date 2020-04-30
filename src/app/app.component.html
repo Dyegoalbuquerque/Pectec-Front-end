@@ -1,0 +1,55 @@
+<!-- Toolbar -->
+<mat-toolbar>
+
+  <mat-toolbar-row>
+    <span>
+      <h3>Pectec</h3><br />
+    </span>
+
+    <button mat-button [matMenuTriggerFor]="menuManejo"><strong>Manejo</strong></button>
+    <mat-menu #menuManejo="matMenu">
+      <button mat-menu-item routerLink="/eventos">
+        <mat-icon>list</mat-icon>
+        <span>Eventos</span>
+      </button>
+      <button mat-menu-item routerLink="/upl">
+        <mat-icon>list</mat-icon>
+        <span>UPL</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>list</mat-icon>
+        <span>Terminação</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>list</mat-icon>
+        <span>Acompanhamento veterinário</span>
+      </button>
+    </mat-menu>
+
+    <button mat-button routerLink="/custos">Custos</button>
+    <button mat-button routerLink="/estoque">Estoque</button>
+    <button mat-button routerLink="/venda">Venda</button>
+
+    <span class="toolbar-spacer"></span>
+    <button mat-button>
+      <mat-icon matBadge="3" matBadgeColor="warn" class="toolbar-icon" aria-hidden="false">notifications</mat-icon>
+    </button>
+    <button mat-button [matMenuTriggerFor]="perfil">
+      <mat-icon class="toolbar-icon button-toolbar" aria-hidden="false">person</mat-icon>
+    </button>
+    <mat-menu #perfil="matMenu">
+      <button mat-menu-item>perfil</button>
+      <button mat-menu-item (click)="logout()">sair</button>
+    </mat-menu>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="main">
+  <div class="content" role="main">
+    <ngx-spinner bdColor="rgba(34,139,34,0.2)" size="medium">
+      <p class="loading">Aguarde...</p>
+    </ngx-spinner>
+    <router-outlet></router-outlet>
+  </div>
+</div>

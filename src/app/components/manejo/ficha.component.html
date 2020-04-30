@@ -1,0 +1,62 @@
+<h5 mat-dialog-title>Ficha da matriz</h5>
+
+ 
+  <label>Nº matriz <b>13</b></label><br/>
+  <label>Idade  <b>1.8 anos</b></label><br/>
+  <label>Raça <b>pietrain</b></label><br/>
+
+  <div>
+    <h5>Histórico</h5>
+
+    <br/>
+
+    <mat-divider></mat-divider>
+
+    <div class="example-container mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="valor">
+        <th mat-header-cell *matHeaderCellDef> 
+          Valor 
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </th>
+        <td mat-cell *matCellDef="let element"> 
+          {{element.valor | currency:'R$':true:'1.2-2'}} 
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </td>
+      </ng-container>
+    
+      <!-- Name Column -->
+      <ng-container matColumnDef="juros">
+        <th mat-header-cell *matHeaderCellDef> 
+          Juros
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </th>
+        <td mat-cell *matCellDef="let element"> 
+          {{element.juros | number : '1.2-2'}}%
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </td>
+      </ng-container>
+    
+      <!-- Weight Column -->
+      <ng-container matColumnDef="vencimento">
+        <th mat-header-cell *matHeaderCellDef> 
+          Vencimento 
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </th>
+        <td mat-cell *matCellDef="let element"> 
+          {{element.vencimento | date: 'dd/MM/yyyy'}} 
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    </div>
+  </div>
+
+  <br/>
+  <br/>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close (click)="fechar()">Fechar</button>
+  </mat-dialog-actions>

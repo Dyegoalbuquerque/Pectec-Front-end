@@ -1,0 +1,79 @@
+<h5>Estoque</h5>
+
+<br />
+<mat-divider></mat-divider>
+<span class="required legenda-campos-obrigatorios">campos obrigatórios</span>
+<br />
+<br />
+
+<mat-form-field>
+  <mat-label class="required">Data da entrada</mat-label>
+  <input matInput [matDatepicker]="picker" [(ngModel)]="estoque.dataEntrada">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Descrição</mat-label>
+  <input matInput type="text" class="example-right-align" [(ngModel)]="estoque.descricao">
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label class="required">Categoria do estoque</mat-label>
+  <mat-select (selectionChange)="mudarCategoriaDoEstoque(categoriaSelecionada.codigo)" [(ngModel)]="categoriaSelecionada.codigo">
+    <mat-option *ngFor="let categoria of categorias" [value]="categoria.codigo">
+      {{categoria.descricao}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Subcategoria do estoque</mat-label>
+  <mat-select [(ngModel)]="estoque.subcategoriaId">
+    <mat-option *ngFor="let subcategoria of subcategorias" [value]="subcategoria.id">
+      {{subcategoria.descricao}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label class="required">Unidade de medida</mat-label>
+  <mat-select [(ngModel)]="estoque.unidadeMedida">
+    <mat-option *ngFor="let unidade of unidadeMedidas" [value]="unidade.codigo">
+      {{unidade.descricao}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Quantidade da embalagem</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="estoque.quantidadeEmbalagem">
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Quantidade</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="estoque.quantidade">
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Valor da embalagem</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="estoque.valorEmbalagem">
+  <span matPrefix>R$&nbsp;</span>
+</mat-form-field>
+
+<br /><br />
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="fechar()">Cancelar</button>
+  <button mat-button color="success" cdkFocusInitial (click)="salvar()">Salvar</button>
+</mat-dialog-actions>

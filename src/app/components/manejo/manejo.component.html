@@ -1,0 +1,434 @@
+<h5>Upl</h5>
+
+<mat-tab-group>
+  <!-- upl -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Upl
+    </ng-template>
+
+    <p>
+      Veja o resumo da granja em todas as situações dos animais.
+
+      <button mat-raised-button color="success" class="right" [matMenuTriggerFor]="upl">
+        Ações
+      </button>
+      <mat-menu #upl="matMenu">
+        <button mat-menu-item (click)="abrirRelatorioUpl()">
+          Relatório da Upl
+        </button>
+        <button mat-menu-item (click)="executarAtualizacaoSituacoes()">
+          Executar atualização da Upl
+        </button>
+      </mat-menu>
+    </p>
+
+    <br />
+
+    <div class="row">
+      <div class="list-group menu-situacoes-upl">
+        <a (click)="selecionarSituacao(situacao.sigla)" class="list-group-item list-group-item-action flex-column"
+          *ngFor="let situacao of situacoes">
+          <div class="d-flex">
+            <span class="mb-1 menu-situacoes-nome">{{situacao.nome}}</span>
+            <span class="canto-superior-direito">
+              <strong>{{situacao.quantidade}}</strong>
+              <span>&nbsp;&nbsp;</span> animais
+            </span>
+          </div>
+          <small>{{situacao.descricao}}</small>
+        </a>
+      </div>
+
+      <div class="menu-situacoes-detalhe-upl">
+        <h5>{{situacaoSelecionada.nome}}</h5>
+        <i>
+          {{situacaoSelecionada.descricao}}
+        </i>
+        <br />
+        <mat-divider></mat-divider>
+        <br />
+
+        <h6>Programa do animal</h6>
+
+        <br />
+
+        <a mat-stroked-button class="canto-superior-direito" (click)="abrirProgramaDialog()" routerLink=".">adicionar
+          item no
+          programa
+        </a>
+
+        <br />
+        <br />
+
+        <mat-card *ngFor="let programaItem of programaItensSelecionados">
+          <div class="d-flex">
+            <strong>
+              {{programaItem.mostrarDescricaoIntervalo()}}
+              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            </strong>
+
+            <span *ngIf="programaItem.eDoTipoConsumo()">
+              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              <i>{{programaItem.mostrarDescricaoQuantidade()}}</i>
+              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            </span>
+            <h6 class="mb-1">
+              <mat-chip-list>
+                <mat-chip *ngIf="programaItem.eDoTipoConsumo()" color="primary" selected>{{programaItem.mostrarObjetivo()}}</mat-chip>
+                <mat-chip *ngIf="!programaItem.eDoTipoConsumo()"> {{programaItem.mostrarObjetivo()}}</mat-chip>
+                <span>&nbsp;&nbsp;</span>{{programaItem.mostrarDescricao()}}
+              </mat-chip-list>
+            </h6>
+          </div>
+          <p>{{programaItem.mostrarObservacao()}}</p>
+
+          <span>
+            <igx-dialog #dialog title="Remover" leftButtonLabel="Cancelar" (onLeftButtonSelect)="dialog.close()"
+              rightButtonLabel="Remover" (onRightButtonSelect)="removerProgramaItem(programaItem.id)"
+              message="Deseja remover esse registro ?">
+            </igx-dialog>
+            <button mat-button color="warn" (click)="dialog.open(programaItem.id)">remover</button>
+            <button mat-button color="primary" (click)="abrirProgramaDialog(programaItem.id)">editar</button>
+          </span>
+        </mat-card>
+      </div>
+    </div>
+    <br /><br />
+  </mat-tab>
+  <!-- controle de matrizes -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Controle de matrizes
+    </ng-template>
+
+    <p>
+      Cadastre suas matrizes para acompanhamento até o final de sua vida útil.
+
+
+      <button mat-raised-button color="success" class="right" [matMenuTriggerFor]="programa">
+        Ações
+      </button>
+      <mat-menu #programa="matMenu">
+        <button mat-menu-item (click)="abrirAnimalDialog()">Nova matriz</button>
+      </mat-menu>
+    </p>
+
+    <br />
+
+    <mat-divider></mat-divider>
+
+    <br />
+
+    <div class="lista-animal">
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let femea of femeas"
+          [disabled]="animalComportamento.obterSituacao(femea.situacao) == 'Óbito'" (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Nº matriz {{femea.numero}}
+
+              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+              {{femea.raca}}
+
+              <span>&nbsp;&nbsp;&nbsp;</span>
+
+              <mat-chip-list>
+
+                <mat-chip *ngIf="animalComportamento.obterSituacao(femea.situacao) != 'Óbito' && 
+                                 animalComportamento.obterSituacao(femea.situacao) != 'Confirmação gestação' &&
+                                 animalComportamento.obterSituacao(femea.situacao) != 'Recria'" color="primary"
+                  selected>
+                  {{animalComportamento.obterSituacao(femea.situacao)}}
+                  {{animalComportamento.calcularDiasDesdeFecundacao(femea)}} dias
+                </mat-chip>
+
+                <mat-chip *ngIf="animalComportamento.obterSituacao(femea.situacao) == 'Óbito' || 
+                                 animalComportamento.obterSituacao(femea.situacao) == 'Recria'">
+                  {{animalComportamento.obterSituacao(femea.situacao)}} </mat-chip>
+
+                <mat-chip *ngIf="animalComportamento.obterSituacao(femea.situacao) == 'Confirmação gestação' && 
+                                 !animalComportamento.taNoPeriodoConfirmacaoDeGestacao(femea)">
+                  {{animalComportamento.obterSituacao(femea.situacao)}}
+                  {{animalComportamento.calcularDiasDesdeFecundacao(femea)}} dias
+                </mat-chip>
+                <mat-chip *ngIf="animalComportamento.obterSituacao(femea.situacao) == 'Confirmação gestação' && 
+                                 animalComportamento.taNoPeriodoConfirmacaoDeGestacao(femea)" color="warn" selected>
+                  {{animalComportamento.obterSituacao(femea.situacao)}}
+                  {{animalComportamento.calcularDiasDesdeFecundacao(femea)}} dias
+                </mat-chip>
+              </mat-chip-list>
+
+              <span>&nbsp;&nbsp;</span>
+
+              <span *ngIf="animalComportamento.quantidadeFilhotesVivos(femea) > 0">
+                {{animalComportamento.quantidadeFilhotesVivos(femea)}} vivos
+              </span>
+
+              <span>&nbsp;&nbsp;</span>
+
+              <span *ngIf="animalComportamento.quantidadeFilhotesMortos(femea) > 0">
+                {{animalComportamento.quantidadeFilhotesMortos(femea)}} mortos
+              </span>
+
+            </mat-panel-title>
+            <mat-panel-description>
+
+              <span *ngIf="animalComportamento.foiFecundada(femea) && 
+                          !animalComportamento.foiParida(femea)">
+
+                cobertura em {{animalComportamento.obterDataCobertura(femea) | date: 'dd/MM/yyyy'}}
+                <span>&nbsp;&nbsp;</span>
+
+                <strong>parto provável em
+                  {{animalComportamento.obterDataPartoPrevisao(femea) | date: 'dd/MM/yyyy'}}</strong>
+
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+                <mat-chip color="warn" *ngIf="animalComportamento.taEmAlertaDePArto(femea)" selected>
+                  FALTAM {{animalComportamento.calcularAlertaDeParicao(femea)}} dias
+                </mat-chip>
+              </span>
+
+              <span *ngIf="animalComportamento.foiFecundada(femea) && 
+                           animalComportamento.foiParida(femea)">
+
+                parto em {{animalComportamento.obterDataPartoReal(femea) | date: 'dd/MM/yyyy'}}
+                <span>&nbsp;&nbsp;</span>
+
+                <strong>apartar provável em
+                  {{animalComportamento.obterDataApartarPrevisao(femea) | date: 'dd/MM/yyyy'}}
+                </strong>
+
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+                <mat-chip color="warn" *ngIf="animalComportamento.taEmAlertaDePArto(femea)" selected>
+                  FALTAM {{animalComportamento.calcularAlertaDeParicao(femea)}} dias
+                </mat-chip>
+              </span>
+
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <a mat-raised-button (click)="abrirFichaDialog(femea.id)">Exibir ficha</a>
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <a mat-raised-button color="warn" (click)="abrirAcompanhamentoDialog(femea.id)">Acompanhamento materno</a>
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <a mat-raised-button (click)="abrirAnimalDialog(femea.id)">Dados da matriz</a>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </mat-tab>
+  <!-- tab filhotes -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Filhotes
+    </ng-template>
+
+    <p>
+      Acompanhe seus filhotes até o final de sua vida útil.
+
+    </p>
+
+    <br />
+
+    <mat-divider></mat-divider>
+
+    <br />
+
+    <div class="lista-animal">
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let filhote of filhotes"
+          [disabled]="animalComportamento.obterSituacao(filhote.situacao) == 'Óbito'" (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-chip-list>
+                <mat-chip>
+                  Mãe {{filhote.maeId}}
+                </mat-chip>
+              </mat-chip-list>
+
+              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+              Nº filhote {{filhote.numero}}
+
+              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+              {{filhote.raca}}
+
+              <span>&nbsp;&nbsp;&nbsp;</span>
+
+              {{filhote.sexo}}
+
+              <span>&nbsp;&nbsp;&nbsp;</span>
+
+              <mat-chip-list>
+
+                <mat-chip color="primary" selected>
+                  {{animalComportamento.obterSituacao(filhote.situacao)}}
+                  {{animalComportamento.calcularDiasDoAnimal(filhote)}} dias
+                </mat-chip>
+              </mat-chip-list>
+
+            </mat-panel-title>
+            <mat-panel-description>
+
+
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <a mat-raised-button (click)="abrirAnimalDialog(filhote.id)">Dados do filhote</a>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+  </mat-tab>
+  <!-- tab reprodutores -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Reprodutores
+    </ng-template>
+
+    <p>
+      Cadastre seus reprodutores para acompanhamento até o final de sua vida útil.
+
+      <button mat-raised-button color="success" class="right">Adicionar reprodutor</button>
+    </p>
+
+    <br />
+
+    <mat-divider></mat-divider>
+
+    <br />
+
+  </mat-tab>
+  <!-- tab ciclos -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Ciclos
+    </ng-template>
+
+    <p>
+      Um ciclo mostra o quanto irá gastar em um lote de animais durante um período de tempo.
+
+      <button mat-raised-button color="success" class="right" (click)="abrirCicloDialog()">Criar ciclo</button>
+    </p>
+
+    <br />
+
+    <mat-divider></mat-divider>
+
+    <br />
+
+    <div class="grid-ciclo">
+
+      <igx-tree-grid #treegrid [data]="ciclosFilhos" expansionDepth="0" [autoGenerate]="false" height="480px"
+        width="100%" primaryKey="id" foreignKey="cicloId">
+        <igx-column field="id" header="Identificação" [dataType]="'string'"> </igx-column>
+        <igx-column field="tipo" header="Tipo de ciclo" [dataType]="'string'">
+          <ng-template igxCell let-cell="cell" let-val>
+            <span *ngIf="cell.row.rowData.tipo == 'G'">
+              <mat-chip-list>
+                <mat-chip color="warn">Gestação</mat-chip>
+              </mat-chip-list>
+            </span>
+            <span *ngIf="cell.row.rowData.tipo == 'L'">
+              <mat-chip-list>
+                <mat-chip color="warn">Lactação</mat-chip>
+              </mat-chip-list>
+            </span>
+            <span *ngIf="cell.row.rowData.tipo == 'R'">
+              <mat-chip-list>
+                <mat-chip color="warn">Recria</mat-chip>
+              </mat-chip-list>
+            </span>
+            <span *ngIf="cell.row.rowData.tipo == 'B'">
+              <mat-chip-list>
+                <mat-chip color="warn">Reprodutor</mat-chip>
+              </mat-chip-list>
+            </span>
+          </ng-template>
+        </igx-column>
+        <igx-column field="quantidadeAnimais" header="Nº de animais" [dataType]="number">
+          <ng-template igxCell let-cell="cell" let-val>
+            <span *ngIf="cell.row.rowData.quantidadeAnimais > 0">
+              {{val}}
+            </span>
+          </ng-template>
+        </igx-column>
+        <igx-column field="quantidadeDias" header="Qtd de dias" dataType="number">
+          <ng-template igxCell let-cell="cell" let-val>
+            <span *ngIf="cell.row.rowData.quantidadeDias > 0">
+              {{val}}
+            </span>
+          </ng-template>
+        </igx-column>
+        <igx-column field="quantidadeRacao" header="Kg/dia ração" [dataType]="number">
+          <ng-template igxCell let-cell="cell" let-val>
+            <span *ngIf="cell.row.rowData.quantidadeRacao > 0">
+              {{val}}
+            </span>
+          </ng-template>
+        </igx-column>
+        <igx-column field="valorRacao" header="Valor kg ração" [dataType]="number">
+          <ng-template igxCell let-cell="cell" let-val>
+            <span *ngIf="cell.row.rowData.valorRacao > 0">
+              {{val | currency:'R$ ':true:'1.2-2'}}
+            </span>
+          </ng-template>
+        </igx-column>
+        <igx-column field="valor" header="Valor do ciclo" [cellClasses]="priceClasses" [dataType]="number">
+          <ng-template igxCell let-cell="cell" let-val>
+            <span *ngIf="cell.row.rowData.valor > 0">
+              {{val | currency:'R$ ':true:'1.2-2'}}
+            </span>
+          </ng-template>
+        </igx-column>
+        <igx-column field="dataInicio" header="Início" [dataType]="'date'">
+          <ng-template igxCell let-cell="cell" let-val>
+            <span *ngIf="cell.row.rowData.dataInicio != ''">{{val | date: 'dd/MM/yyyy'}}</span>
+          </ng-template>
+        </igx-column>
+        <igx-column field="dataTermino" header="Término" [dataType]="'date'">
+          <ng-template igxCell let-cell="cell" let-val>
+            <span *ngIf="cell.row.rowData.dataTermino != ''">{{val | date: 'dd/MM/yyyy'}}</span>
+          </ng-template>
+        </igx-column>
+        <igx-column field="" header="">
+          <a class="remover" mat-stroked-button color="warn" (click)="dialog.open(element.id)">remover</a>
+          <igx-dialog #dialog title="Confirmação" leftButtonLabel="Cancelar" (onLeftButtonSelect)="dialog.close()"
+            rightButtonLabel="Remover" (onRightButtonSelect)="removerCiclo(element.id)"
+            message="Deseja remover este registro ?">
+          </igx-dialog>
+        </igx-column>
+      </igx-tree-grid>
+    </div>
+  </mat-tab>
+  <!-- lote -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Lotes
+    </ng-template>
+
+    <p>
+      Um lote reune animais agrupados para melhor trabalho de manejo.
+
+      <button mat-raised-button color="success" class="right">Criar lote</button>
+    </p>
+
+    <br />
+
+    <mat-divider></mat-divider>
+
+    <br />
+
+  </mat-tab>
+</mat-tab-group>
+
+
+<simple-notifications [options]="options"></simple-notifications>
