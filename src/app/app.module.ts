@@ -14,7 +14,7 @@ import { CustoComponent, LancamentoComponent, ReciboComponent } from './componen
 import { EstoqueComponent, RacaoComponent, EstoqueFormComponent,
          EstoqueHistoricoComponent } from './components/estoque';
 import { AgendadorComponent, EventoComponent } from './components/agendador';
-import { VendaComponent } from './components/venda';
+import { VendaComponent, VendaRacaoComponent, VendaInsumoComponent, VendaAnimalComponent } from './components/venda';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { ChartsModule } from 'angular-bootstrap-md';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -35,11 +35,12 @@ import {
     CustoComponent, FichaComponent, LancamentoComponent, CicloComponent, LoginComponent,
     AnimalComponent, AcompanhamentoMaternoComponent, EstoqueComponent, EstoqueHistoricoComponent,
     RacaoComponent, EstoqueFormComponent, ProgramaFormComponent, AgendadorComponent,
-    EventoComponent, VendaComponent
+    EventoComponent, VendaComponent, VendaRacaoComponent, VendaInsumoComponent, VendaAnimalComponent
   ],
   entryComponents: [CicloSimularComponent, FichaComponent, LancamentoComponent, CicloComponent, 
     AnimalComponent, AcompanhamentoMaternoComponent, EstoqueHistoricoComponent, ReciboComponent,
-                    RacaoComponent, EstoqueFormComponent, ProgramaFormComponent, EventoComponent],
+                    RacaoComponent, EstoqueFormComponent, VendaRacaoComponent, ProgramaFormComponent, 
+                    EventoComponent, VendaInsumoComponent, VendaAnimalComponent],
   imports: [
     BrowserModule, AppRoutingModule, LoginRoutingModule, FormsModule,
     ReactiveFormsModule, MaterialModule, HttpClientModule,

@@ -2,7 +2,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { EstoqueService, CategoriaService } from 'src/app/services';
+import { EstoqueService, ConfiguracaoService } from 'src/app/services';
 import { UnidadeMedida } from 'src/app/models/unidadeMedida';
 import { Estoque } from 'src/app/models/estoque';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
@@ -18,7 +18,7 @@ export class EstoqueFormComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<EstoqueFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Estoque, private _snackBar: MatSnackBar,
     private notifications: NotificationsService, private estoqueService: EstoqueService,
-    private categoriaService: CategoriaService) { }
+    private categoriaService: ConfiguracaoService) { }
 
   estoque: Estoque;
   categoriaSelecionada: Categoria;

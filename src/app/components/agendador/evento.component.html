@@ -11,12 +11,6 @@
 
 <br />
 
-
-<igx-radio *ngFor="let tipo of tipos" name="tipo.descricao" [value]="tipo.valor" [(ngModel)]="evento.tipo">
-  {{tipo.descricao}}
-  <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-</igx-radio>
-
 <mat-form-field>
   <mat-label class="required">Data do evento</mat-label>
   <input matInput [matDatepicker]="picker" [(ngModel)]="evento.data" [disabled]="evento.id > 0 && evento.data">
@@ -56,13 +50,6 @@
   <input matInput type="number" class="example-right-align" [(ngModel)]="evento.quantidade">
 </mat-form-field>
 
-<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
-<mat-form-field>
-  <mat-label>Valor da venda</mat-label>
-  <input matInput type="number" class="example-right-align" [(ngModel)]="evento.valor">
-  <span matPrefix>R$&nbsp;</span>
-</mat-form-field>
 
 <br /><br />
 

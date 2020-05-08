@@ -8,9 +8,9 @@ import { Evento } from '../models/evento';
   providedIn: 'root'
 })
 
-export class AgendadorService {
+export class EventoService {
 
-  ApiUrl = 'http://localhost:5000/api/agendador';
+  ApiUrl = 'http://localhost:5000/api/evento';
   constructor(private httpclient: HttpClient) { }
 
   obterEventos(): Observable<Evento[]> {

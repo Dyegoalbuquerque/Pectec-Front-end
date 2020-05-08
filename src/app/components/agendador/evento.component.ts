@@ -2,7 +2,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
-import { EstoqueService, AgendadorService, CategoriaService } from 'src/app/services';
+import { EstoqueService, EventoService, ConfiguracaoService } from 'src/app/services';
 import { Estoque, Evento, Categoria, UnidadeMedida } from 'src/app/models';
 import { plainToClass } from "class-transformer";
 
@@ -15,15 +15,14 @@ export class EventoComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<EventoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Evento, private notifications: NotificationsService,
-    private estoqueService: EstoqueService, private agendadorService: AgendadorService,
-    private categoriaService: CategoriaService) { }
+    private estoqueService: EstoqueService, private agendadorService: EventoService,
+    private categoriaService: ConfiguracaoService) { }
 
   evento: Evento;
   unidadeMedidas: UnidadeMedida[];
   origens: Estoque[];
   destinos: Categoria[];
   limiteDeQuantidade: string = '';
-  tipos: any[] = [{valor: "C", descricao: "Consumo"}, {valor: "V", descricao: "Venda"}];
 
   ngOnInit() {
     this.evento = this.data;

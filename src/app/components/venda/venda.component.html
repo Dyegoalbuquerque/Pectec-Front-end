@@ -4,7 +4,20 @@
 <p>
     Saiba todo lucro de vendas do seu negócio aqui.
 
-    <button mat-raised-button color="success" class="right">Criar venda</button>
+    <button mat-raised-button color="success" class="right" [matMenuTriggerFor]="venda">
+        Criar venda
+    </button>
+    <mat-menu #venda="matMenu">
+        <button mat-menu-item (click)="abrirVendaRacaoDialog()">
+            Venda de ração
+        </button>
+        <button mat-menu-item (click)="abrirVendaInsumoDialog()">
+            Venda de insumo
+        </button>
+        <button mat-menu-item (click)="abrirVendaLeitaoDialog()">
+            Venda de leitão
+        </button>
+    </mat-menu>
 </p>
 
 <br />
@@ -19,10 +32,14 @@
     <br />
     <table mat-table [dataSource]="dataSourceVenda">
 
-        <!-- Name Column -->
         <ng-container matColumnDef="data">
             <th mat-header-cell *matHeaderCellDef> Data da venda </th>
-            <td mat-cell *matCellDef="let element"> {{element.data | date: 'dd/MM/yyyy'}} </td>
+            <td mat-cell *matCellDef="let element">
+                <mat-chip-list>
+                    <span> &nbsp;</span>
+                    <mat-chip>{{element.data | date: 'dd/MM/yyyy'}}</mat-chip>
+                </mat-chip-list>
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="ano">
@@ -30,31 +47,17 @@
             <td mat-cell *matCellDef="let element"> {{element.ano}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="tipo">
-            <th mat-header-cell *matHeaderCellDef> Tipo </th>
-            <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="item">
-            <th mat-header-cell *matHeaderCellDef> Item vendido </th>
+        <ng-container matColumnDef="descricao">
+            <th mat-header-cell *matHeaderCellDef> Descrição da venda</th>
             <td mat-cell *matCellDef="let element">
-                <mat-icon svgIcon="done-24px" aria-label="Status"> {{element.itemId}}</mat-icon>
+                {{element.mostrarValoresDetalhado()}}
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="valor">
-            <th mat-header-cell *matHeaderCellDef> Valor </th>
+        <ng-container matColumnDef="resumo">
+            <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let element">
-                <h6> {{element.valor | currency:'R$ ':true:'1.2-2'}} </h6>
-            </td>
-        </ng-container>
-
-        <ng-container matColumnDef="recibo">
-
-            <th mat-header-cell *matHeaderCellDef> </th>
-            <td mat-cell *matCellDef="let element">
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                <a class="recibo" mat-raised-button>recibo</a>
+                <span>&nbsp;&nbsp;&nbsp;</span> <a class="editar" mat-raised-button color="primary">resumo da venda</a>
             </td>
         </ng-container>
 

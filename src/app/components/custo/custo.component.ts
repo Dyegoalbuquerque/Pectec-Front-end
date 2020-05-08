@@ -12,6 +12,7 @@ import { DataHelper } from 'src/app/dataHelper';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 
+
 @Component({
   templateUrl: './custo.component.html',
   styleUrls: ['./custo.component.css']
@@ -27,13 +28,15 @@ export class CustoComponent implements OnInit {
   @ViewChild("treegrid", { read: IgxTreeGridComponent, static: true }) treegrid: IgxTreeGridComponent;
 
   cronogramas: Lancamento[];
-  totalLancamentos = 0;
+  totalSaida = 0;
+  totalEntrada = 0;
+  totalSaldo = 0;
 
   colunasLancamentos: string[] = ['n', 'mes', 'vencimento', 'categoria', 'descricao', 'status', 'valor', 'tipo', 'remover', 'recibo'];
   dataSourceLancamento: MatTableDataSource<Lancamento>;
 
   anos = [];
-  ano;
+  ano = 0;
 
   ngOnInit() {
     this.ano = 2019;
@@ -70,6 +73,15 @@ export class CustoComponent implements OnInit {
       this.dataSourceLancamento = new MatTableDataSource<Lancamento>(data);
       this.dataSourceLancamento.paginator = this.paginator;
       this.dataSourceLancamento.data = this.dataSourceLancamento.data.sort(Lancamento.ordenarPorVencimentoDecrecente)
+      this.dataSourceLancamento.data.forEach(x => {
+        if (x.tipo == 'S') {
+          this.totalSaida += x.valor;
+        }
+        if (x.tipo == 'E') {
+          this.totalEntrada += x.valor;
+        }
+      });
+      this.totalSaldo = this.totalEntrada - this.totalSaida;
     });
   }
 
@@ -77,7 +89,6 @@ export class CustoComponent implements OnInit {
     this.custoService.obterCronogramasPorAno(this.ano).subscribe(data => {
 
       let itens = [];
-      this.totalLancamentos = 0;
 
       data = data.map(o => ({ ...o, cronogramaId: o.mes }));
 
@@ -87,12 +98,6 @@ export class CustoComponent implements OnInit {
 
         if (lancamentos.length > 0) {
           let total = 0;
-          lancamentos.forEach(x => {
-            total += x.valor;
-            if (x.status == 'PG') {
-              this.totalLancamentos += x.valor;
-            }
-          });
 
           let dataParamentro = new Date(lancamentos[0].vencimento);
           dataParamentro = new Date(new Date(lancamentos[0].vencimento).getFullYear(), dataParamentro.getMonth(), 1)

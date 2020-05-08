@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { EstoqueService } from 'src/app/services/estoque.service';
 import { SliderOptionBuilder } from '../sliderOptionBuilder';
 import { Subcategoria, UnidadeMedida, Estoque, Evento } from 'src/app/models';
-import { CategoriaService } from 'src/app/services';
+import { ConfiguracaoService } from 'src/app/services';
 import { plainToClass } from "class-transformer";
 
 @Component({
@@ -17,7 +17,7 @@ export class RacaoComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<RacaoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Estoque, private _snackBar: MatSnackBar,
-    private estoqueService: EstoqueService, private categoriaService: CategoriaService) { }
+    private estoqueService: EstoqueService, private categoriaService: ConfiguracaoService) { }
 
   racao: Estoque;
   subcategorias: Subcategoria[];

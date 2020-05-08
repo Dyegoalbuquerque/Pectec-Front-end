@@ -42,11 +42,11 @@
         width="100%" primaryKey="id" foreignKey="cronogramaId">
         <igx-column field="id" header="Identificação" [dataType]="'string'"> </igx-column>
         <igx-column field="descricao" header="Descrição" [dataType]="'string'"> </igx-column>
-        <igx-column field="valor" header="Valor" dataType="number">
+        <igx-column field="valor" header="Valor R$" dataType="number">
           <ng-template igxCell let-cell="cell" let-val>
             <span *ngIf="cell.row.rowData.valor == 0">-</span>
             <span *ngIf="cell.row.rowData.valor != 0">
-              <h6>{{val | currency:'R$ ':true:'1.2-2'}}</h6>
+              <h6>{{val | currency:' ':true:'1.2-2'}}</h6>
             </span>
           </ng-template>
         </igx-column>
@@ -94,7 +94,11 @@
     <div class="tabela-lancamento  mat-elevation-z8">
       <br />
       <span>
-        <h6>&nbsp;&nbsp;&nbsp;&nbsp;{{totalLancamentos | currency:'R$ ':true:'1.2-2'}}</h6>
+        <h6>
+          &nbsp;&nbsp;&nbsp;&nbsp;Saída&nbsp;&nbsp;{{totalSaida | currency:'R$ ':true:'1.2-2'}}
+          &nbsp;&nbsp;&nbsp;&nbsp;Entrada&nbsp;&nbsp;{{totalEntrada | currency:'R$ ':true:'1.2-2'}}
+          &nbsp;&nbsp;&nbsp;&nbsp;Saldo&nbsp;&nbsp;{{totalSaldo | currency:'R$ ':true:'1.2-2'}}
+        </h6>
       </span>
       <table mat-table [dataSource]="dataSourceLancamento">
 
@@ -147,9 +151,9 @@
         </ng-container>
 
         <ng-container matColumnDef="valor">
-          <th mat-header-cell *matHeaderCellDef> Valor </th>
-          <td mat-cell *matCellDef="let element">
-            <h6> {{element.valor | currency:'R$ ':true:'1.2-2'}} </h6>
+          <th mat-header-cell *matHeaderCellDef> Valor R$</th>
+          <td mat-cell  *matCellDef="let element">
+           <strong>{{element.valor | currency:' ':true}}</strong>
           </td>
         </ng-container>
 

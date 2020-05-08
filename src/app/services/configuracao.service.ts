@@ -6,9 +6,9 @@ import { UnidadeMedida, Categoria, Subcategoria } from '../models';
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriaService {
+export class ConfiguracaoService {
 
-  ApiUrl='http://localhost:5002/api/categoria';    
+  ApiUrl='http://localhost:5003/api/configuracao';    
   constructor(private httpclient: HttpClient) { }    
     
   obterCategorias():Observable<Categoria[]>{    

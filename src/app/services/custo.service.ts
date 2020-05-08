@@ -9,7 +9,7 @@ import { Categoria } from '../models/categoria';
 })
 export class CustoService {
 
-  ApiUrl='http://localhost:5000/api/custo';    
+  ApiUrl='http://localhost:5002/api/custo';    
   constructor(private httpclient: HttpClient) { }    
     
   obterCategorias():Observable<Categoria[]>{    

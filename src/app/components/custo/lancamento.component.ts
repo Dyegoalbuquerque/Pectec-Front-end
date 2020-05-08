@@ -1,7 +1,7 @@
 
 import { Component, ViewEncapsulation, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CustoService, CategoriaService } from '../../services';
+import { CustoService, ConfiguracaoService } from '../../services';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Categoria, Lancamento, Subcategoria } from 'src/app/models';
 import { SnackbarHelper } from '../snackbarHelper';
@@ -16,7 +16,7 @@ export class LancamentoComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<LancamentoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Lancamento, private _snackBar: MatSnackBar,
-    private custoService: CustoService, private categoriaService: CategoriaService) { }
+    private custoService: CustoService, private categoriaService: ConfiguracaoService) { }
 
   lancamento: Lancamento;
   categorias: Categoria[];

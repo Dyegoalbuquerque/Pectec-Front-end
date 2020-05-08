@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ManejoService, EstoqueService, CategoriaService } from 'src/app/services';
+import { ManejoService, EstoqueService, ConfiguracaoService } from 'src/app/services';
 import { ProgramaItem, UnidadeMedida, Situacao, Subcategoria } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { plainToClass } from "class-transformer";
@@ -14,7 +14,7 @@ import { plainToClass } from "class-transformer";
 export class ProgramaFormComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<ProgramaFormComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
-              private manejoService: ManejoService, private categoriaService: CategoriaService, 
+              private manejoService: ManejoService, private categoriaService: ConfiguracaoService, 
               private notifications: NotificationsService) {
   }
 

@@ -28,7 +28,7 @@
     width: 155px;
   }
 
-  p {
+p {
     font-size: 18px;
     color: #586069;
     flex: 1 100%;
@@ -69,4 +69,15 @@ justify-content: space-between;
 
 .button-confirmar-pagamento{
   height: 32px;
+}
+
+.mat-header-cell {
+  padding-left: 8px;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.mat-cell {
+  padding-left: 8px;
+  justify-content:left;
 }

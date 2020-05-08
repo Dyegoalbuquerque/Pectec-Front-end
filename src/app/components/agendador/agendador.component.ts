@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ManejoService, AgendadorService } from 'src/app/services';
+import { ManejoService, EventoService } from 'src/app/services';
 import { Evento, Estoque, Subcategoria } from 'src/app/models';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -21,12 +21,12 @@ export class AgendadorComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(private notifications: NotificationsService, private spinner: NgxSpinnerService,
-    private manejoService: ManejoService, public dialog: MatDialog, private agendadorService: AgendadorService) {
+    private manejoService: ManejoService, public dialog: MatDialog, private agendadorService: EventoService) {
   }
 
   panelOpenState = false;
   eventos: Evento[];
-  colunasEventos: string[] = ['data',  'tipo', 'descricao', 'quantidade', 'unidadeMedida', 'custo', 'editar'];
+  colunasEventos: string[] = ['data', 'descricao', 'quantidade', 'unidadeMedida', 'custo', 'editar'];
   dataSourceEventos: MatTableDataSource<Evento>;
 
 
