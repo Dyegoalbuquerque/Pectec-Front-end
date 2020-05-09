@@ -26,6 +26,9 @@ export class VendaComponent implements OnInit {
   colunasVenda: string[] = ['data', 'ano', 'descricao', 'resumo'];
   dataSourceVenda: MatTableDataSource<Venda>;
 
+  totalVendido: number = 0;
+  totalLucro: number = 0;
+
   ngOnInit() {
     this.dataSourceVenda = new MatTableDataSource<Venda>([]);
     this.obterVendas(2020);
@@ -33,9 +36,15 @@ export class VendaComponent implements OnInit {
 
   obterVendas(ano: number) {
     this.vendaService.obterVendas(ano).subscribe(data => {
+      this.totalVendido = 0;
+      this.totalLucro = 0;
       this.dataSourceVenda = new MatTableDataSource<Venda>(data);
       this.dataSourceVenda.paginator = this.paginator;
       this.dataSourceVenda.data = plainToClass(Venda, this.dataSourceVenda.data.sort(Venda.ordenarPorDataDecrecente));
+      this.dataSourceVenda.data.forEach(x => {
+          this.totalVendido += x.valorTotal;
+          this.totalLucro += x.valorTotal - x.valorCustoTotal;
+      });
     });
   }
 
@@ -99,6 +108,11 @@ export class VendaComponent implements OnInit {
 
   esconderSpinner() {
     this.spinner.hide();
+  }
+
+  filtrar(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceVenda.filter = filterValue.trim().toLowerCase();
   }
 }
 

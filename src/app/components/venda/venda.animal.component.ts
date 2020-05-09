@@ -32,9 +32,7 @@ export class VendaAnimalComponent implements OnInit {
   }
 
   obterAnimais(venda: Venda) {
-    this.estoqueService.obterEstoqueRealPorCodigoCategoria("I").subscribe(data => {
-      this.estoques = plainToClass(Estoque, data.sort(Estoque.ordenarPorDescricao));
-    });
+   
   }
 
   salvar(): void {

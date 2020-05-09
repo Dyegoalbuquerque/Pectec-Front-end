@@ -70,6 +70,9 @@ export class CustoComponent implements OnInit {
 
   obterLancamentos() {
     this.custoService.obterLancamentoPorAno(this.ano).subscribe(data => {
+      this.totalSaida = 0;
+      this.totalEntrada = 0;
+      this.totalSaldo = 0;
       this.dataSourceLancamento = new MatTableDataSource<Lancamento>(data);
       this.dataSourceLancamento.paginator = this.paginator;
       this.dataSourceLancamento.data = this.dataSourceLancamento.data.sort(Lancamento.ordenarPorVencimentoDecrecente)
@@ -167,10 +170,6 @@ export class CustoComponent implements OnInit {
   filtrar(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceLancamento.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSourceLancamento.paginator) {
-      this.dataSourceLancamento.paginator.firstPage();
-    }
   }
 }
 
