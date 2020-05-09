@@ -10,12 +10,12 @@ table {
     margin-right: 2px;
   }
 
-  .right{
+.right{
     position: absolute; 
     right: 0px;
-  }
+}
 
-  .required::before 
+.required::before 
 {
     content:"* "; 
     color: red;
@@ -26,10 +26,10 @@ table {
   font-size: 12px;
 }
 
-  mat-form-field.mat-form-field {
+mat-form-field.mat-form-field {
     font-size: 15px;
     width: 155px;
-  }
+}
 
 p {
     font-size: 18px;

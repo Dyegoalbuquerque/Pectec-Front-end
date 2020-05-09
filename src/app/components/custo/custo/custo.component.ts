@@ -5,12 +5,12 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { Lancamento } from 'src/app/models';
-import { CustoService } from '../../services';
-import { LancamentoComponent, ReciboComponent } from '../custo';
+import { CustoService } from '../../../services';
+import { LancamentoComponent, ReciboComponent, CustoComportamento } from '..';
 import { IgxTreeGridComponent } from "igniteui-angular";
-import { DataHelper } from 'src/app/dataHelper';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
+import { plainToClass } from "class-transformer";
 
 
 @Component({
@@ -22,24 +22,24 @@ export class CustoComponent implements OnInit {
   constructor(private custoService: CustoService, public dialog: MatDialog,
     private _snackBar: MatSnackBar, private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
     this.definirIcones();
+    this.custoComportamento = new CustoComportamento();
   }
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild("treegrid", { read: IgxTreeGridComponent, static: true }) treegrid: IgxTreeGridComponent;
+  @ViewChild("gridCronograma", { read: IgxTreeGridComponent, static: true }) gridCronograma: IgxTreeGridComponent;
 
+  custoComportamento: CustoComportamento;
   cronogramas: Lancamento[];
   totalSaida = 0;
   totalEntrada = 0;
   totalSaldo = 0;
+  anos = [];
+  ano = 2019;
 
   colunasLancamentos: string[] = ['n', 'mes', 'vencimento', 'categoria', 'descricao', 'status', 'valor', 'tipo', 'remover', 'recibo'];
   dataSourceLancamento: MatTableDataSource<Lancamento>;
 
-  anos = [];
-  ano = 0;
-
   ngOnInit() {
-    this.ano = 2019;
     this.dataSourceLancamento = new MatTableDataSource<Lancamento>([]);
     this.obterLancamentos();
     this.obterCronogramas();
@@ -60,9 +60,11 @@ export class CustoComponent implements OnInit {
   }
 
   definirIcones() {
-    let lista = [{ nome: 'done-24px', caminho: 'assets/img/done-24px.svg', },
+    let lista = 
+   [{ nome: 'done-24px', caminho: 'assets/img/done-24px.svg', },
     { nome: 'trending_down-24px', caminho: 'assets/img/trending_down-24px.svg' },
     { nome: 'trending_up-24px', caminho: 'assets/img/trending_up-24px.svg' }];
+
     for (let i = 0; i < lista.length; i++) {
       this.iconRegistry.addSvgIcon(lista[i].nome, this.sanitizer.bypassSecurityTrustResourceUrl(lista[i].caminho));
     }
@@ -75,12 +77,12 @@ export class CustoComponent implements OnInit {
       this.totalSaldo = 0;
       this.dataSourceLancamento = new MatTableDataSource<Lancamento>(data);
       this.dataSourceLancamento.paginator = this.paginator;
-      this.dataSourceLancamento.data = this.dataSourceLancamento.data.sort(Lancamento.ordenarPorVencimentoDecrecente)
+      this.dataSourceLancamento.data = plainToClass(Lancamento, this.dataSourceLancamento.data.sort(Lancamento.ordenarPorVencimentoDecrecente));
       this.dataSourceLancamento.data.forEach(x => {
-        if (x.tipo == 'S') {
+        if (x.eDoTipoSaida()) {
           this.totalSaida += x.valor;
         }
-        if (x.tipo == 'E') {
+        if (x.eDoTipoEntrada()) {
           this.totalEntrada += x.valor;
         }
       });
@@ -90,28 +92,7 @@ export class CustoComponent implements OnInit {
 
   obterCronogramas() {
     this.custoService.obterCronogramasPorAno(this.ano).subscribe(data => {
-
-      let itens = [];
-
-      data = data.map(o => ({ ...o, cronogramaId: o.mes }));
-
-      for (let i = 0; i < 12; i++) {
-
-        let lancamentos = data.filter(x => x.mes == DataHelper.obterNomeMes(i));
-
-        if (lancamentos.length > 0) {
-          let total = 0;
-
-          let dataParamentro = new Date(lancamentos[0].vencimento);
-          dataParamentro = new Date(new Date(lancamentos[0].vencimento).getFullYear(), dataParamentro.getMonth(), 1)
-
-          let cabecalho = { id: DataHelper.obterNomeMes(i), descricao: "", valor: total, vencimento: dataParamentro, tipo: "" };
-
-          itens.push(cabecalho);
-          itens = itens.concat(lancamentos);
-        }
-      }
-      this.cronogramas = itens.sort(Lancamento.ordenarPorVencimentoCrescente);
+      this.cronogramas = this.custoComportamento.construirCronograma(data);
     });
   }
 
@@ -161,10 +142,6 @@ export class CustoComponent implements OnInit {
     this._snackBar.open(mensagem, action, {
       duration: 2000,
     });
-  }
-
-  obterValorTotal() {
-    return this.dataSourceLancamento.data.map(t => t.valor).reduce((acc, valor) => acc + valor, 0);
   }
 
   filtrar(event: Event) {

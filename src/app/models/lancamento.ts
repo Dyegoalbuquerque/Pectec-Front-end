@@ -18,6 +18,14 @@ export class Lancamento {
     constructor() {
     }
 
+    eDoTipoEntrada(){
+        return this.tipo == 'E';
+    }
+
+    eDoTipoSaida(){
+        return this.tipo == 'S';
+    }
+
     static ordenarPorVencimentoDecrecente = (a, b) => {
         return new Date(b.vencimento).getTime() - new Date(a.vencimento).getTime();
     }

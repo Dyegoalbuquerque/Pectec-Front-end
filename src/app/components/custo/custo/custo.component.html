@@ -38,7 +38,7 @@
 
     <div class="grid-cronograma">
 
-      <igx-tree-grid #treegrid [data]="cronogramas" expansionDepth="0" [autoGenerate]="false" height="480px"
+      <igx-tree-grid #gridCronograma [data]="cronogramas" expansionDepth="0" [autoGenerate]="false" height="480px"
         width="100%" primaryKey="id" foreignKey="cronogramaId">
         <igx-column field="id" header="Identificação" [dataType]="'string'"> </igx-column>
         <igx-column field="descricao" header="Descrição" [dataType]="'string'"> </igx-column>

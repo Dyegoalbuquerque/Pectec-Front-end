@@ -1,10 +1,10 @@
 
 import { Component, ViewEncapsulation, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CustoService, ConfiguracaoService } from '../../services';
+import { CustoService, ConfiguracaoService } from '../../../services';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Categoria, Lancamento, Subcategoria } from 'src/app/models';
-import { SnackbarHelper } from '../snackbarHelper';
+import { SnackbarHelper } from '../../snackbarHelper';
 
 @Component({
   selector: 'lancamento-dialog',

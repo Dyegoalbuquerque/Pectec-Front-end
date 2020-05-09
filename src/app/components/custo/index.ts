@@ -1,3 +1,4 @@
-export * from './custo.component';
-export * from './lancamento.component';
-export * from './recibo.component';
+export * from './custo/custo.component';
+export * from './lancamento/lancamento.component';
+export * from './recibo/recibo.component';
+export * from './custoComportamento';
