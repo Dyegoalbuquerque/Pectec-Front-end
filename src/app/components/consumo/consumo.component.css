@@ -1,18 +1,9 @@
-
-ng5-slider{
-    width: 65%;
-}
-
 .right{
   position: absolute; 
   right: 100px;
 }
 
-.mat-stepper-vertical {
-  margin-top: 8px;
-}
-
-.tabela-eventos {
+.tabela-consumo {
   height: 500px;
   overflow: auto;
   width: auto;
@@ -25,5 +16,8 @@ table {
   width: 100%;
 }
 
+.mat-stepper-vertical {
+  margin-top: 8px;
+}
 
 

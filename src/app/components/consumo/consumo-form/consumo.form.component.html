@@ -1,4 +1,4 @@
-<h5>Evento</h5>
+<h5>Consumo</h5>
 
 <br />
 <mat-divider></mat-divider>
@@ -12,8 +12,8 @@
 <br />
 
 <mat-form-field>
-  <mat-label class="required">Data do evento</mat-label>
-  <input matInput [matDatepicker]="picker" [(ngModel)]="evento.data" [disabled]="evento.id > 0 && evento.data">
+  <mat-label class="required">Data do consumo</mat-label>
+  <input matInput [matDatepicker]="picker" [(ngModel)]="consumo.data" [disabled]="consumo.id > 0 && consumo.data">
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
 </mat-form-field>
@@ -21,8 +21,8 @@
 <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
 <mat-form-field>
-  <mat-label class="required">Categoria do evento</mat-label>
-  <mat-select (selectionChange)="mudarCategoriaEvento(evento)" [(ngModel)]="evento.categoriaId" [disabled]="evento.id > 0 && evento.categoriaId > 0">
+  <mat-label class="required">Categoria</mat-label>
+  <mat-select (selectionChange)="mudarCategoriaConsumo(consumo)" [(ngModel)]="consumo.categoriaId" [disabled]="consumo.id > 0 && consumo.categoriaId > 0">
     <mat-option *ngFor="let destino of destinos" [value]="destino.id">
       {{destino.descricao}}
     </mat-option>
@@ -30,11 +30,9 @@
 </mat-form-field>
 
 
-<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
-<mat-form-field>
-  <mat-label class="required">Origem do evento</mat-label>
-  <mat-select (selectionChange)="mudarOrigemEvento(evento.origemId)" [disabled]="evento.id > 0 && evento.origemId" [(ngModel)]="evento.origemId">
+<mat-form-field class="dropdown-origem-consumo">
+  <mat-label class="required">Origem do consumo</mat-label>
+  <mat-select (selectionChange)="mudarOrigemConsumo(consumo.origemId)" [disabled]="consumo.id > 0 && consumo.origemId" [(ngModel)]="consumo.origemId">
     <mat-option *ngFor="let origem of origens" [value]="origem.id">
       {{origem.descricao}} - 
       {{origem.quantidadeEntradaReal}}
@@ -43,11 +41,11 @@
   </mat-select>
 </mat-form-field>
 
-<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
 <mat-form-field>
   <mat-label class="required">Quantidade </mat-label>
-  <input matInput type="number" class="example-right-align" [(ngModel)]="evento.quantidade">
+  <input matInput type="number" class="example-right-align" [(ngModel)]="consumo.quantidade">
+  <mat-icon matSuffix>filter_9</mat-icon>
 </mat-form-field>
 
 

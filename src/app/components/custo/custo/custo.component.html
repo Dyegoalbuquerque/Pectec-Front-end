@@ -26,51 +26,6 @@
 </span>
 
 <mat-tab-group>
-  <!-- tab visão geral -->
-  <mat-tab>
-    <ng-template mat-tab-label>
-      Visão geral
-    </ng-template>
-
-    <p>Veja tudo o que você irá gastar em todo o ano detalhado mês a mês</p>
-
-    <br />
-
-    <div class="grid-cronograma">
-
-      <igx-tree-grid #gridCronograma [data]="cronogramas" expansionDepth="0" [autoGenerate]="false" height="480px"
-        width="100%" primaryKey="id" foreignKey="cronogramaId">
-        <igx-column field="id" header="Identificação" [dataType]="'string'"> </igx-column>
-        <igx-column field="descricao" header="Descrição" [dataType]="'string'"> </igx-column>
-        <igx-column field="valor" header="Valor R$" dataType="number">
-          <ng-template igxCell let-cell="cell" let-val>
-            <span *ngIf="cell.row.rowData.valor == 0">-</span>
-            <span *ngIf="cell.row.rowData.valor != 0">
-              <h6>{{val | currency:' ':true:'1.2-2'}}</h6>
-            </span>
-          </ng-template>
-        </igx-column>
-        <igx-column field="vencimento" header="Vencimento" [dataType]="'date'">
-          <ng-template igxCell let-cell="cell" let-val>
-            <span
-              *ngIf="cell.row.rowData.vencimento != '' && cell.row.rowData.id > 0">{{val | date: 'dd/MM/yyyy'}}</span>
-          </ng-template>
-        </igx-column>
-        <igx-column field="tipo" header="Tipo" [dataType]="'boolean'">
-          <ng-template igxCell let-cell="cell" let-val>
-            <span *ngIf="cell.row.rowData.tipo == 'S'">
-              <mat-icon svgIcon="trending_down-24px"></mat-icon>
-            </span>
-            <span *ngIf="cell.row.rowData.tipo == 'E'">
-              <mat-icon svgIcon="trending_up-24px"></mat-icon>
-            </span>
-          </ng-template>
-        </igx-column>
-      </igx-tree-grid>
-    </div>
-
-
-  </mat-tab>
   <!-- tab lançamentos -->
   <mat-tab>
     <ng-template mat-tab-label>
@@ -80,7 +35,7 @@
     <p>
       Um lançamento registra um gasto de saída com data de vencimento ou uma entrada de valor.
 
-      <button mat-raised-button color="success" class="right" (click)="openLancamentoDialog()">Criar lançamento</button>
+      <button mat-raised-button color="success" class="right" (click)="abrirLancamentoDialog()">Criar lançamento</button>
     </p>
 
     <br />
@@ -125,8 +80,8 @@
 
         <ng-container matColumnDef="categoria">
           <th mat-header-cell *matHeaderCellDef> Categoria </th>
-          <td mat-cell *matCellDef="let element"> 
-            <span> &nbsp;</span>{{element.subcategoria.descricao}} 
+          <td mat-cell *matCellDef="let element">
+            <span> &nbsp;</span>{{element.subcategoria.descricao}}
           </td>
         </ng-container>
 
@@ -152,8 +107,8 @@
 
         <ng-container matColumnDef="valor">
           <th mat-header-cell *matHeaderCellDef> Valor R$</th>
-          <td mat-cell  *matCellDef="let element">
-           <strong>{{element.valor | currency:' ':true}}</strong>
+          <td mat-cell *matCellDef="let element">
+            <strong>{{element.valor | currency:' ':true}}</strong>
           </td>
         </ng-container>
 
@@ -182,8 +137,7 @@
 
           <th mat-header-cell *matHeaderCellDef> </th>
           <td mat-cell *matCellDef="let element">
-             <a class="recibo" mat-raised-button
-              (click)="openReciboDialog(element.id)">recibo</a>
+            <a class="recibo" mat-raised-button (click)="abrirReciboDialog(element.id)">recibo</a>
           </td>
         </ng-container>
 
@@ -193,5 +147,50 @@
 
       <mat-paginator [pageSizeOptions]="[1000]" showFirstLastButtons></mat-paginator>
     </div>
+  </mat-tab>
+  <!-- tab visão geral -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Visão geral
+    </ng-template>
+
+    <p>Veja tudo o que você irá gastar em todo o ano detalhado mês a mês</p>
+
+    <br />
+
+    <div class="grid-cronograma">
+
+      <igx-tree-grid #gridCronograma [data]="cronogramas" expansionDepth="0" [autoGenerate]="false" height="480px"
+        width="100%" primaryKey="id" foreignKey="cronogramaId">
+        <igx-column field="id" header="Identificação" [dataType]="'string'"> </igx-column>
+        <igx-column field="descricao" header="Descrição" [dataType]="'string'"> </igx-column>
+        <igx-column field="valor" header="Valor R$" dataType="number">
+          <ng-template igxCell let-cell="cell" let-val>
+            <span *ngIf="cell.row.rowData.valor == 0">-</span>
+            <span *ngIf="cell.row.rowData.valor != 0">
+              <h6>{{val | currency:' ':true:'1.2-2'}}</h6>
+            </span>
+          </ng-template>
+        </igx-column>
+        <igx-column field="vencimento" header="Vencimento" [dataType]="'date'">
+          <ng-template igxCell let-cell="cell" let-val>
+            <span
+              *ngIf="cell.row.rowData.vencimento != '' && cell.row.rowData.id > 0">{{val | date: 'dd/MM/yyyy'}}</span>
+          </ng-template>
+        </igx-column>
+        <igx-column field="tipo" header="Tipo" [dataType]="'boolean'">
+          <ng-template igxCell let-cell="cell" let-val>
+            <span *ngIf="cell.row.rowData.tipo == 'S'">
+              <mat-icon svgIcon="trending_down-24px"></mat-icon>
+            </span>
+            <span *ngIf="cell.row.rowData.tipo == 'E'">
+              <mat-icon svgIcon="trending_up-24px"></mat-icon>
+            </span>
+          </ng-template>
+        </igx-column>
+      </igx-tree-grid>
+    </div>
+
+
   </mat-tab>
 </mat-tab-group>

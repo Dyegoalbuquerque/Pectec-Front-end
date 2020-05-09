@@ -18,6 +18,7 @@
 <mat-form-field>
   <mat-label class="required">Descrição</mat-label>
   <input matInput type="text" class="example-right-align" [(ngModel)]="estoque.descricao">
+  <mat-icon matSuffix>title</mat-icon>
 </mat-form-field>
 
 <mat-form-field>
@@ -54,6 +55,7 @@
 <mat-form-field>
   <mat-label class="required">Quantidade da embalagem</mat-label>
   <input matInput type="number" class="example-right-align" [(ngModel)]="estoque.quantidadeEmbalagem">
+  <mat-icon matSuffix>filter_9</mat-icon>
 </mat-form-field>
 
 <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -61,6 +63,7 @@
 <mat-form-field>
   <mat-label class="required">Quantidade</mat-label>
   <input matInput type="number" class="example-right-align" [(ngModel)]="estoque.quantidade">
+  <mat-icon matSuffix>filter_9</mat-icon>
 </mat-form-field>
 
 <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -68,7 +71,7 @@
 <mat-form-field>
   <mat-label class="required">Valor da embalagem</mat-label>
   <input matInput type="number" class="example-right-align" [(ngModel)]="estoque.valorEmbalagem">
-  <span matPrefix>R$&nbsp;</span>
+  <mat-icon matSuffix>money</mat-icon>
 </mat-form-field>
 
 <br /><br />

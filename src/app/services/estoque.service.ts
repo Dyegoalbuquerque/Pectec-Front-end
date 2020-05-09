@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Subcategoria, Estoque } from '../models';
+import { Subcategoria, Estoque, Consumo } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -26,12 +26,10 @@ export class EstoqueService {
 
   obterTipoInsumos(): Observable<Subcategoria[]> {
     return this.httpclient.get<Subcategoria[]>(`${this.ApiUrl}/insumo/tipos`);
-
   }
 
   obterTipoRacoes(): Observable<Subcategoria[]> {
     return this.httpclient.get<Subcategoria[]>(`${this.ApiUrl}/racao/tipos`);
-
   }
 
   obterOrigensConsumo(): Observable<any> {
@@ -67,5 +65,25 @@ export class EstoqueService {
 
   removerRacao(id: number): Observable<Estoque> {
     return this.httpclient.delete<Estoque>(`${this.ApiUrl}/racao/${id}`);
+  }
+
+  obterConsumos(): Observable<Consumo[]> {
+    return this.httpclient.get<Consumo[]>(`${this.ApiUrl}/consumo`);
+  }
+
+  obterConsumo(id: number): Observable<Consumo> {
+    return this.httpclient.get<Consumo>(`${this.ApiUrl}/consumo/${id}`);
+  }
+
+  salvarConsumo(item: Consumo): Observable<Consumo> {
+    return this.httpclient.post<Consumo>(`${this.ApiUrl}/consumo`, item);
+  }
+
+  atualizarConsumo(item: Consumo): Observable<Consumo> {
+    return this.httpclient.put<Consumo>(`${this.ApiUrl}/consumo`, item);
+  }
+
+  removerConsumo(id: number): Observable<Consumo> {
+    return this.httpclient.delete<Consumo>(`${this.ApiUrl}/consumo/${id}`);
   }
 }

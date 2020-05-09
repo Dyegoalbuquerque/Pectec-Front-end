@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Situacao, ProgramaItem, Programa, Evento, 
-         Ciclo, CicloFilho, AcompanhamentoMaterno, Animal, CausaObito } from '../models';
+import { Situacao, ProgramaItem, Programa, Ciclo, CicloFilho, 
+         AcompanhamentoMaterno, Animal, CausaObito } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -78,10 +78,6 @@ export class ManejoService {
 
   salvarCiclo(item: CicloFilho): Observable<CicloFilho> {
     return this.httpclient.post<CicloFilho>(`${this.ApiUrl}/ciclo`, item);
-  }
-
-  salvarConsumo(item: Evento): Observable<Evento> {
-    return this.httpclient.post<Evento>(`${this.ApiUrl}/consumo`, item);
   }
 
   atualizarAcompanhamento(item: AcompanhamentoMaterno): Observable<AcompanhamentoMaterno> {

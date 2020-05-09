@@ -117,9 +117,9 @@ export class CustoComponent implements OnInit {
     });
   }
 
-  openLancamentoDialog(): void {
+  abrirLancamentoDialog(): void {
     const dialogRef = this.dialog.open(LancamentoComponent, {
-      width: '470px',
+      width: '550px',
       height: '550px',
       data: new Lancamento()
     });
@@ -130,7 +130,7 @@ export class CustoComponent implements OnInit {
     });
   }
 
-  openReciboDialog(id: number): void {
+  abrirReciboDialog(id: number): void {
     this.dialog.open(ReciboComponent, {
       width: '550px',
       height: '720px',

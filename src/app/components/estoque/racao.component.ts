@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EstoqueService } from 'src/app/services/estoque.service';
 import { SliderOptionBuilder } from '../sliderOptionBuilder';
-import { Subcategoria, UnidadeMedida, Estoque, Evento } from 'src/app/models';
+import { Subcategoria, UnidadeMedida, Estoque, Consumo } from 'src/app/models';
 import { ConfiguracaoService } from 'src/app/services';
 import { plainToClass } from "class-transformer";
 
@@ -119,7 +119,7 @@ export class RacaoComponent implements OnInit {
     for (let j = 0; j < this.insumos.length; j++) {
       let insumo = this.insumos[j];
 
-      let consumo = new Evento();
+      let consumo = new Consumo();
       consumo.quantidade = insumo.retirado;
       consumo.origemId = insumo.id;
 

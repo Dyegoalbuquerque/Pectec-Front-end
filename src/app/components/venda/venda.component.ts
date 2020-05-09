@@ -50,7 +50,7 @@ export class VendaComponent implements OnInit {
 
   abrirVendaRacaoDialog(item: Venda): void {
     const dialogRef = this.dialog.open(VendaRacaoComponent, {
-      width: '450px',
+      width: '480px',
       height: '500px',
       data: item == null ? new Venda() : item
     });
@@ -62,7 +62,7 @@ export class VendaComponent implements OnInit {
 
   abrirVendaInsumoDialog(item: Venda): void {
     const dialogRef = this.dialog.open(VendaInsumoComponent, {
-      width: '450px',
+      width: '480px',
       height: '500px',
       data: item == null ? new Venda() : item
     });

@@ -195,8 +195,8 @@ export class ManejoComponent implements OnInit {
       acompanhamento = !acompanhamento ? new AcompanhamentoMaterno(id) : acompanhamento;
 
       const dialogRef = this.dialog.open(AcompanhamentoMaternoComponent, {
-        width: '670px',
-        height: '670px',
+        width: '700px',
+        height: '700px',
         data: acompanhamento
       });
 
@@ -212,7 +212,7 @@ export class ManejoComponent implements OnInit {
     let programaItem = itensFiltrados.length > 0 ? itensFiltrados[0] : new ProgramaItem(this.programa.id, this.situacaoSelecionada.id);
 
     const dialogRef = this.dialog.open(ProgramaFormComponent, {
-      width: '680px',
+      width: '730px',
       height: '580px',
       data: { programaItem: programaItem, situacao: this.situacaoSelecionada }
     });

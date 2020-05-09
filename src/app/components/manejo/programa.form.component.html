@@ -26,6 +26,7 @@
   <mat-label *ngIf="intervaloDia.valor == 'UD'" class="required">Dia</mat-label>
   <mat-label *ngIf="intervaloDia.valor == 'MUD'" class="required">De</mat-label>
   <input matInput type="number" class="example-right-align" [(ngModel)]="programaItem.inicio">
+  <mat-icon matSuffix>filter_9</mat-icon>
 </mat-form-field>
 
 <span *ngIf="intervaloDia.valor == 'MUD'">&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -33,6 +34,7 @@
 <mat-form-field *ngIf="intervaloDia.valor == 'MUD'">
   <mat-label class="required">Até</mat-label>
   <input matInput type="number" class="example-right-align" [(ngModel)]="programaItem.fim">
+  <mat-icon matSuffix>filter_9</mat-icon>
 </mat-form-field>
 
 <br />
@@ -52,13 +54,7 @@
   </mat-select>
 </mat-form-field>
 
-<span *ngIf="objetivoPrograma.valor == 'C'">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
-<mat-form-field *ngIf="objetivoPrograma.valor == 'C'">
-  <mat-label class="required">Quantidade</mat-label>
-  <input matInput type="number" class="example-right-align" [(ngModel)]="programaItem.quantidade">
-</mat-form-field>
-
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
 <mat-form-field>
   <mat-label class="required">Objetivo do item</mat-label>
@@ -69,12 +65,21 @@
   </mat-select>
 </mat-form-field>
 
+<span *ngIf="objetivoPrograma.valor == 'C'">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field *ngIf="objetivoPrograma.valor == 'C'">
+  <mat-label class="required">Quantidade</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="programaItem.quantidade">
+  <mat-icon matSuffix>filter_9</mat-icon>
+</mat-form-field>
+
 
 <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
 <mat-form-field >
   <mat-label>Descrição</mat-label>
   <input type="text" matInput [(ngModel)]="programaItem.descricao"/>
+  <mat-icon matSuffix>title</mat-icon>
 </mat-form-field>
 
 <br/>

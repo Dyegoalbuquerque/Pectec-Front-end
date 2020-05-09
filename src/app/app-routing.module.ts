@@ -3,16 +3,16 @@ import { RouterModule, Routes } from '@angular/router'
 import { ManejoComponent } from './components/manejo/manejo.component';
 import { CustoComponent } from './components/custo/custo/custo.component';
 import { EstoqueComponent } from './components/estoque/estoque.component';
-import { AgendadorComponent } from './components/agendador/agendador.component';
+import { ConsumoComponent } from './components/consumo/consumo.component';
 import { VendaComponent } from './components/venda/venda.component';
 
 const routes: Routes = [  
-  {path: 'eventos', component: AgendadorComponent},
+  {path: 'consumos', component: ConsumoComponent},
   {path: 'upl', component: ManejoComponent},
   {path: 'custos', component: CustoComponent},
   {path: 'estoque', component: EstoqueComponent},
   {path: 'venda', component: VendaComponent},
-  {path: '', redirectTo: '/eventos', pathMatch: 'full' }
+  {path: '', redirectTo: '/consumos', pathMatch: 'full' }
  ];
 
 @NgModule({

@@ -4,7 +4,7 @@
 
 <div class="grid-estoque">
 
-    <igx-tree-grid #treegrid2 [data]="estoques" expansionDepth="0" [autoGenerate]="false" height="480px" width="100%" primaryKey="id"
+    <igx-tree-grid #gridHistorico [data]="estoques" expansionDepth="0" [autoGenerate]="false" height="480px" width="100%" primaryKey="id"
         foreignKey="estoqueId">
         <igx-column field="id" header="Identificação" [dataType]="'string'"> </igx-column>
         <igx-column field="descricao" header="Descrição" [dataType]="'string'"> </igx-column>

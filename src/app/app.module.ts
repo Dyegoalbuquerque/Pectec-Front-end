@@ -13,7 +13,7 @@ import { ManejoComponent, AnimalComponent, CicloSimularComponent,
 import { CustoComponent, LancamentoComponent, ReciboComponent } from './components/custo';
 import { EstoqueComponent, RacaoComponent, EstoqueFormComponent,
          EstoqueHistoricoComponent } from './components/estoque';
-import { AgendadorComponent, EventoComponent } from './components/agendador';
+import { ConsumoComponent, ConsumoFormComponent } from './components/consumo';
 import { VendaComponent, VendaRacaoComponent, VendaInsumoComponent, VendaAnimalComponent } from './components/venda';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { ChartsModule } from 'angular-bootstrap-md';
@@ -34,13 +34,13 @@ import {
     AppComponent, LoginComponent, ManejoComponent, CicloSimularComponent, ReciboComponent,
     CustoComponent, FichaComponent, LancamentoComponent, CicloComponent, LoginComponent,
     AnimalComponent, AcompanhamentoMaternoComponent, EstoqueComponent, EstoqueHistoricoComponent,
-    RacaoComponent, EstoqueFormComponent, ProgramaFormComponent, AgendadorComponent,
-    EventoComponent, VendaComponent, VendaRacaoComponent, VendaInsumoComponent, VendaAnimalComponent
+    RacaoComponent, EstoqueFormComponent, ProgramaFormComponent, ConsumoComponent,
+    ConsumoFormComponent, VendaComponent, VendaRacaoComponent, VendaInsumoComponent, VendaAnimalComponent
   ],
   entryComponents: [CicloSimularComponent, FichaComponent, LancamentoComponent, CicloComponent, 
     AnimalComponent, AcompanhamentoMaternoComponent, EstoqueHistoricoComponent, ReciboComponent,
                     RacaoComponent, EstoqueFormComponent, VendaRacaoComponent, ProgramaFormComponent, 
-                    EventoComponent, VendaInsumoComponent, VendaAnimalComponent],
+                    ConsumoFormComponent, VendaInsumoComponent, VendaAnimalComponent],
   imports: [
     BrowserModule, AppRoutingModule, LoginRoutingModule, FormsModule,
     ReactiveFormsModule, MaterialModule, HttpClientModule,

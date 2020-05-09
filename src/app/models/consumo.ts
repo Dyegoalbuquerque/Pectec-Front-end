@@ -1,7 +1,7 @@
 import { Estoque } from './estoque';
 import { Categoria } from './categoria';
 
-export class Evento {
+export class Consumo {
 
   id: number;
   data: string;

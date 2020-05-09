@@ -38,6 +38,7 @@
       {{reprodutor.nome }}
     </mat-option>
   </mat-autocomplete>
+  <mat-icon matSuffix>filter_9</mat-icon>
 </mat-form-field>
 
 <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -65,6 +66,7 @@
   <mat-form-field>
     <mat-label class="required"> Nº leitões nascidos</mat-label>
     <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.quantidadeFilhote">
+    <mat-icon matSuffix>filter_9</mat-icon>
   </mat-form-field>
 
   <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -72,6 +74,7 @@
   <mat-form-field>
     <mat-label class="required">Nº leitões VV</mat-label>
     <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.quantidadeFilhoteVV">
+    <mat-icon matSuffix>filter_9</mat-icon>
   </mat-form-field>
 
 
@@ -80,13 +83,13 @@
   <mat-form-field>
     <mat-label class="required">Nº leitões NM</mat-label>
     <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.quantidadeFilhoteNM">
+    <mat-icon matSuffix>filter_9</mat-icon>
   </mat-form-field>
-
-  <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
   <mat-form-field>
     <mat-label class="required">Nº leitões MF</mat-label>
     <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.quantidadeFilhoteMF">
+    <mat-icon matSuffix>filter_9</mat-icon>
   </mat-form-field>
 
   <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -94,6 +97,7 @@
   <mat-form-field>
     <mat-label class="required">Peso médio de nascimento</mat-label>
     <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.pesoFilhoteNascimento">
+    <mat-icon matSuffix>filter_9</mat-icon>
   </mat-form-field>
 
   <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -114,6 +118,7 @@
   <mat-form-field>
     <mat-label class="required">Quantidade machos</mat-label>
     <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.quantidadeSexoM">
+    <mat-icon matSuffix>filter_9</mat-icon>
   </mat-form-field>
 
   <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -121,6 +126,7 @@
   <mat-form-field>
     <mat-label class="required">Quantidade fêmeas</mat-label>
     <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.quantidadeSexoF">
+    <mat-icon matSuffix>filter_9</mat-icon>
   </mat-form-field>
 
   <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -128,6 +134,7 @@
   <mat-form-field>
     <mat-label>Nº leitões mortos</mat-label>
     <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.quantidadeFilhoteMorto">
+    <mat-icon matSuffix>filter_9</mat-icon>
   </mat-form-field>
 
 </div>
@@ -144,6 +151,7 @@
 <mat-form-field *ngIf="acompanhamento.dataApartarReal != undefined">
   <mat-label class="required">Peso médio de apartado</mat-label>
   <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.pesoFilhoteApartar">
+  <mat-icon matSuffix>filter_9</mat-icon>
 </mat-form-field>
 
 <mat-dialog-actions align="end">

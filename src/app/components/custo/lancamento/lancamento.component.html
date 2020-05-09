@@ -19,15 +19,15 @@
 <mat-form-field>
   <mat-label class="required">Valor</mat-label>
   <input matInput type="number" class="example-right-align" [(ngModel)]="lancamento.valor">
-  <span matPrefix>R$&nbsp;</span>
+  <mat-icon matSuffix>money</mat-icon>
 </mat-form-field>
 
-<mat-form-field class="descricao">
+<mat-form-field class="input-descricao">
   <mat-label class="required">Descrição</mat-label>
   <input matInput type="text" class="example-right-align" [(ngModel)]="lancamento.descricao">
+  <mat-icon matSuffix>title</mat-icon>
 </mat-form-field>
 
-<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
 <igx-radio *ngFor="let tipo of tipos" name="tipo.nome" [value]="tipo.valor" [(ngModel)]="lancamento.tipo">
   {{tipo.nome}}
@@ -56,7 +56,7 @@
   </mat-select>
 </mat-form-field>
 
-<br/>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
 <igx-radio *ngFor="let status of statusLista" name="status.nome" [value]="status.valor" [(ngModel)]="lancamento.status">
   {{status.nome}}

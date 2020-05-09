@@ -15,7 +15,7 @@ export class EstoqueComponent implements OnInit {
   constructor(private estoqueService: EstoqueService, public dialog: MatDialog) {
   }
 
-  @ViewChild("treegrid2", { read: IgxTreeGridComponent, static: true }) treegrid: IgxTreeGridComponent;
+  @ViewChild("gridHistorico", { read: IgxTreeGridComponent, static: true }) gridHistorico: IgxTreeGridComponent;
 
   chartType: string = 'bar';
   chartOptions: any = {
@@ -104,7 +104,7 @@ export class EstoqueComponent implements OnInit {
   chartClicked(e: any): void { }
   chartHovered(e: any): void { }
 
-  abrirEntradaNoEstoqueDialog(): void {
+  abrirEstoqueHistoricoDialog(): void {
     this.dialog.open(EstoqueHistoricoComponent, {
       width: '900px',
       height: '680px'
@@ -126,8 +126,8 @@ export class EstoqueComponent implements OnInit {
 
   abrirEstoqueFormDialog(): void {
     const dialogRef = this.dialog.open(EstoqueFormComponent, {
-      width: '450px',
-      height: '520px',
+      width: '480px',
+      height: '530px',
       data: new Estoque()
     });
 

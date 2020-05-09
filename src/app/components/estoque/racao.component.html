@@ -24,6 +24,7 @@
 <mat-form-field>
   <mat-label class="required">Descrição</mat-label>
   <input matInput type="text" class="example-right-align" [(ngModel)]="racao.descricao">
+  <mat-icon matSuffix>title</mat-icon>
 </mat-form-field>
 
 <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -53,6 +54,7 @@
 <mat-form-field>
   <mat-label class="required">Quantidade da embalagem</mat-label>
   <input matInput type="number" class="example-right-align" [(ngModel)]="racao.quantidadeEmbalagem">
+  <mat-icon matSuffix>filter_9</mat-icon>
 </mat-form-field>
 
 <span *ngIf="comprouRacaoPronta">&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -60,6 +62,7 @@
 <mat-form-field *ngIf="comprouRacaoPronta">
   <mat-label class="required">Quantidade</mat-label>
   <input matInput type="number" class="example-right-align" [(ngModel)]="racao.quantidade">
+  <mat-icon matSuffix>filter_9</mat-icon>
 </mat-form-field>
 
 <span *ngIf="comprouRacaoPronta">&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -67,7 +70,7 @@
 <mat-form-field *ngIf="comprouRacaoPronta">
   <mat-label class="required">Valor da embalagem</mat-label>
   <input matInput type="number" class="example-right-align" [(ngModel)]="racao.valorEmbalagem">
-  <span matPrefix>R$&nbsp;</span>
+  <mat-icon matSuffix>money</mat-icon>
 </mat-form-field>
 
 <br />

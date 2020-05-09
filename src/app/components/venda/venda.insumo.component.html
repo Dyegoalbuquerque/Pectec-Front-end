@@ -33,6 +33,7 @@
 <mat-form-field>
   <mat-label class="required">Quantidade </mat-label>
   <input matInput type="number" class="example-right-align" [(ngModel)]="quantidade">
+  <mat-icon matSuffix>filter_9</mat-icon>
 </mat-form-field>
 
 <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -40,12 +41,10 @@
 <mat-form-field>
   <mat-label class="required">Valor da venda</mat-label>
   <input matInput type="number" class="example-right-align" [(ngModel)]="valor">
-  <span matPrefix>R$&nbsp;</span>
+  <mat-icon matSuffix>money</mat-icon>
 </mat-form-field>
 
 <br /><br />
-
-<br/>
 
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close (click)="fechar()">Cancelar</button>

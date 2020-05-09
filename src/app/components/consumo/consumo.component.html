@@ -1,14 +1,9 @@
-<h5>Eventos</h5>
+<h5>Consumos</h5>
 
 <p>
     Crie abaixo seus programas de consumo diário que automaticamente seu estoque será atualizado em tempo real.
 
-    <button mat-raised-button color="success" class="right" [matMenuTriggerFor]="programa">
-        Ações
-    </button>
-    <mat-menu #programa="matMenu">
-        <button mat-menu-item (click)="abrirEventoDialog()">Cadastrar evento</button>
-    </mat-menu>
+    <button mat-raised-button color="success" class="right" (click)="abrirConsumoDialog()">Cadastrar consumo</button>
 </p>
 
 <mat-tab-group>
@@ -36,19 +31,19 @@
     <mat-tab>
         <ng-template mat-tab-label>
             &nbsp;&nbsp;
-            Eventos
+            Consumos da granja
         </ng-template>
         <br />
 
         <mat-form-field>
             <input matInput (keyup)="filtrar($event)" placeholder="Ex. Ração">
-          </mat-form-field>
+        </mat-form-field>
 
-        <div class="tabela-eventos  mat-elevation-z8">
-            <table mat-table [dataSource]="dataSourceEventos">
+        <div class="tabela-consumo  mat-elevation-z8">
+            <table mat-table [dataSource]="dataSourceConsumos">
 
                 <ng-container matColumnDef="data">
-                    <th mat-header-cell *matHeaderCellDef> Data do evento</th>
+                    <th mat-header-cell *matHeaderCellDef> Data do consumo</th>
                     <td mat-cell *matCellDef="let element">
                         <mat-chip-list>
                             <mat-chip>{{element.data | date: 'dd/MM/yyyy'}}</mat-chip>
@@ -63,7 +58,7 @@
 
                 <ng-container matColumnDef="quantidade" class="quantidade">
                     <th mat-header-cell *matHeaderCellDef>Quantidade</th>
-                    <td mat-cell *matCellDef="let element"> 
+                    <td mat-cell *matCellDef="let element">
                         <h6>{{element.quantidade}}</h6>
                     </td>
                 </ng-container>
@@ -82,12 +77,13 @@
 
                     <th mat-header-cell *matHeaderCellDef> </th>
                     <td mat-cell *matCellDef="let element">
-                        <span>&nbsp;&nbsp;&nbsp;</span> <a class="editar" mat-raised-button color="primary" (click)="abrirEventoDialog(element)">editar</a>
+                        <span>&nbsp;&nbsp;&nbsp;</span> <a class="editar" mat-raised-button color="primary"
+                            (click)="abrirConsumoDialog(element)">editar</a>
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="colunasEventos; sticky: true"></tr>
-                <tr mat-row *matRowDef="let row; columns: colunasEventos;"></tr>
+                <tr mat-header-row *matHeaderRowDef="colunasConsumos; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: colunasConsumos;"></tr>
             </table>
 
             <mat-paginator [pageSizeOptions]="[100, 1000]" showFirstLastButtons></mat-paginator>

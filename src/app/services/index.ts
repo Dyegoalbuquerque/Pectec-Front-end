@@ -1,4 +1,3 @@
-export * from './evento.service';
 export * from './authentication.service';
 export * from './custo.service';
 export * from './estoque.service';
