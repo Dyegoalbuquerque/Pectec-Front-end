@@ -6,11 +6,9 @@ import { FichaComponent, AnimalComponent, AcompanhamentoMaternoComponent,
          CicloComponent, CicloSimularComponent, ProgramaFormComponent, AnimalComportamento
 } from '../manejo';
 import { AcompanhamentoMaterno } from 'src/app/models/acompanhamentoMaterno';
-import { Ciclo, CicloFilho, Situacao, Animal, Programa } from 'src/app/models';
+import { Ciclo, CicloFilho, Situacao, Animal, Programa, ProgramaItem } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Options } from 'ng5-slider';
-import { ProgramaItem } from 'src/app/models/programaItem';
 import { plainToClass } from "class-transformer";
 
 
@@ -21,7 +19,7 @@ import { plainToClass } from "class-transformer";
 export class ManejoComponent implements OnInit {
 
   constructor(private manejoService: ManejoService, public dialog: MatDialog,
-    private notifications: NotificationsService, private spinner: NgxSpinnerService) { }
+              private notifications: NotificationsService, private spinner: NgxSpinnerService) { }
 
   animalComportamento: AnimalComportamento;
   femeas: Animal[];
@@ -33,7 +31,6 @@ export class ManejoComponent implements OnInit {
   situacaoSelecionada: Situacao;
 
   panelOpenState = false;
-  options: Options;
 
   ngOnInit() {
     this.femeas = [];
@@ -90,7 +87,7 @@ export class ManejoComponent implements OnInit {
 
   obterFemeas() {
     this.manejoService.obterPrevisoes(2020).subscribe(data => {
-      this.femeas = data;
+      this.femeas = plainToClass(Animal, data);
     });
   }
 
@@ -106,7 +103,7 @@ export class ManejoComponent implements OnInit {
 
   obterFilhotes() {
     this.manejoService.obterFilhotes().subscribe(data => {
-      this.filhotes = data;
+      this.filhotes = plainToClass(Animal, data);
     });
   }
 
@@ -236,37 +233,6 @@ export class ManejoComponent implements OnInit {
     }, error => {
       this.esconderSpinner();
       this.mostrarMensagem("", "Ocorreu um problema", NotificationType.Error);
-    });
-  }
-
-  atualizarCiclo(id: number) {
-
-    let lista = this.ciclosFilhos.filter(c => c.id == id);
-
-    let item = lista[0];
-
-    this.manejoService.atualizarCiclo(item).subscribe(data => {
-      this.obterCiclos();
-
-      this.mostrarMensagem("Atualizado com sucesso", "Ciclo", NotificationType.Success);
-    });
-  }
-
-  removerCiclo(id: number) {
-
-    this.manejoService.removerCiclo(id).subscribe(data => {
-      this.obterCiclos();
-
-      this.mostrarMensagem("Removido com sucesso", "Ciclo", NotificationType.Success);
-    });
-  }
-
-  removerProgramaItem(id: number) {
-    this.manejoService.removerProgramaItem(id).subscribe(data => {
-      this.obterProgramaDoAnimal(1);
-      this.obterSituacoesQuantidade();
-
-      this.mostrarMensagem("Removido com sucesso", "Lançamento", NotificationType.Success);
     });
   }
 
