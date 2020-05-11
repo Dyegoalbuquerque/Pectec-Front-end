@@ -1,6 +1,7 @@
 
 import { UnidadeMedida } from './unidadeMedida';
 import { Subcategoria } from './subCategoria';
+import { ValidadorTipo } from '../validadorTipo';
 
 
 export class Estoque {
@@ -24,7 +25,43 @@ export class Estoque {
     unidade: UnidadeMedida;
     subcategoria: Subcategoria;
     subcategoriaId: number;
-    eventos: any[];
+    consumos: any[];
+
+    eValido(): boolean {
+        let algumInsumoSelecionado = false;
+
+        if(this.consumos){
+            this.consumos.forEach(c => {
+                if (c.quantidade > 0) {
+                    algumInsumoSelecionado = true;
+                }
+            });
+        }
+
+        let result = 
+
+          ((ValidadorTipo.booleanVerdadeiro(this.comprado) &&
+            ValidadorTipo.stringValido(this.descricao) &&
+            ValidadorTipo.stringValido(this.unidadeMedida) &&
+            ValidadorTipo.numberValido(this.subcategoriaId) &&
+            ValidadorTipo.numberValido(this.quantidadeEmbalagem) &&
+            ValidadorTipo.dateValido(this.dataEntrada) &&
+            ValidadorTipo.numberValido(this.valorEmbalagem) &&
+            ValidadorTipo.numberValido(this.quantidade)) ||
+            (ValidadorTipo.booleanFalso(this.comprado) &&
+             ValidadorTipo.stringValido(this.descricao) &&
+             ValidadorTipo.stringValido(this.unidadeMedida) &&
+             ValidadorTipo.numberValido(this.subcategoriaId) &&
+             ValidadorTipo.numberValido(this.quantidadeEmbalagem) &&
+             ValidadorTipo.dateValido(this.dataEntrada) &&
+             ValidadorTipo.booleanVerdadeiro(algumInsumoSelecionado)));
+
+             return result;
+    }
+
+    mostrarDescricaoQuantidadeReal() {
+        return `${this.quantidadeEntradaReal} ${this.unidadeMedida}`;
+    }
 
     static ordenarPorDataEntrada = (a, b) => {
         return new Date(a.dataEntrada).getTime() - new Date(b.dataEntrada).getTime()

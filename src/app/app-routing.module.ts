@@ -1,8 +1,8 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router'
-import { ManejoComponent } from './components/manejo/manejo.component';
+import { ManejoComponent } from './components/manejo/manejo/manejo.component';
 import { CustoComponent } from './components/custo/custo/custo.component';
-import { EstoqueComponent } from './components/estoque/estoque.component';
+import { EstoqueComponent } from './components/estoque/estoque/estoque.component';
 import { ConsumoComponent } from './components/consumo/consumo.component';
 import { VendaComponent } from './components/venda/venda.component';
 

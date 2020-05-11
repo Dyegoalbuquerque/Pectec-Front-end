@@ -5,6 +5,7 @@ import { CustoService, ConfiguracaoService } from '../../../services';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Categoria, Lancamento, Subcategoria } from 'src/app/models';
 import { SnackbarHelper } from '../../snackbarHelper';
+import { plainToClass } from "class-transformer";
 
 @Component({
   selector: 'lancamento-dialog',
@@ -55,13 +56,13 @@ export class LancamentoComponent implements OnInit {
 
   obterCategorias() {
     this.categoriaService.obterCategorias().subscribe(data => {
-      this.categorias = data;
+      this.categorias = plainToClass(Categoria, data);
     });
   }
 
   obterSubcategorias(codigo: string) {
     this.categoriaService.obterSubcategorias(codigo).subscribe(data => {
-      this.subcategorias = data;
+      this.subcategorias = plainToClass(Subcategoria, data);
     });
   }
 
@@ -70,10 +71,10 @@ export class LancamentoComponent implements OnInit {
   }
 
   salvar(): void {
-    if (this.validar(this.lancamento)) {
+    if (this.lancamento.eValido()) {
 
       this.custoService.salvarLancamento(this.lancamento).subscribe(data => {
-        this.lancamento = data;
+        this.lancamento = plainToClass(Lancamento, data);
         this.mostrarMensagem("Salvo com sucesso", "Lançamento");
         this.fechar();
       },
@@ -87,12 +88,6 @@ export class LancamentoComponent implements OnInit {
 
   fechar(): void {
     this.dialogRef.close();
-  }
-
-  validar(item: Lancamento): boolean {
-
-    return item.valor > 0 && item.vencimento && item.descricao != "" &&
-      item.tipo != "" && item.subcategoriaId != 0;
   }
 
   mostrarMensagem(mensagem: string, action: string) {

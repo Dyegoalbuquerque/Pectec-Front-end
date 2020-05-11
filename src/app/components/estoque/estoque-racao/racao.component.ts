@@ -1,9 +1,8 @@
-
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EstoqueService } from 'src/app/services/estoque.service';
-import { SliderOptionBuilder } from '../sliderOptionBuilder';
+import { SliderOptionBuilder } from '../../sliderOptionBuilder';
 import { Subcategoria, UnidadeMedida, Estoque, Consumo } from 'src/app/models';
 import { ConfiguracaoService } from 'src/app/services';
 import { plainToClass } from "class-transformer";
@@ -38,11 +37,11 @@ export class RacaoComponent implements OnInit {
     valor: 60
   }];
 
-  insumos : any[] = [];
+  insumos: any[] = [];
 
   ngOnInit() {
-    this.comprouRacaoPronta = false;
     this.racao = this.data;
+    this.racao.comprado = false;
     this.obterInsumos();
     this.obterSubcategorias("R");
     this.obterUnidadeMedidas();
@@ -54,8 +53,7 @@ export class RacaoComponent implements OnInit {
   }
 
   mudarCompraRacaoPronta(comprouRacaoPronta) {
-    this.comprouRacaoPronta = !comprouRacaoPronta;
-    this.racao.comprado = this.comprouRacaoPronta;
+    this.racao.comprado = !comprouRacaoPronta;
   }
 
   obterInsumos() {
@@ -86,9 +84,27 @@ export class RacaoComponent implements OnInit {
     });
   }
 
+  obterSubcategorias(codigo: string) {
+    this.categoriaService.obterSubcategorias(codigo).subscribe(data => {
+      this.subcategorias = plainToClass(Subcategoria, data);;
+    });
+  }
+
   salvar(): void {
 
-    if (this.validar(this.racao)) {
+    this.racao.consumos = [];
+
+    for (let j = 0; j < this.insumos.length; j++) {
+      let insumo = this.insumos[j];
+
+      let consumo = new Consumo();
+      consumo.quantidade = insumo.retirado;
+      consumo.origemId = insumo.id;
+
+      this.racao.consumos.push(consumo);
+    }
+
+    if (this.racao.eValido()) {
 
       this.estoqueService.salvarRacao(this.racao).subscribe(data => {
         this.racao = data;
@@ -105,39 +121,6 @@ export class RacaoComponent implements OnInit {
 
   fechar(): void {
     this.dialogRef.close();
-  }
-
-  obterSubcategorias(codigo: string) {
-    this.categoriaService.obterSubcategorias(codigo).subscribe(data => {
-      this.subcategorias = data;
-    });
-  }
-
-  validar(item: Estoque): boolean {
-
-    this.racao.eventos = [];
-    for (let j = 0; j < this.insumos.length; j++) {
-      let insumo = this.insumos[j];
-
-      let consumo = new Consumo();
-      consumo.quantidade = insumo.retirado;
-      consumo.origemId = insumo.id;
-
-      this.racao.eventos.push(consumo);
-    }
-
-    let algumInsumoSelecionado = false;
-    for (let i = 0; i < item.eventos.length; i++) {
-      if (item.eventos[i].quantidade > 0) {
-        algumInsumoSelecionado = true;
-        break;
-      }
-    }
-
-    return (item.descricao && item.subcategoriaId && item.unidadeMedida != '' && item.quantidadeEmbalagem > 0) &&
-      (!this.comprouRacaoPronta && algumInsumoSelecionado && item.dataEntrada != '' ||
-        this.comprouRacaoPronta && item.quantidadeEmbalagem && item.quantidadeEmbalagem > 0 &&
-        item.quantidade > 0);
   }
 
   mostrarMensagem(mensagem: string, action: string) {

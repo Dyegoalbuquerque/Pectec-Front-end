@@ -51,14 +51,16 @@ export class EstoqueService {
   salvarRacao(item: Estoque): Observable<Estoque> {
 
     let consumos = [];
-    for (let i = 0; i < item.eventos.length; i++) {
+    
+    for (let i = 0; i < item.consumos.length; i++) {
+      let consumo = item.consumos[i];
 
-      if (item.eventos[i].quantidade > 0) {
-        consumos.push(item.eventos[i]);
+      if (consumo.quantidade > 0) {
+        consumos.push(consumo);
       }
     }
 
-    item.eventos = consumos;
+    item.consumos = consumos;
 
     return this.httpclient.post<Estoque>(`${this.ApiUrl}/racao/`, item);
   }

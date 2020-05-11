@@ -5,8 +5,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { EstoqueService, ConfiguracaoService } from 'src/app/services';
 import { UnidadeMedida } from 'src/app/models/unidadeMedida';
 import { Estoque } from 'src/app/models/estoque';
-import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { Categoria, Subcategoria } from 'src/app/models';
+import { plainToClass } from 'class-transformer';
 
 @Component({
   selector: 'estoque-form-dialog',
@@ -17,7 +17,7 @@ export class EstoqueFormComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<EstoqueFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Estoque, private _snackBar: MatSnackBar,
-    private notifications: NotificationsService, private estoqueService: EstoqueService,
+    private estoqueService: EstoqueService,
     private categoriaService: ConfiguracaoService) { }
 
   estoque: Estoque;
@@ -29,16 +29,17 @@ export class EstoqueFormComponent implements OnInit {
   ngOnInit() {
     this.categoriaSelecionada = new Categoria();
     this.estoque = this.data;
+    this.estoque.comprado = true;
     this.obterCategorias();
     this.obterUnidadeMedidas();
   } 
 
   salvar(): void {
-    if (this.validar(this.estoque)) {
-
+    
+    if (this.estoque.eValido()) {
       this.estoqueService.salvarEstoque(this.estoque).subscribe(data => {
-        this.estoque = data;
-        this.mostrarMensagemSucesso("Salvo com sucesso", "Estoque", NotificationType.Success);
+        this.estoque = plainToClass(Estoque, data);
+        this.mostrarMensagem("Salvo com sucesso", "Estoque");
         this.fechar();
       },
         err => {
@@ -51,19 +52,19 @@ export class EstoqueFormComponent implements OnInit {
 
   obterCategorias() {
     this.categoriaService.obterCategorias().subscribe(data => {
-      this.categorias = data;
+      this.categorias = plainToClass(Categoria, data);;
     });
   }
 
   obterSubcategorias(codigo: string) {
     this.categoriaService.obterSubcategorias(codigo).subscribe(data => {
-      this.subcategorias = data;
+      this.subcategorias = plainToClass(Subcategoria, data);;
     });
   }
 
   obterUnidadeMedidas() {
     this.categoriaService.obterUnidadeMedidas().subscribe(data => {
-      this.unidadeMedidas = data;
+      this.unidadeMedidas = plainToClass(UnidadeMedida, data);;
     });
   }
 
@@ -71,33 +72,8 @@ export class EstoqueFormComponent implements OnInit {
     this.obterSubcategorias(codigo);
   }
 
-  validar(item: Estoque): boolean {
-
-    return item.quantidadeEmbalagem > 0 && item.descricao && item.quantidade > 0 &&
-      item.subcategoriaId > 0 && item.unidadeMedida && item.valorEmbalagem > 0 &&
-      item.dataEntrada != '';
-  }
-
   fechar(): void {
     this.dialogRef.close();
-  }
-
-  mostrarMensagemSucesso(mensagem: string, action: string, tipo: NotificationType) {
-
-    let animationTypes = ['fromRight', 'fromLeft', 'scale', 'rotate'];
-
-    let config = {
-      type: tipo,
-      title: action,
-      content: mensagem,
-      timeOut: 3000,
-      showProgressBar: true,
-      pauseOnHover: true,
-      clickToClose: true,
-      animate: 'scale'
-    };
-
-    this.notifications.create(config.title, config.content, config.type, config);
   }
 
   mostrarMensagem(mensagem: string, action: string) {

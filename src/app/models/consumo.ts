@@ -1,5 +1,6 @@
 import { Estoque } from './estoque';
 import { Categoria } from './categoria';
+import { ValidadorTipo } from '../validadorTipo';
 
 export class Consumo {
 
@@ -15,6 +16,14 @@ export class Consumo {
 
   constructor(origem?: Estoque) {
     this.origem = origem;
+  }
+
+  eValido(): boolean {
+    return ValidadorTipo.numberValido(this.quantidade) && 
+           ValidadorTipo.stringValido(this.data) && 
+           ValidadorTipo.stringValido(this.tipo) && 
+           ValidadorTipo.numberValido(this.origemId) && 
+           ValidadorTipo.numberValido(this.categoriaId);
   }
 
   mostrarCustoDetalhado() {

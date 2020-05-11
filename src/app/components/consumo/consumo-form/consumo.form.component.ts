@@ -2,7 +2,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
-import { EstoqueService, ConfiguracaoService } from 'src/app/services';
+import { EstoqueService } from 'src/app/services';
 import { Estoque, Consumo, Categoria } from 'src/app/models';
 import { plainToClass } from "class-transformer";
 
@@ -15,7 +15,7 @@ export class ConsumoFormComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<ConsumoFormComponent>,
               @Inject(MAT_DIALOG_DATA) public data: Consumo, private notifications: NotificationsService,
-              private estoqueService: EstoqueService, private categoriaService: ConfiguracaoService) { }
+              private estoqueService: EstoqueService) { }
 
   consumo: Consumo;
   origens: Estoque[];
@@ -34,7 +34,7 @@ export class ConsumoFormComponent implements OnInit {
 
   mudarOrigemConsumo(origemId: number) {
     let origem = this.origens.filter(x => x.id == origemId)[0];
-    this.limiteDeQuantidade = `${origem.quantidadeEntradaReal} ${origem.unidadeMedida}`;
+    this.limiteDeQuantidade = origem.mostrarDescricaoQuantidadeReal();
   }
 
   obterOrigens(consumo: Consumo) {
@@ -61,11 +61,11 @@ export class ConsumoFormComponent implements OnInit {
   }
 
   salvar(): void {
-    if (this.validar(this.consumo)) {
+    if (this.consumo.eValido()) {
       if (this.consumo.id > 0) {
 
         this.estoqueService.atualizarConsumo(this.consumo).subscribe(data => {
-          this.consumo = data;
+          this.consumo = plainToClass(Consumo, data);
           this.mostrarMensagem("Salvo com sucesso", "Consumo", NotificationType.Success);
           this.fechar();
         },
@@ -75,7 +75,7 @@ export class ConsumoFormComponent implements OnInit {
 
       } else {
         this.estoqueService.salvarConsumo(this.consumo).subscribe(data => {
-          this.consumo = data;
+          this.consumo = plainToClass(Consumo, data);;
           this.mostrarMensagem("Salvo com sucesso", "Consumo", NotificationType.Success);
           this.fechar();
         },
@@ -90,11 +90,6 @@ export class ConsumoFormComponent implements OnInit {
 
   fechar(): void {
     this.dialogRef.close();
-  }
-
-  validar(item: Consumo): boolean {
-    return item.quantidade > 0 && item.data != '' && item.categoriaId > 0 &&
-           item.origemId > 0 && (item.tipo != '');
   }
 
   mostrarMensagem(mensagem: string, action: string, tipo: NotificationType) {

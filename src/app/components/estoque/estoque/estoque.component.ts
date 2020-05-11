@@ -1,10 +1,11 @@
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { EstoqueService } from '../../services/';
+import { EstoqueService } from '../../../services';
 import { IgxTreeGridComponent } from "igniteui-angular";
-import { RacaoComponent, EstoqueFormComponent, EstoqueHistoricoComponent } from '../estoque';
+import { RacaoComponent, EstoqueFormComponent, EstoqueHistoricoComponent } from '..';
 import { Estoque } from 'src/app/models';
+import { EstoqueComportamento } from '../estoqueComportamento';
 
 @Component({
   templateUrl: './estoque.component.html',
@@ -12,7 +13,8 @@ import { Estoque } from 'src/app/models';
 })
 export class EstoqueComponent implements OnInit {
 
-  constructor(private estoqueService: EstoqueService, public dialog: MatDialog) {
+  constructor(private estoqueService: EstoqueService, public dialog: MatDialog, 
+              private estoqueComportamento: EstoqueComportamento) {
   }
 
   @ViewChild("gridHistorico", { read: IgxTreeGridComponent, static: true }) gridHistorico: IgxTreeGridComponent;
@@ -48,26 +50,6 @@ export class EstoqueComponent implements OnInit {
     this.carregarChartMedicamento();
   }
 
-  construirChart(data, labels, chartDataset) {
-
-    for (let i = 0; i < labels.length; i++) {
-
-      let total = 0;
-
-      for (let ii = 0; ii < data.length; ii++) {
-
-        if (data[ii].subcategoria.descricao === labels[i]) {
-          total += data[ii].quantidadeEntradaReal;
-        }
-      }
-      chartDataset[0].data.push(total);
-    }
-
-    if (chartDataset[0].data.length > 0) {
-      chartDataset[0].data.push(1);
-    }
-  }
-
   carregarChartInsumos() {
 
     this.estoqueService.obterEstoqueRealPorCodigoCategoria("I").subscribe(data => {
@@ -75,7 +57,7 @@ export class EstoqueComponent implements OnInit {
       this.chartLabelsInsumo = data.map(i => i.subcategoria.descricao);
       this.chartLabelsInsumo = [...(new Set(this.chartLabelsInsumo))];
 
-      this.construirChart(data, this.chartLabelsInsumo, this.chartDatasetsInsumo);
+      this.estoqueComportamento.construirChart(data, this.chartLabelsInsumo, this.chartDatasetsInsumo);
     });
   }
 
@@ -86,7 +68,7 @@ export class EstoqueComponent implements OnInit {
       this.chartLabelsRacao = data.map(i => i.subcategoria.descricao);
       this.chartLabelsRacao = [...(new Set(this.chartLabelsRacao))];
 
-      this.construirChart(data, this.chartLabelsRacao, this.chartDatasetsRacao);
+      this.estoqueComportamento.construirChart(data, this.chartLabelsRacao, this.chartDatasetsRacao);
     });
   }
 
@@ -97,12 +79,9 @@ export class EstoqueComponent implements OnInit {
       this.chartLabelsMedicamento = data.map(i => i.subcategoria.descricao);
       this.chartLabelsMedicamento = [...(new Set(this.chartLabelsMedicamento))];
 
-      this.construirChart(data, this.chartLabelsMedicamento, this.chartDatasetsMedicamento);
+      this.estoqueComportamento.construirChart(data, this.chartLabelsMedicamento, this.chartDatasetsMedicamento);
     });
   }
-
-  chartClicked(e: any): void { }
-  chartHovered(e: any): void { }
 
   abrirEstoqueHistoricoDialog(): void {
     this.dialog.open(EstoqueHistoricoComponent, {

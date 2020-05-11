@@ -1,10 +1,10 @@
 
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ManejoService } from '../../services';
+import { ManejoService } from '../../../services';
 import { FichaComponent, AnimalComponent, AcompanhamentoMaternoComponent,
          CicloComponent, CicloSimularComponent, ProgramaFormComponent, AnimalComportamento
-} from '../manejo';
+} from '..';
 import { AcompanhamentoMaterno } from 'src/app/models/acompanhamentoMaterno';
 import { Ciclo, CicloFilho, Situacao, Animal, Programa, ProgramaItem } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';

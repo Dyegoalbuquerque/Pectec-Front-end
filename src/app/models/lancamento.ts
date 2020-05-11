@@ -1,5 +1,6 @@
 
 import { Subcategoria } from '.';
+import { ValidadorTipo } from '../validadorTipo';
 
 export class Lancamento {
 
@@ -15,15 +16,22 @@ export class Lancamento {
     subcategoriaId: number;
     subcategoria: Subcategoria;
 
-    constructor() {
-    }
+    constructor() {}
 
-    eDoTipoEntrada(){
+    eDoTipoEntrada() {
         return this.tipo == 'E';
     }
 
-    eDoTipoSaida(){
+    eDoTipoSaida() {
         return this.tipo == 'S';
+    }
+
+    eValido(): boolean {
+        return ValidadorTipo.numberValido(this.valor) && 
+               ValidadorTipo.stringValido(this.vencimento) && 
+               ValidadorTipo.stringValido(this.descricao) && 
+               ValidadorTipo.stringValido(this.tipo) && 
+               ValidadorTipo.numberValido(this.subcategoriaId);
     }
 
     static ordenarPorVencimentoDecrecente = (a, b) => {

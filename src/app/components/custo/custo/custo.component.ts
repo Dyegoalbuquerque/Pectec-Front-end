@@ -20,15 +20,14 @@ import { plainToClass } from "class-transformer";
 export class CustoComponent implements OnInit {
 
   constructor(private custoService: CustoService, public dialog: MatDialog,
-    private _snackBar: MatSnackBar, private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+              private _snackBar: MatSnackBar, private iconRegistry: MatIconRegistry, 
+              private sanitizer: DomSanitizer, private custoComportamento: CustoComportamento) {
     this.definirIcones();
-    this.custoComportamento = new CustoComportamento();
   }
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild("gridCronograma", { read: IgxTreeGridComponent, static: true }) gridCronograma: IgxTreeGridComponent;
 
-  custoComportamento: CustoComportamento;
   cronogramas: Lancamento[];
   totalSaida = 0;
   totalEntrada = 0;
@@ -78,15 +77,9 @@ export class CustoComponent implements OnInit {
       this.dataSourceLancamento = new MatTableDataSource<Lancamento>(data);
       this.dataSourceLancamento.paginator = this.paginator;
       this.dataSourceLancamento.data = plainToClass(Lancamento, this.dataSourceLancamento.data.sort(Lancamento.ordenarPorVencimentoDecrecente));
-      this.dataSourceLancamento.data.forEach(x => {
-        if (x.eDoTipoSaida()) {
-          this.totalSaida += x.valor;
-        }
-        if (x.eDoTipoEntrada()) {
-          this.totalEntrada += x.valor;
-        }
-      });
-      this.totalSaldo = this.totalEntrada - this.totalSaida;
+      this.totalSaida = this.custoComportamento.calcularTotalSaida(this.dataSourceLancamento.data);
+      this.totalEntrada = this.custoComportamento.calcularTotalEntrada(this.dataSourceLancamento.data);
+      this.totalSaldo = this.custoComportamento.calcularTotalSaldo(this.dataSourceLancamento.data);
     });
   }
 

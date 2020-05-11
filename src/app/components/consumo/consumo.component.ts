@@ -17,8 +17,7 @@ export class ConsumoComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(public dialog: MatDialog, private estoqueService: EstoqueService) {
-  }
+  constructor(public dialog: MatDialog, private estoqueService: EstoqueService) {}
   
   consumos: Consumo[];
   colunasConsumos: string[] = ['data', 'descricao', 'quantidade', 'unidadeMedida', 'custo', 'editar'];

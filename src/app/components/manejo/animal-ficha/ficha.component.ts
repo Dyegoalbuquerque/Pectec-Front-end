@@ -3,7 +3,7 @@ import { MatPaginator} from '@angular/material/paginator';
 import { MatTableDataSource} from '@angular/material/table';
 import { MatSnackBar} from '@angular/material/snack-bar';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { ManejoService } from '../../services/manejo.service';
+import { ManejoService } from '../../../services/manejo.service';
 import { Animal } from 'src/app/models/animal';
 
 

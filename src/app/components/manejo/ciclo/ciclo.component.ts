@@ -1,7 +1,7 @@
 
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ManejoService } from '../../services/manejo.service';
+import { ManejoService } from '../../../services/manejo.service';
 import { Ciclo } from 'src/app/models/ciclo';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CicloFilho } from 'src/app/models/cicloFilho';

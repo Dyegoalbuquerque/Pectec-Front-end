@@ -1,7 +1,7 @@
 
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ManejoService } from '../../services/manejo.service';
+import { ManejoService } from '../../../services/manejo.service';
 import { AcompanhamentoMaterno } from 'src/app/models/acompanhamentoMaterno';
 import { Animal } from 'src/app/models/animal';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
