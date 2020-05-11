@@ -6,7 +6,7 @@
 <br />
 <br />
 
-<igx-switch [disabled]="acompanhamento.dataFecundacao && acompanhamento.dataFecundacao != ''" [checked]="inceminacao"
+<igx-switch [checked]="acompanhamento.inceminacao" [(ngModel)]="acompanhamento.inceminacao" [disabled]="acompanhamento.dataFecundacao && acompanhamento.dataFecundacao != ''" [checked]="acompanhamento.inceminacao"
   (change)="mudarInceminacao(inceminacao)">
   Inceminação
 </igx-switch>

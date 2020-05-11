@@ -5,6 +5,8 @@ import { ManejoService } from '../../../services/manejo.service';
 import { AcompanhamentoMaterno } from 'src/app/models/acompanhamentoMaterno';
 import { Animal } from 'src/app/models/animal';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
+import { plainToClass } from "class-transformer";
+import { Situacao } from 'src/app/models';
 
 @Component({
     templateUrl: './acompanhamentoMaterno.component.html',
@@ -18,7 +20,6 @@ export class AcompanhamentoMaternoComponent implements OnInit {
         private manejoService: ManejoService) { }
 
     acompanhamento: AcompanhamentoMaterno;
-    inceminacao: boolean;
     reprodutores: Animal[];
     situacoes = [];
     items = [];
@@ -28,27 +29,27 @@ export class AcompanhamentoMaternoComponent implements OnInit {
         this.obterReprodutores();
         this.obterSituacoes();
         this.acompanhamento = this.data;
-        this.inceminacao = false;
+        this.acompanhamento.inceminacao = false;
     }
 
     mudarInceminacao(inceminacao) {
-        this.inceminacao = !inceminacao;
+        this.acompanhamento.inceminacao = !inceminacao;
     }
 
     obterReprodutores() {
-        this.manejoService.obterReprodutores().subscribe(data => {console.log(data)
-            this.reprodutores = data;
+        this.manejoService.obterReprodutores().subscribe(data => {
+            this.reprodutores = plainToClass(Animal, data);
         });
     }
 
     obterSituacoes(){
       this.manejoService.obterSituacoes("Upl").subscribe(data => {
-        this.situacoes = data;
+        this.situacoes = plainToClass(Situacao, data);
       });
     }
 
     salvar(): void {
-        if (this.validar(this.acompanhamento)) {
+        if (this.acompanhamento.eValido()) {
             
             if (this.acompanhamento.id > 0) {
                 this.manejoService.atualizarAcompanhamento(this.acompanhamento).subscribe(data => {
@@ -77,17 +78,6 @@ export class AcompanhamentoMaternoComponent implements OnInit {
 
     fechar(): void {
         this.dialogRef.close();
-    }
-
-    validar(item: AcompanhamentoMaterno): boolean {
-
-        return item.dataFecundacao && (item.reprodutorId > 0 && !this.inceminacao ||
-               item.reprodutorId == undefined && this.inceminacao) &&             
-              (item.dataPartoReal && item.quantidadeFilhote && item.quantidadeFilhote > 0 && 
-               item.quantidadeFilhoteVV >= 0 && item.quantidadeFilhoteMF >= 0 &&
-               item.quantidadeFilhoteNM >= 0 && item.pesoFilhoteNascimento >= 0 &&
-               item.quantidadeSexoM >= 0 && item.quantidadeSexoF >= 0 || 
-               item.dataPartoReal == undefined);
     }
 
     mostrarMensagem(mensagem: string, action: string, tipo: NotificationType) {

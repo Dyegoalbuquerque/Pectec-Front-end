@@ -1,16 +1,15 @@
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { VendaRacaoComponent } from './venda.racao.component';
-import { VendaInsumoComponent }from './venda.insumo.component';
+import { VendaRacaoComponent } from '../venda-racao/venda.racao.component';
+import { VendaInsumoComponent }from '../venda-insumo/venda.insumo.component';
 import { Venda } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { VendaService } from '../../services';
+import { VendaService } from '../../../services';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { plainToClass } from "class-transformer";
-
 
 @Component({
   templateUrl: './venda.component.html',

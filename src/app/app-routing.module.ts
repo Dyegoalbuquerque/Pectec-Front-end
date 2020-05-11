@@ -4,7 +4,7 @@ import { ManejoComponent } from './components/manejo/manejo/manejo.component';
 import { CustoComponent } from './components/custo/custo/custo.component';
 import { EstoqueComponent } from './components/estoque/estoque/estoque.component';
 import { ConsumoComponent } from './components/consumo/consumo.component';
-import { VendaComponent } from './components/venda/venda.component';
+import { VendaComponent } from './components/venda/venda/venda.component';
 
 const routes: Routes = [  
   {path: 'consumos', component: ConsumoComponent},

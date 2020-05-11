@@ -29,6 +29,10 @@ export class ValidadorTipo {
         return valor == 0;
     }
 
+    static numberMaiorOuIgualZero(valor: number): boolean {
+        return valor >= 0;
+    }
+
     static booleanVerdadeiro(valor: boolean): boolean {
         return valor == true;
     }
