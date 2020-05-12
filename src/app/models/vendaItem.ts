@@ -2,7 +2,9 @@
 
 export class VendaItem {
     
-    constructor(){}
+    constructor(tipo?: string){
+        this.tipo = tipo;
+    }
     id: number;
     vendaId: number;
     valor: number;

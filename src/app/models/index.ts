@@ -14,3 +14,4 @@ export * from './acompanhamentoMaterno';
 export * from './subCategoria';
 export * from './causaObito';
 export * from './venda';
+export * from './vendaItem';

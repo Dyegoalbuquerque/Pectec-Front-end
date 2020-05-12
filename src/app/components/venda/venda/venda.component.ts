@@ -10,6 +10,7 @@ import { VendaService } from '../../../services';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { plainToClass } from "class-transformer";
+import { VendaAnimalComponent } from '..';
 
 @Component({
   templateUrl: './venda.component.html',
@@ -72,15 +73,15 @@ export class VendaComponent implements OnInit {
   }
 
   abrirVendaLeitaoDialog(item: Venda): void {
-    // const dialogRef = this.dialog.open(VendaLeitaoComponent, {
-    //   width: '700px',
-    //   height: '650px',
-    //   data: item == null ? new Venda() : item
-    // });
+    const dialogRef = this.dialog.open(VendaAnimalComponent, {
+      width: '480px',
+      height: '500px',
+      data: item == null ? new Venda() : item
+    });
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   this.obterVendas(2020);
-    // });
+    dialogRef.afterClosed().subscribe(result => {
+      this.obterVendas(2020);
+    });
   }
 
   mostrarMensagem(mensagem: string, action: string, tipo: NotificationType) {

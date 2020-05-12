@@ -1,6 +1,10 @@
 import { Animal } from 'src/app/models/animal';
 import { Situacao } from 'src/app/models/situacao';
+import { Injectable } from '@angular/core';
 
+@Injectable({
+    providedIn: 'root'
+})
 
 export class AnimalComportamento {
 

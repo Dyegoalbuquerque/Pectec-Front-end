@@ -18,13 +18,14 @@
   <mat-datepicker #picker></mat-datepicker>
 </mat-form-field>
 
-<mat-form-field class="dropdown-insumo">
+<mat-form-field class="dropdown-lote">
   <mat-label class="required">Selecione o lote</mat-label>
-  <mat-select (selectionChange)="mudarLote(loteSelecionada)" [(ngModel)]="loteSelecionada" >
-    <mat-option *ngFor="let estoque of estoques" [value]="estoque.id">
-      {{estoque.descricao}} - 
-      {{estoque.quantidadeEntradaReal}}
-      {{estoque.unidadeMedida}}
+  <mat-select (selectionChange)="mudarLote(vendaItem.origemId)" [(ngModel)]="vendaItem.origemId" >
+    <mat-option *ngFor="let lote of lotes" [value]="lote.id">
+      {{lote.dias}} 
+      <span>&nbsp;dias</span>  - 
+      {{lote.quantidade}}
+      <span>&nbsp;animais</span> 
     </mat-option>
   </mat-select>
 </mat-form-field>
@@ -32,7 +33,7 @@
 
 <mat-form-field>
   <mat-label class="required">Quantidade </mat-label>
-  <input matInput type="number" class="example-right-align" [(ngModel)]="quantidade">
+  <input matInput type="number" class="example-right-align" [(ngModel)]="vendaItem.quantidade">
   <mat-icon matSuffix>filter_9</mat-icon>
 </mat-form-field>
 
@@ -40,7 +41,7 @@
 
 <mat-form-field>
   <mat-label class="required">Valor da venda</mat-label>
-  <input matInput type="number" class="example-right-align" [(ngModel)]="valor">
+  <input matInput type="number" class="example-right-align" [(ngModel)]="vendaItem.valor">
   <mat-icon matSuffix>money</mat-icon>
 </mat-form-field>
 

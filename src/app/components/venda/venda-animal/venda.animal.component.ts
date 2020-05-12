@@ -1,12 +1,9 @@
 
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Venda, Estoque } from 'src/app/models';
+import { Venda, VendaItem } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { VendaService, EstoqueService } from 'src/app/services';
-import { plainToClass } from "class-transformer";
-import { VendaItem } from 'src/app/models/vendaItem';
+import { VendaService, ManejoService } from 'src/app/services';
 
 
 @Component({
@@ -17,33 +14,29 @@ export class VendaAnimalComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<VendaAnimalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Venda, private vendaService: VendaService,
-    private estoqueService: EstoqueService, private notifications: NotificationsService) { }
+    private manejoService: ManejoService, private notifications: NotificationsService) { }
 
   venda: Venda;
-  estoques: Estoque[];
-  loteSelecionado: number;
-  quantidade: number;
-  valor: number;
+  vendaItem: VendaItem;
+  lotes: any[];
   limiteDeQuantidade: string = '';
 
   ngOnInit() {
     this.venda = this.data;
-    this.obterAnimais(this.venda);
+    this.vendaItem = new VendaItem('A');
+    this.obterLotes("L");
   }
 
-  obterAnimais(venda: Venda) {
-   
+  obterLotes(tipo: string) {
+    this.manejoService.obterLotesVenda(tipo).subscribe(data => {
+      this.lotes = data;
+    });
   }
 
   salvar(): void {
-    if (this.validar(this.venda)) {
+    this.venda.itens = [this.vendaItem];
 
-      let item = new VendaItem();
-      item.origemId = this.loteSelecionado;
-      item.quantidade = this.quantidade;
-
-      this.venda.itens = [item];
-
+    if (this.venda.eValido()) {
       this.vendaService.salvarVendaRacao(this.venda).subscribe(data => {
         this.venda = data;
         this.mostrarMensagem("Salvo com sucesso", "Venda", NotificationType.Success);
@@ -62,13 +55,8 @@ export class VendaAnimalComponent implements OnInit {
   }
 
   mudarLote(origemId: number) {
-    let estoque = this.estoques.filter(x => x.id == origemId)[0];
-    this.limiteDeQuantidade = `${estoque.quantidadeEntradaReal} ${estoque.unidadeMedida}`;
-  }
-
-  validar(item: Venda): boolean {
-    return item.data != '' && this.quantidade && this.valor &&
-      this.loteSelecionado > 0;
+    let lote = this.lotes.filter(x => x.id == origemId)[0];
+    this.limiteDeQuantidade = `${lote.dias} dias - ${lote.quantidade} animais`;
   }
 
   mostrarMensagem(mensagem: string, action: string, tipo: NotificationType) {
