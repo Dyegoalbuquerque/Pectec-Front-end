@@ -13,11 +13,11 @@ export class AcompanhamentoMaterno {
     diasGestacao: number;
     diasLactacao: number;
     diasRecriaPrevisao: number;
-    dataFecundacao: Date;
-    dataRecria: Date;
-    dataPartoPrevisao: Date;
-    dataPartoReal: Date;
-    dataApartarPrevisao: Date;
+    dataFecundacao: string;
+    dataRecria: string;
+    dataPartoPrevisao: string;
+    dataPartoReal: string;
+    dataApartarPrevisao: string;
     dataApartarReal
     ativo: boolean;
     quantidadeFilhote: number;
@@ -32,21 +32,28 @@ export class AcompanhamentoMaterno {
     situacaoNascimento: string;
 
     eValido(): boolean {
-        
-        return this.dataPartoReal && 
 
-              (ValidadorTipo.numberValido(this.reprodutorId) && 
-               ValidadorTipo.booleanFalso(this.inceminacao)) ||
-              
-              (ValidadorTipo.booleanVerdadeiro(this.inceminacao) && 
-              (this.dataPartoReal && 
-               ValidadorTipo.numberValido(this.quantidadeFilhote) && 
-               ValidadorTipo.numberMaiorOuIgualZero(this.quantidadeFilhoteVV) && 
-               ValidadorTipo.numberMaiorOuIgualZero(this.quantidadeFilhoteMF) &&
-               ValidadorTipo.numberMaiorOuIgualZero(this.quantidadeFilhoteNM) && 
-               ValidadorTipo.numberMaiorOuIgualZero(this.pesoFilhoteNascimento) &&
-               ValidadorTipo.numberMaiorOuIgualZero(this.quantidadeSexoM) && 
-               ValidadorTipo.numberMaiorOuIgualZero(this.quantidadeSexoF) || 
-               this.dataPartoReal == undefined));
+        let resultado =
+            (ValidadorTipo.numberValido(this.reprodutorId) &&
+                ValidadorTipo.booleanFalso(this.inceminacao) &&
+                ValidadorTipo.dateValido(this.dataFecundacao) &&
+                !ValidadorTipo.dateValido(this.dataPartoReal) &&
+                !ValidadorTipo.dateValido(this.dataApartarReal)) ||
+
+            (ValidadorTipo.dateValido(this.dataPartoReal) &&
+                ValidadorTipo.numberValido(this.quantidadeFilhote) &&
+                ValidadorTipo.numberMaiorOuIgualZero(this.quantidadeFilhoteVV) &&
+                ValidadorTipo.numberMaiorOuIgualZero(this.quantidadeFilhoteMF) &&
+                ValidadorTipo.numberMaiorOuIgualZero(this.quantidadeFilhoteNM) &&
+                ValidadorTipo.numberMaiorOuIgualZero(this.pesoFilhoteNascimento) &&
+                ValidadorTipo.numberMaiorOuIgualZero(this.quantidadeSexoM) &&
+                ValidadorTipo.numberMaiorOuIgualZero(this.quantidadeSexoF) &&
+                ValidadorTipo.stringValido(this.situacaoNascimento) &&
+                !ValidadorTipo.dateValido(this.dataApartarReal)) ||
+
+            (ValidadorTipo.dateValido(this.dataPartoReal) &&
+              ValidadorTipo.numberValido(this.pesoFilhoteApartar));
+
+        return resultado;
     }
 }

@@ -27,4 +27,8 @@ export class VendaService {
   salvarVendaInsumo(item: Venda): Observable<Venda> {
     return this.httpclient.post<Venda>(`${this.ApiUrl}/insumo`, item);
   }
+
+  salvarVendaAnimal(item: Venda): Observable<Venda> {
+    return this.httpclient.post<Venda>(`${this.ApiUrl}/animal`, item);
+  }
 }

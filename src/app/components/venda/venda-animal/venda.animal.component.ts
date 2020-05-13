@@ -27,17 +27,20 @@ export class VendaAnimalComponent implements OnInit {
     this.obterLotes("L");
   }
 
-  obterLotes(tipo: string) {
-    this.manejoService.obterLotesVenda(tipo).subscribe(data => {
-      this.lotes = data;
-    });
+  async obterLotes(tipo: string) {
+    try {
+      this.lotes = await this.manejoService.obterLotesVenda(tipo);
+    } catch (error) {
+      console.error(error);
+      this.mostrarMensagem("Ocorreu um problema", "Venda", NotificationType.Error);
+    }
   }
 
   salvar(): void {
-    this.venda.itens = [this.vendaItem];
+    this.venda.itens = [this.vendaItem];  
 
     if (this.venda.eValido()) {
-      this.vendaService.salvarVendaRacao(this.venda).subscribe(data => {
+      this.vendaService.salvarVendaAnimal(this.venda).subscribe(data => {
         this.venda = data;
         this.mostrarMensagem("Salvo com sucesso", "Venda", NotificationType.Success);
         this.fechar();

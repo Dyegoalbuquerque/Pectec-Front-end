@@ -113,7 +113,7 @@ export class CustoComponent implements OnInit {
   abrirLancamentoDialog(): void {
     const dialogRef = this.dialog.open(LancamentoComponent, {
       width: '550px',
-      height: '550px',
+      height: '530px',
       data: new Lancamento()
     });
 

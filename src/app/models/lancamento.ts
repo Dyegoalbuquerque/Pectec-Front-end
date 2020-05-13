@@ -28,7 +28,7 @@ export class Lancamento {
 
     eValido(): boolean {
         return ValidadorTipo.numberValido(this.valor) && 
-               ValidadorTipo.stringValido(this.vencimento) && 
+               ValidadorTipo.dateValido(this.vencimento) && 
                ValidadorTipo.stringValido(this.descricao) && 
                ValidadorTipo.stringValido(this.tipo) && 
                ValidadorTipo.numberValido(this.subcategoriaId);

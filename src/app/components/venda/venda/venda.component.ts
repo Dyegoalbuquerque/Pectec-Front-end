@@ -14,12 +14,14 @@ import { VendaAnimalComponent } from '..';
 
 @Component({
   templateUrl: './venda.component.html',
-  styleUrls: ['./venda.component.css']
+  styleUrls: ['./venda.component.css'],
+  providers:  [VendaService]
 })
+
 export class VendaComponent implements OnInit {
 
   constructor(private vendaService: VendaService, public dialog: MatDialog,
-    private notifications: NotificationsService, private spinner: NgxSpinnerService) { }
+              private notifications: NotificationsService, private spinner: NgxSpinnerService) { }
 
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

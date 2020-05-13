@@ -179,6 +179,8 @@ export class ManejoComponent implements OnInit {
   abrirAcompanhamentoDialog(id: number) {
 
     this.manejoService.obterAcompanhamentosPorAnimal(id).subscribe(data => {
+      
+      data = plainToClass(AcompanhamentoMaterno, data);
 
       let acompanhamento;
 

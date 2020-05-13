@@ -34,11 +34,11 @@ export class LancamentoComponent implements OnInit {
   }];
 
   statusLista = [{
-    nome: "A vencer",
-    valor: "V"
-  }, {
     nome: "Pago",
     valor: "PG"
+  }, {
+    nome: "A vencer",
+    valor: "V"
   }, {
     nome: "Previsão",
     valor: "P"
@@ -48,7 +48,7 @@ export class LancamentoComponent implements OnInit {
     this.categoriaSelecionada = new Categoria();
     this.categorias = [];
     this.data.tipo = this.data.tipo == undefined ? "S" : this.data.tipo;
-    this.data.status = this.data.status == undefined ? "V" : this.data.tipo;
+    this.data.status = this.data.status == undefined ? "PG" : this.data.tipo;
     this.lancamento = this.data;
     this.snackbarHelper = new SnackbarHelper();
     this.obterCategorias();

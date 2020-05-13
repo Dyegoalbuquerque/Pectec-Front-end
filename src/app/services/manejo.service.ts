@@ -20,8 +20,8 @@ export class ManejoService {
     return this.httpclient.get<Animal[]>(`${this.ApiUrl}/filhotes/`);
   }
 
-  obterLotesVenda(tipo: string): Observable<Animal[]> {
-    return this.httpclient.get<Animal[]>(`${this.ApiUrl}/lote/${tipo}`);
+  async obterLotesVenda(tipo: string): Promise<Animal[]> {
+    return await this.httpclient.get<Animal[]>(`${this.ApiUrl}/lote/${tipo}`).toPromise();
   }
 
   obterReprodutores(): Observable<Animal[]> {
