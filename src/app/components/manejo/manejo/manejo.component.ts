@@ -33,6 +33,7 @@ export class ManejoComponent implements OnInit {
   panelOpenState = false;
 
   ngOnInit() {
+    this.animalComportamento = new AnimalComportamento([]);
     this.femeas = [];
     this.situacaoSelecionada = new Situacao();
     this.obterProgramaDoAnimal(1);

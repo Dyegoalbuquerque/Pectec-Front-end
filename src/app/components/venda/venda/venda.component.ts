@@ -1,52 +1,74 @@
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { VendaRacaoComponent } from '../venda-racao/venda.racao.component';
-import { VendaInsumoComponent }from '../venda-insumo/venda.insumo.component';
 import { Venda } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { VendaService } from '../../../services';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { plainToClass } from "class-transformer";
-import { VendaAnimalComponent } from '..';
+import { MatTableDataSource, PageEvent } from '@angular/material';
+import { VendaAnimalComponent, VendaInsumoComponent, VendaRacaoComponent } from '..';
+import { Paginacao } from 'src/app/paginacao';
 
 @Component({
   templateUrl: './venda.component.html',
   styleUrls: ['./venda.component.css'],
-  providers:  [VendaService]
+  providers: [VendaService]
 })
 
 export class VendaComponent implements OnInit {
 
   constructor(private vendaService: VendaService, public dialog: MatDialog,
-              private notifications: NotificationsService, private spinner: NgxSpinnerService) { }
+    private notifications: NotificationsService, private spinner: NgxSpinnerService) {
 
+    this.colunasVenda = ['data', 'ano', 'tipo', 'descricao', 'resumo'];
+    this.dataSourceVenda = new MatTableDataSource<Venda>([]);
+    this.dataSourceVenda.paginator = this.paginator;
+    this.totalVendido = 0;
+    this.totalLucro = 0;
+    this.paginacao = new Paginacao(1, 50);
+    this.paginaOptions = [50, 100];
+  }
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  colunasVenda: string[] = ['data', 'ano', 'descricao', 'resumo'];
-  dataSourceVenda: MatTableDataSource<Venda>;
 
-  totalVendido: number = 0;
-  totalLucro: number = 0;
+  colunasVenda: string[];
+  dataSourceVenda: MatTableDataSource<Venda>;
+  totalVendido: number;
+  totalLucro: number;
+  paginacao: Paginacao;
+  paginaOptions: number[];
+  paginaEvent: PageEvent;
 
   ngOnInit() {
-    this.dataSourceVenda = new MatTableDataSource<Venda>([]);
     this.obterVendas(2020);
   }
 
-  obterVendas(ano: number) {
-    this.vendaService.obterVendas(ano).subscribe(data => {
+  async obterVendas(ano: number) {
+
+    try {
+      let data = await this.vendaService.obterVendas(ano, this.paginacao);
       this.totalVendido = 0;
       this.totalLucro = 0;
-      this.dataSourceVenda = new MatTableDataSource<Venda>(data);
-      this.dataSourceVenda.paginator = this.paginator;
-      this.dataSourceVenda.data = plainToClass(Venda, this.dataSourceVenda.data.sort(Venda.ordenarPorDataDecrecente));
-      this.dataSourceVenda.data.forEach(x => {
-          this.totalVendido += x.valorTotal;
-          this.totalLucro += x.valorTotal - x.valorCustoTotal;
-      });
+      this.dataSourceVenda = new MatTableDataSource<Venda>(data.resultado.sort(Venda.ordenarPorDataDecrecente));
+      this.paginacao.total = data.total;
+      this.somarTotais(this.dataSourceVenda.data);
+    } catch (error) {
+      console.error(error);
+      this.mostrarMensagem("Ocorreu um problema", "Venda", NotificationType.Error);
+    }
+  }
+
+  mudarPagina(e: any) {
+    this.paginacao.pagina = e.pageIndex == 0 ? 1 : e.pageIndex;
+    this.paginacao.limite = e.pageSize;
+    this.obterVendas(2020);
+  }
+
+  somarTotais(lista: any[]) {
+    lista.forEach(x => {
+      this.totalVendido += x.valorTotal;
+      this.totalLucro += x.valorTotal - x.valorCustoTotal;
     });
   }
 

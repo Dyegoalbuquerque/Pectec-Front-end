@@ -25,21 +25,21 @@ export class EstoqueHistoricoComponent implements OnInit {
   }
 
   obterInsumos() {
-    this.estoqueService.obterPorCategoria("I").subscribe(data => {
+    this.estoqueService.obterPorCategoria(1).subscribe(data => {
      let historico = this.estoqueComportamento.construirHistorico("Insumo", plainToClass(Estoque, data));
      this.estoques = this.estoques.concat(historico);
     });
   }
 
   obterRacoes() {
-    this.estoqueService.obterPorCategoria("R").subscribe(data => {
+    this.estoqueService.obterPorCategoria(2).subscribe(data => {
       let historico = this.estoqueComportamento.construirHistorico("Ração", plainToClass(Estoque, data));
       this.estoques = this.estoques.concat(historico);
     });
   }
 
   obterMedicamentos() {
-    this.estoqueService.obterPorCategoria("M").subscribe(data => {
+    this.estoqueService.obterPorCategoria(3).subscribe(data => {
       let historico = this.estoqueComportamento.construirHistorico("Medicamento", plainToClass(Estoque, data));
       this.estoques = this.estoques.concat(historico);
     });

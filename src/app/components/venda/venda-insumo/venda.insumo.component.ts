@@ -38,7 +38,8 @@ export class VendaInsumoComponent implements OnInit {
     });
   }
 
-  salvar(): void {
+  async salvar() {
+
     if (this.validar(this.venda)) {
 
       let item = new VendaItem();
@@ -50,14 +51,9 @@ export class VendaInsumoComponent implements OnInit {
       this.venda.itens = [item];
       this.venda.ano = new Date(this.venda.data).getUTCFullYear();
 
-      this.vendaService.salvarVendaInsumo(this.venda).subscribe(data => {
-        this.venda = data;
-        this.mostrarMensagem("Salvo com sucesso", "Venda", NotificationType.Success);
-        this.fechar();
-      },
-        err => {
-          this.mostrarMensagem("Ocorreu um problema", "Venda", NotificationType.Error);
-        });
+      this.venda = await this.vendaService.salvarVendaInsumo(this.venda);
+      this.mostrarMensagem("Salvo com sucesso", "Venda", NotificationType.Success);
+      this.fechar();
     } else {
       this.mostrarMensagem("Preencha os campos obrigatórios", "Venda", NotificationType.Warn);
     }

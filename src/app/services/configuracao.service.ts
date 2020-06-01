@@ -8,22 +8,18 @@ import { UnidadeMedida, Categoria, Subcategoria } from '../models';
 })
 export class ConfiguracaoService {
 
-  ApiUrl='http://localhost:5003/api/configuracao';    
+  ApiUrl='http://localhost:5003/api/configuracoes';    
   constructor(private httpclient: HttpClient) { }    
     
   obterCategorias():Observable<Categoria[]>{    
-    return this.httpclient.get<Categoria[]>(this.ApiUrl + '/obter'); 
+    return this.httpclient.get<Categoria[]>(`${this.ApiUrl}/categorias`); 
   }
 
   obterUnidadeMedidas(): Observable<UnidadeMedida[]> {
-    return this.httpclient.get<UnidadeMedida[]>(`${this.ApiUrl}/unidadeMedida`);
+    return this.httpclient.get<UnidadeMedida[]>(`${this.ApiUrl}/unidadeMedidas`);
   }
 
   obterSubcategorias(codigoCategoria?: string): Observable<Subcategoria[]> {
-    return this.httpclient.get<Subcategoria[]>(`${this.ApiUrl}/${codigoCategoria}/subcategorias`);
-  }
-
-  obterTodasSubcategorias(): Observable<Subcategoria[]> {
-    return this.httpclient.get<Subcategoria[]>(`${this.ApiUrl}/subcategorias`);
+    return this.httpclient.get<Subcategoria[]>(`${this.ApiUrl}/subcategorias?codigoCategoria=${codigoCategoria}`);
   }
 }

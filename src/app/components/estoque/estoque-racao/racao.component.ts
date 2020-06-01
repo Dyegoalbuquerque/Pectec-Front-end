@@ -42,6 +42,7 @@ export class RacaoComponent implements OnInit {
   ngOnInit() {
     this.racao = this.data;
     this.racao.comprado = false;
+    this.racao.sobra = false;
     this.obterInsumos();
     this.obterSubcategorias("R");
     this.obterUnidadeMedidas();
@@ -54,6 +55,10 @@ export class RacaoComponent implements OnInit {
 
   mudarCompraRacaoPronta(comprouRacaoPronta) {
     this.racao.comprado = !comprouRacaoPronta;
+  }
+
+  mudarRacaoSobra(sobra) {
+    this.racao.sobra = !sobra;
   }
 
   obterInsumos() {

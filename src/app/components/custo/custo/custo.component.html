@@ -35,7 +35,8 @@
     <p>
       Um lançamento registra um gasto de saída com data de vencimento ou uma entrada de valor.
 
-      <button mat-raised-button color="success" class="right" (click)="abrirLancamentoDialog()">Criar lançamento</button>
+      <button mat-raised-button color="success" class="right" (click)="abrirLancamentoDialog()">Criar
+        lançamento</button>
     </p>
 
     <br />
@@ -145,7 +146,10 @@
         <tr mat-row *matRowDef="let row; columns: colunasLancamentos;"></tr>
       </table>
 
-      <mat-paginator [pageSizeOptions]="[1000]" showFirstLastButtons></mat-paginator>
+      <mat-paginator (page)="paginaEvent = mudarPagina($event)" [pageSizeOptions]="paginaOptions"
+        [pageIndex]="paginacao.pagina" [length]="paginacao.total" [pageSize]="paginacao.limite"
+        [showFirstLastButtons]="true">
+      </mat-paginator>
     </div>
   </mat-tab>
   <!-- tab visão geral -->

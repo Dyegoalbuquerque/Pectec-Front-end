@@ -7,7 +7,13 @@
 <br />
 
 <igx-switch [checked]="racao.comprado" (change)="mudarCompraRacaoPronta(racao.comprado)" [(ngModel)]="racao.comprado">
-  Ração pronta
+  Ração comprada
+</igx-switch>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<igx-switch [checked]="racao.sobra" (change)="mudarRacaoSobra(racao.sobra)" [(ngModel)]="racao.sobra">
+  Ração sobra
 </igx-switch>
 
 <br />
@@ -57,17 +63,17 @@
   <mat-icon matSuffix>filter_9</mat-icon>
 </mat-form-field>
 
-<span *ngIf="racao.comprado">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span *ngIf="racao.comprado || racao.sobra">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
-<mat-form-field *ngIf="racao.comprado">
+<mat-form-field *ngIf="racao.comprado || racao.sobra">
   <mat-label class="required">Quantidade</mat-label>
   <input matInput type="number" class="example-right-align" [(ngModel)]="racao.quantidade">
   <mat-icon matSuffix>filter_9</mat-icon>
 </mat-form-field>
 
-<span *ngIf="racao.comprado">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span *ngIf="racao.comprado || racao.sobra">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
-<mat-form-field *ngIf="racao.comprado">
+<mat-form-field *ngIf="racao.comprado || racao.sobra">
   <mat-label class="required">Valor da embalagem</mat-label>
   <input matInput type="number" class="example-right-align" [(ngModel)]="racao.valorEmbalagem">
   <mat-icon matSuffix>money</mat-icon>
@@ -75,9 +81,9 @@
 
 <br />
 
-<label class="required" *ngIf="!racao.comprado">Insumos</label>
+<label class="required" *ngIf="!racao.comprado && !racao.sobra">Insumos</label>
 
-<ul class="list-group lista-insumos" *ngIf="!racao.comprado">
+<ul class="list-group lista-insumos" *ngIf="!racao.comprado && !racao.sobra">
   <li class="list-group-item" *ngFor="let insumo of insumos">
 
     {{insumo.id}} <span>&nbsp;</span>

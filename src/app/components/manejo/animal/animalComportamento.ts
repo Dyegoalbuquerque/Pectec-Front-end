@@ -131,7 +131,7 @@ export class AnimalComportamento {
 
         let situacao = this.situacoes.filter(x => x.sigla == sigla)[0];
 
-        return situacao.nome;
+        return situacao ? situacao.nome : '';
     }
 
     quantidadeFilhotesVivos(femea: Animal) {

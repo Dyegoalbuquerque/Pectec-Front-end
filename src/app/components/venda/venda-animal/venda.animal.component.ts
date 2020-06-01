@@ -21,10 +21,10 @@ export class VendaAnimalComponent implements OnInit {
   lotes: any[];
   limiteDeQuantidade: string = '';
 
-  ngOnInit() {
+  async ngOnInit() {
     this.venda = this.data;
     this.vendaItem = new VendaItem('A');
-    this.obterLotes("L");
+    await this.obterLotes("L");
   }
 
   async obterLotes(tipo: string) {
@@ -36,20 +36,21 @@ export class VendaAnimalComponent implements OnInit {
     }
   }
 
-  salvar(): void {
-    this.venda.itens = [this.vendaItem];  
+  async salvar() {
 
-    if (this.venda.eValido()) {
-      this.vendaService.salvarVendaAnimal(this.venda).subscribe(data => {
-        this.venda = data;
+    try {
+      this.venda.itens = [this.vendaItem];
+
+      if (this.venda.eValido()) {
+        this.venda = await this.vendaService.salvarVendaAnimal(this.venda);
         this.mostrarMensagem("Salvo com sucesso", "Venda", NotificationType.Success);
         this.fechar();
-      },
-        err => {
-          this.mostrarMensagem("Ocorreu um problema", "Venda", NotificationType.Error);
-        });
-    } else {
-      this.mostrarMensagem("Preencha os campos obrigatórios", "Venda", NotificationType.Warn);
+      } else {
+        this.mostrarMensagem("Preencha os campos obrigatórios", "Venda", NotificationType.Warn);
+      }
+    } catch (error) {
+      console.error(error);
+      this.mostrarMensagem("Ocorreu um problema", "Venda", NotificationType.Error);
     }
   }
 

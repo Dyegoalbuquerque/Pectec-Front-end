@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Subcategoria, Estoque, Consumo } from '../models';
+import { Estoque, Consumo } from '../models';
+import { Paginacao } from '../paginacao';
+import { plainToClass } from 'class-transformer';
 
 @Injectable({
   providedIn: 'root'
@@ -9,39 +11,19 @@ import { Subcategoria, Estoque, Consumo } from '../models';
 
 export class EstoqueService {
 
-  ApiUrl = 'http://localhost:5001/api/estoque';
+  ApiUrl = 'http://localhost:5001/api/estoques';
   constructor(private httpclient: HttpClient) { }
 
   obterEstoqueRealPorCodigoCategoria(codigo: string): Observable<Estoque[]> {
-    return this.httpclient.get<Estoque[]>(`${this.ApiUrl}/categoria/${codigo}/real`);
+    return this.httpclient.get<Estoque[]>(`${this.ApiUrl}/real?codigoCategoria=${codigo}`);
   }
 
   obterOrigens(categoriaId: number): Observable<Estoque[]> {
-    return this.httpclient.get<Estoque[]>(`${this.ApiUrl}/origens/${categoriaId}`);
+    return this.httpclient.get<Estoque[]>(`${this.ApiUrl}/origens?categoriaId=${categoriaId}`);
   }
 
-  obterPorCategoria(codigoCategoria: string): Observable<Estoque[]> {
-    return this.httpclient.get<Estoque[]>(`${this.ApiUrl}/${codigoCategoria}/todos`);
-  }
-
-  obterTipoInsumos(): Observable<Subcategoria[]> {
-    return this.httpclient.get<Subcategoria[]>(`${this.ApiUrl}/insumo/tipos`);
-  }
-
-  obterTipoRacoes(): Observable<Subcategoria[]> {
-    return this.httpclient.get<Subcategoria[]>(`${this.ApiUrl}/racao/tipos`);
-  }
-
-  obterOrigensConsumo(): Observable<any> {
-    return this.httpclient.get<any>(`${this.ApiUrl}/consumo/origens`);
-  }
-
-  obterInsumo(id: number): Observable<Estoque> {
-    return this.httpclient.get<Estoque>(`${this.ApiUrl}/insumo/${id}`);
-  }
-
-  obterRacao(id: number): Observable<Estoque> {
-    return this.httpclient.get<Estoque>(`${this.ApiUrl}/racao/${id}`);
+  obterPorCategoria(categoriaId: number): Observable<Estoque[]> {
+    return this.httpclient.get<Estoque[]>(`${this.ApiUrl}?categoriaId=${categoriaId}`);
   }
 
   salvarEstoque(item: Estoque): Observable<Estoque> {
@@ -51,7 +33,7 @@ export class EstoqueService {
   salvarRacao(item: Estoque): Observable<Estoque> {
 
     let consumos = [];
-    
+
     for (let i = 0; i < item.consumos.length; i++) {
       let consumo = item.consumos[i];
 
@@ -69,12 +51,10 @@ export class EstoqueService {
     return this.httpclient.delete<Estoque>(`${this.ApiUrl}/racao/${id}`);
   }
 
-  obterConsumos(): Observable<Consumo[]> {
-    return this.httpclient.get<Consumo[]>(`${this.ApiUrl}/consumo`);
-  }
-
-  obterConsumo(id: number): Observable<Consumo> {
-    return this.httpclient.get<Consumo>(`${this.ApiUrl}/consumo/${id}`);
+  async obterConsumos(paginacao: Paginacao): Promise<Paginacao> {
+    let resultado = await this.httpclient.get<Paginacao>(`${this.ApiUrl}/consumo?pagina=${paginacao.pagina}&limite=${paginacao.limite}&ordenar=desc`).toPromise();
+    resultado.resultado = plainToClass(Consumo, resultado.resultado);
+    return plainToClass(Paginacao, resultado)
   }
 
   salvarConsumo(item: Consumo): Observable<Consumo> {
@@ -83,9 +63,5 @@ export class EstoqueService {
 
   atualizarConsumo(item: Consumo): Observable<Consumo> {
     return this.httpclient.put<Consumo>(`${this.ApiUrl}/consumo`, item);
-  }
-
-  removerConsumo(id: number): Observable<Consumo> {
-    return this.httpclient.delete<Consumo>(`${this.ApiUrl}/consumo/${id}`);
   }
 }

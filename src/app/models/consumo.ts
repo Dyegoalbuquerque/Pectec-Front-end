@@ -7,12 +7,14 @@ export class Consumo {
   id: number;
   data: string;
   quantidade: number;
+  descricao: string;
+  unidadeMedida: string;
   categoria: Categoria;
   categoriaId: number;
   origemId: number;
   origem: Estoque;
   valor: number;
-  tipo: string;
+  valorUnitario: number;
 
   constructor(origem?: Estoque) {
     this.origem = origem;
@@ -20,8 +22,7 @@ export class Consumo {
 
   eValido(): boolean {
     return ValidadorTipo.numberValido(this.quantidade) && 
-           ValidadorTipo.stringValido(this.data) && 
-           ValidadorTipo.stringValido(this.tipo) && 
+           ValidadorTipo.dateValido(this.data) && 
            ValidadorTipo.numberValido(this.origemId) && 
            ValidadorTipo.numberValido(this.categoriaId);
   }
@@ -32,7 +33,7 @@ export class Consumo {
     let custo = 0;
 
     if(this.origem){
-      custo = this.origem.valorUnitario * this.quantidade;
+      custo = this.valorUnitario * this.quantidade;
       custoDetalhado =  `custo R$ ${parseFloat(custo.toFixed(2))}`;
     }
 

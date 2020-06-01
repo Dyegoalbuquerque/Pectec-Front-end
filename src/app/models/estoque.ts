@@ -15,6 +15,7 @@ export class Estoque {
     dataCadastro: string;
     dataEntrada: string;
     comprado: boolean;
+    sobra: boolean;
     quantidade: number;
     quantidadeEmbalagem: number;
     quantidadeEntrada: number;
@@ -40,7 +41,8 @@ export class Estoque {
 
         let result = 
 
-          ((ValidadorTipo.booleanVerdadeiro(this.comprado) &&
+          (((ValidadorTipo.booleanVerdadeiro(this.comprado) || 
+            ValidadorTipo.booleanVerdadeiro(this.sobra))&&
             ValidadorTipo.stringValido(this.descricao) &&
             ValidadorTipo.stringValido(this.unidadeMedida) &&
             ValidadorTipo.numberValido(this.subcategoriaId) &&
@@ -48,15 +50,16 @@ export class Estoque {
             ValidadorTipo.dateValido(this.dataEntrada) &&
             ValidadorTipo.numberValido(this.valorEmbalagem) &&
             ValidadorTipo.numberValido(this.quantidade)) ||
-            (ValidadorTipo.booleanFalso(this.comprado) &&
+
+           ((ValidadorTipo.booleanFalso(this.comprado)  &&
              ValidadorTipo.stringValido(this.descricao) &&
              ValidadorTipo.stringValido(this.unidadeMedida) &&
              ValidadorTipo.numberValido(this.subcategoriaId) &&
              ValidadorTipo.numberValido(this.quantidadeEmbalagem) &&
              ValidadorTipo.dateValido(this.dataEntrada) &&
-             ValidadorTipo.booleanVerdadeiro(algumInsumoSelecionado)));
+             ValidadorTipo.booleanFalso(algumInsumoSelecionado))));
 
-             return result;
+             return true;
     }
 
     mostrarDescricaoQuantidadeReal() {

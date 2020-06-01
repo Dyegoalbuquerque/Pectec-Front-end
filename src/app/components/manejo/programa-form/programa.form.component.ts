@@ -39,7 +39,7 @@ export class ProgramaFormComponent implements OnInit {
   }
 
   obterObjetivos() {
-    this.categoriaService.obterTodasSubcategorias().subscribe(data => {
+    this.categoriaService.obterSubcategorias().subscribe(data => {
       this.objetivos = data;
     });
   }

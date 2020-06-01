@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Situacao, ProgramaItem, Programa, Ciclo, CicloFilho, 
          AcompanhamentoMaterno, Animal, CausaObito } from '../models';
+import { plainToClass } from "class-transformer";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ManejoService {
 
-  ApiUrl = 'http://localhost:5000/api/manejo';
+  ApiUrl = 'http://localhost:5000/api/manejos';
   constructor(private httpclient: HttpClient) { }
 
   obterAnimalPorId(id: number): Observable<Animal> {
@@ -21,7 +22,8 @@ export class ManejoService {
   }
 
   async obterLotesVenda(tipo: string): Promise<Animal[]> {
-    return await this.httpclient.get<Animal[]>(`${this.ApiUrl}/lote/${tipo}`).toPromise();
+    let data = await this.httpclient.get<Animal[]>(`${this.ApiUrl}/lote?tipo=${tipo}`).toPromise();
+    return plainToClass(Animal, data);
   }
 
   obterReprodutores(): Observable<Animal[]> {
@@ -29,31 +31,31 @@ export class ManejoService {
   }
 
   obterPrevisoes(ano: number): Observable<Animal[]> {
-    return this.httpclient.get<Animal[]>(`${this.ApiUrl}/animal/previsoesPartos/${ano}`);
+    return this.httpclient.get<Animal[]>(`${this.ApiUrl}/acompanhamentos?ano=${ano}`);
   }
 
   obterCausaObitos(): Observable<CausaObito[]> {
-    return this.httpclient.get<CausaObito[]>(`${this.ApiUrl}/causaObitos`);
+    return this.httpclient.get<CausaObito[]>(`${this.ApiUrl}/causa-obitos`);
   }
 
   obterSituacoes(setor: string): Observable<Situacao[]> {
-    return this.httpclient.get<Situacao[]>(`${this.ApiUrl}/situacoes/${setor}`);
+    return this.httpclient.get<Situacao[]>(`${this.ApiUrl}/situacoes?setor=${setor}`);
   }
 
   obterPrograma(tipoProgramaId: number): Observable<Programa> {
-    return this.httpclient.get<Programa>(`${this.ApiUrl}/programa/${tipoProgramaId}`);
+    return this.httpclient.get<Programa>(`${this.ApiUrl}/programa?tipoProgramaId=${tipoProgramaId}`);
   }
 
   obterProgramaItensPorSituacao(situacaoId: number): Observable<ProgramaItem[]> {
-    return this.httpclient.get<ProgramaItem[]>(`${this.ApiUrl}/programaItens/${situacaoId}`);
+    return this.httpclient.get<ProgramaItem[]>(`${this.ApiUrl}/programa-itens?situacaoId=${situacaoId}`);
   }
 
   obterFichaAnimal(numero: number): Observable<Animal> {
-    return this.httpclient.get<Animal>(`${this.ApiUrl}/animal/ficha/${numero}`);
+    return this.httpclient.get<Animal>(`${this.ApiUrl}/animal/${numero}/ficha`);
   }
 
   obterAcompanhamentosPorAnimal(id: number): Observable<AcompanhamentoMaterno[]> {
-    return this.httpclient.get<AcompanhamentoMaterno[]>(`${this.ApiUrl}/animal/acompanhamentos/${id}`);
+    return this.httpclient.get<AcompanhamentoMaterno[]>(`${this.ApiUrl}/animal/${id}/acompanhamentos`);
   }
   
   obterCiclosFilhosPorIds(ids: number[]): Observable<CicloFilho[]> {
@@ -89,7 +91,7 @@ export class ManejoService {
   }
 
   simularCiclo(item: CicloFilho): Observable<CicloFilho> {
-    return this.httpclient.post<CicloFilho>(`${this.ApiUrl}/simularCiclo`, item);
+    return this.httpclient.post<CicloFilho>(`${this.ApiUrl}/simular-ciclo`, item);
   }
 
   atualizarCiclo(item: CicloFilho): Observable<CicloFilho> {
@@ -101,22 +103,22 @@ export class ManejoService {
   }
 
   salvarProgramaItem(item: ProgramaItem): Observable<ProgramaItem> {
-    return this.httpclient.post<ProgramaItem>(`${this.ApiUrl}/programaItem`, item);
+    return this.httpclient.post<ProgramaItem>(`${this.ApiUrl}/programa-item`, item);
   }
 
   atualizarProgramaItem(item: ProgramaItem): Observable<ProgramaItem> {
-    return this.httpclient.put<ProgramaItem>(`${this.ApiUrl}/programaItem/`, item);
+    return this.httpclient.put<ProgramaItem>(`${this.ApiUrl}/programa-item/`, item);
   }
 
   obterSituacoesQuantidades(setor: string): Observable<Situacao[]> {
-    return this.httpclient.get<Situacao[]>(`${this.ApiUrl}/situacoesQuantidades/${setor}`);
+    return this.httpclient.get<Situacao[]>(`${this.ApiUrl}/situacoes-quantidades?setor=${setor}`);
   }
 
   atualizarSituacoes(especieId: number): Observable<any> {
-    return this.httpclient.get<any>(`${this.ApiUrl}/situacoes/atualizar/${especieId}`);
+    return this.httpclient.put<any>(`${this.ApiUrl}/situacoes/`,{especieId: especieId});
   }
 
   removerProgramaItem(id: number): Observable<ProgramaItem> {
-    return this.httpclient.delete<ProgramaItem>(`${this.ApiUrl}/programaItem/${id}`);
+    return this.httpclient.delete<ProgramaItem>(`${this.ApiUrl}/programa-item/${id}`);
   }
 }

@@ -1,38 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Lancamento, Categoria } from '../models';
+import { Lancamento } from '../models';
+import { Paginacao } from '../paginacao';
+import { plainToClass } from "class-transformer";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CustoService {
 
-  ApiUrl='http://localhost:5002/api/custo';    
-  constructor(private httpclient: HttpClient) { }    
-    
-  obterCategorias():Observable<Categoria[]>{    
-    return this.httpclient.get<Categoria[]>(`${this.ApiUrl}/categoria/obter`); 
+  ApiUrl = 'http://localhost:5002/api/custos';
+  constructor(private httpclient: HttpClient) { }
 
+  async obterLancamentoPorAno(ano: number, paginacao: Paginacao): Promise<Paginacao> {
+    let retorno = await this.httpclient.get<Paginacao>(`${this.ApiUrl}/lancamentos?ano=${ano}&pagina=${paginacao.pagina}&limite=${paginacao.limite}&ordenar=desc`).toPromise();
+    retorno.resultado = plainToClass(Lancamento, retorno.resultado);
+    return plainToClass(Paginacao, retorno)
   }
 
-  obterCronogramasPorAno(ano: number):Observable<Lancamento[]>{    
-    return this.httpclient.get<Lancamento[]>(`${this.ApiUrl}/${ano}`);    
-  } 
-
-  obterLancamentoPorAno(ano: number):Observable<Lancamento[]>{    
-    return this.httpclient.get<Lancamento[]>(`${this.ApiUrl}/lancamento/${ano}`);    
-  }   
-
-  salvarLancamento(item:Lancamento):Observable<Lancamento>{ 
-    return this.httpclient.post<Lancamento>(`${this.ApiUrl}/lancamento`, item);    
+  salvarLancamento(item: Lancamento): Observable<Lancamento> {
+    return this.httpclient.post<Lancamento>(`${this.ApiUrl}/lancamentos`, item);
   }
 
-  confirmarPagamentoLancamento(item:Lancamento):Observable<Lancamento>{ 
-    return this.httpclient.post<Lancamento>(`${this.ApiUrl}/lancamento/confirmarPagamento`, item);    
+  confirmarPagamentoLancamento(item: Lancamento): Observable<Lancamento> {
+    return this.httpclient.post<Lancamento>(`${this.ApiUrl}/lancamentos/confirmar-pagamento`, item);
   }
 
-  removerLancamento(id : number): Observable<Lancamento>{
-    return this.httpclient.delete<Lancamento>(`${this.ApiUrl}/lancamento/${id}`);
+  removerLancamento(id: number): Observable<Lancamento> {
+    return this.httpclient.delete<Lancamento>(`${this.ApiUrl}/lancamentos/${id}`);
   }
 }

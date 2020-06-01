@@ -3,7 +3,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Venda, Estoque } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { VendaService, EstoqueService } from 'src/app/services';
 import { plainToClass } from "class-transformer";
 import { VendaItem } from 'src/app/models/vendaItem';
@@ -37,28 +36,29 @@ export class VendaRacaoComponent implements OnInit {
     });
   }
 
-  salvar(): void {
-    if (this.validar(this.venda)) {
+  async salvar() {
+    try {
 
-      let item = new VendaItem();
-      item.origemId = this.racaoSelecionada;
-      item.quantidade = this.quantidade;
-      item.tipo = 'R';
-      item.valor = this.valor;
+      if (this.validar(this.venda)) {
 
-      this.venda.itens = [item];
-      this.venda.ano = new Date(this.venda.data).getUTCFullYear();
+        let item = new VendaItem();
+        item.origemId = this.racaoSelecionada;
+        item.quantidade = this.quantidade;
+        item.tipo = 'R';
+        item.valor = this.valor;
 
-      this.vendaService.salvarVendaRacao(this.venda).subscribe(data => {
-        this.venda = data;
+        this.venda.itens = [item];
+        this.venda.ano = new Date(this.venda.data).getUTCFullYear();
+
+        this.venda = await this.vendaService.salvarVendaRacao(this.venda);
         this.mostrarMensagem("Salvo com sucesso", "Venda", NotificationType.Success);
         this.fechar();
-      },
-        err => {
-          this.mostrarMensagem("Ocorreu um problema", "Venda", NotificationType.Error);
-        });
-    } else {
-      this.mostrarMensagem("Preencha os campos obrigatórios", "Venda", NotificationType.Warn);
+      } else {
+        this.mostrarMensagem("Preencha os campos obrigatórios", "Venda", NotificationType.Warn);
+      }
+    } catch (error) {
+      console.error(error);
+      this.mostrarMensagem("Ocorreu um problema", "Venda", NotificationType.Error);
     }
   }
 

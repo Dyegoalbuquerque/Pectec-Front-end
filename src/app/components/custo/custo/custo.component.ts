@@ -1,6 +1,6 @@
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,7 +10,7 @@ import { LancamentoComponent, ReciboComponent, CustoComportamento } from '..';
 import { IgxTreeGridComponent } from "igniteui-angular";
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
-import { plainToClass } from "class-transformer";
+import { Paginacao } from 'src/app/paginacao';
 
 
 @Component({
@@ -20,29 +20,76 @@ import { plainToClass } from "class-transformer";
 export class CustoComponent implements OnInit {
 
   constructor(private custoService: CustoService, public dialog: MatDialog,
-              private _snackBar: MatSnackBar, private iconRegistry: MatIconRegistry, 
-              private sanitizer: DomSanitizer, private custoComportamento: CustoComportamento) {
+    private _snackBar: MatSnackBar, private iconRegistry: MatIconRegistry,
+    private sanitizer: DomSanitizer, private custoComportamento: CustoComportamento) {
     this.definirIcones();
+    this.totalSaida = 0;
+    this.totalEntrada = 0;
+    this.totalSaldo = 0;
+    this.anos = [];
+    this.ano = 2019;
+    this.dataSourceLancamento = new MatTableDataSource<Lancamento>([]);
+    this.dataSourceLancamento.paginator = this.paginator;
+    this.colunasLancamentos = ['n', 'mes', 'vencimento', 'categoria', 'descricao', 'status', 'valor', 'tipo', 'remover', 'recibo'];
+    this.paginacao = new Paginacao(1, 50);
+    this.paginaOptions = [50, 100];
   }
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild("gridCronograma", { read: IgxTreeGridComponent, static: true }) gridCronograma: IgxTreeGridComponent;
 
   cronogramas: Lancamento[];
-  totalSaida = 0;
-  totalEntrada = 0;
-  totalSaldo = 0;
-  anos = [];
-  ano = 2019;
-
-  colunasLancamentos: string[] = ['n', 'mes', 'vencimento', 'categoria', 'descricao', 'status', 'valor', 'tipo', 'remover', 'recibo'];
+  totalSaida: number;
+  totalEntrada: number;
+  totalSaldo: number;
+  anos: any;
+  ano: number;
+  colunasLancamentos: string[];
   dataSourceLancamento: MatTableDataSource<Lancamento>;
+  paginacao: Paginacao;
+  paginaOptions: number[];
+  paginaEvent: PageEvent;
 
   ngOnInit() {
-    this.dataSourceLancamento = new MatTableDataSource<Lancamento>([]);
     this.obterLancamentos();
     this.obterCronogramas();
     this.montarAnos();
+  }
+
+  async obterLancamentos() {
+    try {
+      let data = await this.custoService.obterLancamentoPorAno(this.ano, this.paginacao);
+
+      this.totalSaida = 0;
+      this.totalEntrada = 0;
+      this.totalSaldo = 0;
+      this.dataSourceLancamento = new MatTableDataSource<Lancamento>(data.resultado.sort(Lancamento.ordenarPorVencimentoDecrecente));
+      this.paginacao.total = data.total;
+      this.totalSaida = this.custoComportamento.calcularTotalSaida(this.dataSourceLancamento.data);
+      this.totalEntrada = this.custoComportamento.calcularTotalEntrada(this.dataSourceLancamento.data);
+      this.totalSaldo = this.custoComportamento.calcularTotalSaldo(this.dataSourceLancamento.data);
+    }
+    catch (e) {
+      console.error(e);
+      this.mostrarMensagem("Ocorreu um problema", "Lançamento");
+    }
+  }
+
+  async obterCronogramas() {
+    try {
+      let data = await this.custoService.obterLancamentoPorAno(this.ano, this.paginacao);
+      this.cronogramas = this.custoComportamento.construirCronograma(data.resultado);
+    }
+    catch (e) {
+      console.error(e);
+      this.mostrarMensagem("Ocorreu um problema", "Lançamento");
+    }
+  }
+
+  mudarPagina(e: any) {
+    this.paginacao.pagina = e.pageIndex == 0 ? 1 : e.pageIndex;
+    this.paginacao.limite = e.pageSize;
+    this.obterLancamentos();
   }
 
   mudarAno(ano) { }
@@ -59,34 +106,14 @@ export class CustoComponent implements OnInit {
   }
 
   definirIcones() {
-    let lista = 
-   [{ nome: 'done-24px', caminho: 'assets/img/done-24px.svg', },
-    { nome: 'trending_down-24px', caminho: 'assets/img/trending_down-24px.svg' },
-    { nome: 'trending_up-24px', caminho: 'assets/img/trending_up-24px.svg' }];
+    let lista =
+      [{ nome: 'done-24px', caminho: 'assets/img/done-24px.svg', },
+      { nome: 'trending_down-24px', caminho: 'assets/img/trending_down-24px.svg' },
+      { nome: 'trending_up-24px', caminho: 'assets/img/trending_up-24px.svg' }];
 
     for (let i = 0; i < lista.length; i++) {
       this.iconRegistry.addSvgIcon(lista[i].nome, this.sanitizer.bypassSecurityTrustResourceUrl(lista[i].caminho));
     }
-  }
-
-  obterLancamentos() {
-    this.custoService.obterLancamentoPorAno(this.ano).subscribe(data => {
-      this.totalSaida = 0;
-      this.totalEntrada = 0;
-      this.totalSaldo = 0;
-      this.dataSourceLancamento = new MatTableDataSource<Lancamento>(data);
-      this.dataSourceLancamento.paginator = this.paginator;
-      this.dataSourceLancamento.data = plainToClass(Lancamento, this.dataSourceLancamento.data.sort(Lancamento.ordenarPorVencimentoDecrecente));
-      this.totalSaida = this.custoComportamento.calcularTotalSaida(this.dataSourceLancamento.data);
-      this.totalEntrada = this.custoComportamento.calcularTotalEntrada(this.dataSourceLancamento.data);
-      this.totalSaldo = this.custoComportamento.calcularTotalSaldo(this.dataSourceLancamento.data);
-    });
-  }
-
-  obterCronogramas() {
-    this.custoService.obterCronogramasPorAno(this.ano).subscribe(data => {
-      this.cronogramas = this.custoComportamento.construirCronograma(data);
-    });
   }
 
   removerLancamento(id: number) {

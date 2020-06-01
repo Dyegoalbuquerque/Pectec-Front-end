@@ -1,34 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { plainToClass } from "class-transformer";
 import { Venda } from '../models';
+import { Paginacao } from '../paginacao';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VendaService {
 
-  ApiUrl = 'http://localhost:5004/api/venda';
+  ApiUrl = 'http://localhost:5004/api/vendas';
   constructor(private httpclient: HttpClient) { }
 
-
-  obterVendas(ano: number): Observable<Venda[]> {
-    return this.httpclient.get<Venda[]>(`${this.ApiUrl}/${ano}`);
+  async obterVendas(ano: number, paginacao: Paginacao): Promise<Paginacao> {
+    let retorno = await this.httpclient.get<Paginacao>(`${this.ApiUrl}?ano=${ano}&pagina=${paginacao.pagina}&limite=${paginacao.limite}&ordenar=desc`).toPromise();
+    retorno.resultado = plainToClass(Venda, retorno.resultado);
+    return plainToClass(Paginacao, retorno)
   }
 
-  salvarVendaRacao(item: Venda): Observable<Venda> {
-    return this.httpclient.post<Venda>(`${this.ApiUrl}/racao`, item);
+  async salvarVendaRacao(item: Venda): Promise<Venda> {
+    return await this.httpclient.post<Venda>(`${this.ApiUrl}/racao`, item).toPromise();
   }
 
-  atualizarVendaRacao(item: Venda): Observable<Venda> {
-    return this.httpclient.put<Venda>(`${this.ApiUrl}/racao`, item);
+  async atualizarVendaRacao(item: Venda): Promise<Venda> {
+    return await this.httpclient.put<Venda>(`${this.ApiUrl}/racao`, item).toPromise();
   }
 
-  salvarVendaInsumo(item: Venda): Observable<Venda> {
-    return this.httpclient.post<Venda>(`${this.ApiUrl}/insumo`, item);
+  async salvarVendaInsumo(item: Venda): Promise<Venda> {
+    return await this.httpclient.post<Venda>(`${this.ApiUrl}/insumo`, item).toPromise();
   }
 
-  salvarVendaAnimal(item: Venda): Observable<Venda> {
-    return this.httpclient.post<Venda>(`${this.ApiUrl}/animal`, item);
+  async salvarVendaAnimal(item: Venda): Promise<Venda> {
+    return await this.httpclient.post<Venda>(`${this.ApiUrl}/animal`, item).toPromise();
   }
 }
