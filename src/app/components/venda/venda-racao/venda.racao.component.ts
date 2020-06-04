@@ -4,7 +4,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Venda, Estoque } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { VendaService, EstoqueService } from 'src/app/services';
-import { plainToClass } from "class-transformer";
 import { VendaItem } from 'src/app/models/vendaItem';
 
 
@@ -30,10 +29,12 @@ export class VendaRacaoComponent implements OnInit {
     this.obterEstoque(this.venda);
   }
 
-  obterEstoque(venda: Venda) {
-    this.estoqueService.obterEstoqueRealPorCodigoCategoria("R").subscribe(data => {
-      this.estoques = plainToClass(Estoque, data.sort(Estoque.ordenarPorDescricao));
-    });
+  async obterEstoque(venda: Venda) {
+    try {
+      this.estoques = await this.estoqueService.obterEstoqueRealPorCodigoCategoria("R");
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   async salvar() {

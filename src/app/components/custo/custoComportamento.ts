@@ -32,8 +32,6 @@ export class CustoComportamento {
             }
         }
 
-        itens = itens.sort(Lancamento.ordenarPorVencimentoCrescente);
-
         return itens;
     }
 

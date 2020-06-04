@@ -44,6 +44,11 @@ export class Venda {
             custoDetalhado += ` - total R$ ${parseFloat(this.valorTotal.toFixed(2))}`;
         }
 
+        if (this.valorCustoTotal && this.valorTotal) {
+            let lucro = this.valorTotal - this.valorCustoTotal;
+            custoDetalhado += ` - lucro R$ ${parseFloat(lucro.toFixed(2))}`;
+        }
+
         return custoDetalhado;
     }
 

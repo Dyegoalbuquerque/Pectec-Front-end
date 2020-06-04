@@ -54,33 +54,39 @@ export class LancamentoComponent implements OnInit {
     this.obterCategorias();
   }
 
-  obterCategorias() {
-    this.categoriaService.obterCategorias().subscribe(data => {
-      this.categorias = plainToClass(Categoria, data);
-    });
+  async obterCategorias() {
+    try {
+      this.categorias = await this.categoriaService.obterCategorias();
+    } catch (e) {
+      console.error(e);
+      this.mostrarMensagem("Ocorreu um problema", "Lançamento");
+    }
   }
 
-  obterSubcategorias(codigo: string) {
-    this.categoriaService.obterSubcategorias(codigo).subscribe(data => {
-      this.subcategorias = plainToClass(Subcategoria, data);
-    });
+  async obterSubcategorias(codigo: string) {
+    try {
+      this.subcategorias = await this.categoriaService.obterSubcategorias(codigo);
+    } catch (e) {
+      console.error(e);
+      this.mostrarMensagem("Ocorreu um problema", "Lançamento");
+    }
   }
 
-  mudarCategoriaDoLancamento(codigo: string) {
-    this.obterSubcategorias(codigo);
+  async mudarCategoriaDoLancamento(codigo: string) {
+    await this.obterSubcategorias(codigo);
   }
 
-  salvar(): void {
+  async salvar() {
     if (this.lancamento.eValido()) {
 
-      this.custoService.salvarLancamento(this.lancamento).subscribe(data => {
-        this.lancamento = plainToClass(Lancamento, data);
+      try {
+        await this.custoService.salvarLancamento(this.lancamento);
         this.mostrarMensagem("Salvo com sucesso", "Lançamento");
         this.fechar();
-      },
-        err => {
-          this.mostrarMensagem("Ocorreu um problema", "Lançamento");
-        });
+      } catch (e) {
+        console.error(e);
+        this.mostrarMensagem("Ocorreu um problema", "Lançamento");
+      }
     } else {
       this.mostrarMensagem("Preencha os campos obrigatórios", "Lançamento");
     }

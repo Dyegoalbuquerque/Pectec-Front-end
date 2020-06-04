@@ -13,8 +13,8 @@ import { EstoqueComportamento } from '../estoqueComportamento';
 })
 export class EstoqueComponent implements OnInit {
 
-  constructor(private estoqueService: EstoqueService, public dialog: MatDialog, 
-              private estoqueComportamento: EstoqueComportamento) {
+  constructor(private estoqueService: EstoqueService, public dialog: MatDialog,
+    private estoqueComportamento: EstoqueComportamento) {
   }
 
   @ViewChild("gridHistorico", { read: IgxTreeGridComponent, static: true }) gridHistorico: IgxTreeGridComponent;
@@ -50,37 +50,41 @@ export class EstoqueComponent implements OnInit {
     this.carregarChartMedicamento();
   }
 
-  carregarChartInsumos() {
+  async carregarChartInsumos() {
+    try {
 
-    this.estoqueService.obterEstoqueRealPorCodigoCategoria("I").subscribe(data => {
-
+      let data = await this.estoqueService.obterEstoqueRealPorCodigoCategoria("I");
       this.chartLabelsInsumo = data.map(i => i.subcategoria.descricao);
       this.chartLabelsInsumo = [...(new Set(this.chartLabelsInsumo))];
 
       this.estoqueComportamento.construirChart(data, this.chartLabelsInsumo, this.chartDatasetsInsumo);
-    });
+    } catch (e) {
+      console.error(e);
+    }
   }
 
-  carregarChartRacao() {
-
-    this.estoqueService.obterEstoqueRealPorCodigoCategoria("R").subscribe(data => {
-
+  async carregarChartRacao() {
+    try {
+      let data = await this.estoqueService.obterEstoqueRealPorCodigoCategoria("R");
       this.chartLabelsRacao = data.map(i => i.subcategoria.descricao);
       this.chartLabelsRacao = [...(new Set(this.chartLabelsRacao))];
 
       this.estoqueComportamento.construirChart(data, this.chartLabelsRacao, this.chartDatasetsRacao);
-    });
+    } catch (e) {
+      console.error(e);
+    }
   }
 
-  carregarChartMedicamento() {
-
-    this.estoqueService.obterEstoqueRealPorCodigoCategoria("M").subscribe(data => {
-
+  async carregarChartMedicamento() {
+    try {
+      let data = await this.estoqueService.obterEstoqueRealPorCodigoCategoria("M");
       this.chartLabelsMedicamento = data.map(i => i.subcategoria.descricao);
       this.chartLabelsMedicamento = [...(new Set(this.chartLabelsMedicamento))];
 
       this.estoqueComportamento.construirChart(data, this.chartLabelsMedicamento, this.chartDatasetsMedicamento);
-    });
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   abrirEstoqueHistoricoDialog(): void {

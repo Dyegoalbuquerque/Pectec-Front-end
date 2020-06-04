@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { Lancamento } from '../models';
 import { Paginacao } from '../paginacao';
 import { plainToClass } from "class-transformer";
@@ -16,18 +15,27 @@ export class CustoService {
   async obterLancamentoPorAno(ano: number, paginacao: Paginacao): Promise<Paginacao> {
     let retorno = await this.httpclient.get<Paginacao>(`${this.ApiUrl}/lancamentos?ano=${ano}&pagina=${paginacao.pagina}&limite=${paginacao.limite}&ordenar=desc`).toPromise();
     retorno.resultado = plainToClass(Lancamento, retorno.resultado);
-    return plainToClass(Paginacao, retorno)
+    return plainToClass(Paginacao, retorno);
   }
 
-  salvarLancamento(item: Lancamento): Observable<Lancamento> {
-    return this.httpclient.post<Lancamento>(`${this.ApiUrl}/lancamentos`, item);
+  async salvarLancamento(item: Lancamento): Promise<Lancamento> {
+    let retorno = await this.httpclient.post<Lancamento>(`${this.ApiUrl}/lancamentos`, item).toPromise();
+    return plainToClass(Lancamento, retorno);
   }
 
-  confirmarPagamentoLancamento(item: Lancamento): Observable<Lancamento> {
-    return this.httpclient.post<Lancamento>(`${this.ApiUrl}/lancamentos/confirmar-pagamento`, item);
+  async confirmarPagamentoLancamento(item: Lancamento): Promise<Lancamento> {
+    let retorno = await this.httpclient.post<Lancamento>(`${this.ApiUrl}/lancamentos/confirmar-pagamento`, item).toPromise();
+    return plainToClass(Lancamento, retorno);
   }
 
-  removerLancamento(id: number): Observable<Lancamento> {
-    return this.httpclient.delete<Lancamento>(`${this.ApiUrl}/lancamentos/${id}`);
+  async removerLancamento(id: number): Promise<Lancamento> {
+    let retorno = await this.httpclient.delete<Lancamento>(`${this.ApiUrl}/lancamentos/${id}`).toPromise();
+    return plainToClass(Lancamento, retorno);
+  }
+
+  async obterBalancoLancamentos(ano: number): Promise<Lancamento> {
+    let retorno = await this.httpclient.get<Lancamento>(`${this.ApiUrl}/lancamentos/balanco?ano=${ano}`).toPromise();
+    retorno = plainToClass(Lancamento, retorno);
+    return retorno;
   }
 }

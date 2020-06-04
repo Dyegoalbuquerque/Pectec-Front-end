@@ -63,7 +63,7 @@ export class CustoComponent implements OnInit {
       this.totalSaida = 0;
       this.totalEntrada = 0;
       this.totalSaldo = 0;
-      this.dataSourceLancamento = new MatTableDataSource<Lancamento>(data.resultado.sort(Lancamento.ordenarPorVencimentoDecrecente));
+      this.dataSourceLancamento = new MatTableDataSource<Lancamento>(data.resultado);
       this.paginacao.total = data.total;
       this.totalSaida = this.custoComportamento.calcularTotalSaida(this.dataSourceLancamento.data);
       this.totalEntrada = this.custoComportamento.calcularTotalEntrada(this.dataSourceLancamento.data);
@@ -81,6 +81,37 @@ export class CustoComponent implements OnInit {
       this.cronogramas = this.custoComportamento.construirCronograma(data.resultado);
     }
     catch (e) {
+      console.error(e);
+      this.mostrarMensagem("Ocorreu um problema", "Lançamento");
+    }
+  }
+
+  async removerLancamento(id: number) {
+
+    try {
+      await this.custoService.removerLancamento(id);
+
+      this.obterLancamentos();
+      this.obterCronogramas();
+
+      this.mostrarMensagem("Removido com sucesso", "Lançamento");
+    } catch (e) {
+      console.error(e);
+      this.mostrarMensagem("Ocorreu um problema", "Lançamento");
+    }
+  }
+
+  async confirmarPagamentoLancamento(id: number) {
+    try {
+      let lancamento = new Lancamento();
+      lancamento.id = id;
+
+      await this.custoService.confirmarPagamentoLancamento(lancamento);
+
+      this.obterLancamentos();
+
+      this.mostrarMensagem("Confirmado pagamento com sucesso", "Lançamento");
+    } catch (e) {
       console.error(e);
       this.mostrarMensagem("Ocorreu um problema", "Lançamento");
     }
@@ -114,27 +145,6 @@ export class CustoComponent implements OnInit {
     for (let i = 0; i < lista.length; i++) {
       this.iconRegistry.addSvgIcon(lista[i].nome, this.sanitizer.bypassSecurityTrustResourceUrl(lista[i].caminho));
     }
-  }
-
-  removerLancamento(id: number) {
-
-    this.custoService.removerLancamento(id).subscribe(data => {
-      this.obterLancamentos();
-      this.obterCronogramas();
-
-      this.mostrarMensagem("Removido com sucesso", "Lançamento");
-    });
-  }
-
-  confirmarPagamentoLancamento(id: number) {
-    let lancamento = new Lancamento();
-    lancamento.id = id;
-
-    this.custoService.confirmarPagamentoLancamento(lancamento).subscribe(data => {
-      this.obterLancamentos();
-
-      this.mostrarMensagem("Confirmado pagamento com sucesso", "Lançamento");
-    });
   }
 
   abrirLancamentoDialog(): void {

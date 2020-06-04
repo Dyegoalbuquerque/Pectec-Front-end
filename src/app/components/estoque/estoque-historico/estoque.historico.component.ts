@@ -2,8 +2,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EstoqueService } from 'src/app/services/estoque.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Estoque } from 'src/app/models/estoque';
-import { plainToClass } from "class-transformer";
 import { EstoqueComportamento } from '../estoqueComportamento';
 
 @Component({
@@ -24,25 +22,34 @@ export class EstoqueHistoricoComponent implements OnInit {
     this.obterMedicamentos();
   }
 
-  obterInsumos() {
-    this.estoqueService.obterPorCategoria(1).subscribe(data => {
-     let historico = this.estoqueComportamento.construirHistorico("Insumo", plainToClass(Estoque, data));
-     this.estoques = this.estoques.concat(historico);
-    });
+  async obterInsumos() {
+    try {
+      let retorno = await this.estoqueService.obterPorCategoria(3);
+      let historico = this.estoqueComportamento.construirHistorico("Insumo", retorno);
+      this.estoques = this.estoques.concat(historico);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
-  obterRacoes() {
-    this.estoqueService.obterPorCategoria(2).subscribe(data => {
-      let historico = this.estoqueComportamento.construirHistorico("Ração", plainToClass(Estoque, data));
+  async obterRacoes() {
+    try {
+      let retorno = await this.estoqueService.obterPorCategoria(2);
+      let historico = this.estoqueComportamento.construirHistorico("Ração", retorno);
       this.estoques = this.estoques.concat(historico);
-    });
+    } catch (e) {
+      console.error(e);
+    }
   }
 
-  obterMedicamentos() {
-    this.estoqueService.obterPorCategoria(3).subscribe(data => {
-      let historico = this.estoqueComportamento.construirHistorico("Medicamento", plainToClass(Estoque, data));
+  async obterMedicamentos() {
+    try {
+      let retorno = await this.estoqueService.obterPorCategoria(3);
+      let historico = this.estoqueComportamento.construirHistorico("Medicamento", retorno);
       this.estoques = this.estoques.concat(historico);
-    });
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   fechar(): void {

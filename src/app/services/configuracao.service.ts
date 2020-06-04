@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { UnidadeMedida, Categoria, Subcategoria } from '../models';
+import { plainToClass } from "class-transformer";
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +11,18 @@ export class ConfiguracaoService {
   ApiUrl='http://localhost:5003/api/configuracoes';    
   constructor(private httpclient: HttpClient) { }    
     
-  obterCategorias():Observable<Categoria[]>{    
-    return this.httpclient.get<Categoria[]>(`${this.ApiUrl}/categorias`); 
+  async obterCategorias():Promise<Categoria[]>{    
+    let retorno = await this.httpclient.get<Categoria[]>(`${this.ApiUrl}/categorias`).toPromise(); 
+    return plainToClass(Categoria, retorno);
   }
 
-  obterUnidadeMedidas(): Observable<UnidadeMedida[]> {
-    return this.httpclient.get<UnidadeMedida[]>(`${this.ApiUrl}/unidadeMedidas`);
+  async obterUnidadeMedidas(): Promise<UnidadeMedida[]> {
+    let retorno = await  this.httpclient.get<UnidadeMedida[]>(`${this.ApiUrl}/unidadeMedidas`).toPromise();
+    return plainToClass(UnidadeMedida, retorno);
   }
 
-  obterSubcategorias(codigoCategoria?: string): Observable<Subcategoria[]> {
-    return this.httpclient.get<Subcategoria[]>(`${this.ApiUrl}/subcategorias?codigoCategoria=${codigoCategoria}`);
+  async obterSubcategorias(codigoCategoria?: string): Promise<Subcategoria[]> {
+    let retorno = await  this.httpclient.get<Subcategoria[]>(`${this.ApiUrl}/subcategorias?codigoCategoria=${codigoCategoria}`).toPromise();
+    return plainToClass(Subcategoria, retorno);
   }
 }

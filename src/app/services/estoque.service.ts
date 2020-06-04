@@ -14,23 +14,27 @@ export class EstoqueService {
   ApiUrl = 'http://localhost:5001/api/estoques';
   constructor(private httpclient: HttpClient) { }
 
-  obterEstoqueRealPorCodigoCategoria(codigo: string): Observable<Estoque[]> {
-    return this.httpclient.get<Estoque[]>(`${this.ApiUrl}/real?codigoCategoria=${codigo}`);
+  async obterEstoqueRealPorCodigoCategoria(codigo: string): Promise<Estoque[]> {
+    let retorno = await this.httpclient.get<Estoque[]>(`${this.ApiUrl}/real?codigoCategoria=${codigo}`).toPromise();
+    return plainToClass(Estoque, retorno);
   }
 
-  obterOrigens(categoriaId: number): Observable<Estoque[]> {
-    return this.httpclient.get<Estoque[]>(`${this.ApiUrl}/origens?categoriaId=${categoriaId}`);
+  async obterOrigens(categoriaId: number): Promise<Estoque[]> {
+    let retorno = await this.httpclient.get<Estoque[]>(`${this.ApiUrl}/origens?categoriaId=${categoriaId}`).toPromise();
+    return plainToClass(Estoque, retorno);
   }
 
-  obterPorCategoria(categoriaId: number): Observable<Estoque[]> {
-    return this.httpclient.get<Estoque[]>(`${this.ApiUrl}?categoriaId=${categoriaId}`);
+  async obterPorCategoria(categoriaId: number): Promise<Estoque[]> {
+    let retorno = await this.httpclient.get<Estoque[]>(`${this.ApiUrl}?categoriaId=${categoriaId}`).toPromise();
+    return plainToClass(Estoque, retorno);
   }
 
-  salvarEstoque(item: Estoque): Observable<Estoque> {
-    return this.httpclient.post<Estoque>(`${this.ApiUrl}/`, item);
+  async salvarEstoque(item: Estoque): Promise<Estoque> {
+    let retorno = await this.httpclient.post<Estoque>(`${this.ApiUrl}/`, item).toPromise();
+    return plainToClass(Estoque, retorno);
   }
 
-  salvarRacao(item: Estoque): Observable<Estoque> {
+  async salvarRacao(item: Estoque): Promise<Estoque> {
 
     let consumos = [];
 
@@ -44,11 +48,13 @@ export class EstoqueService {
 
     item.consumos = consumos;
 
-    return this.httpclient.post<Estoque>(`${this.ApiUrl}/racao/`, item);
+    let retorno = await this.httpclient.post<Estoque>(`${this.ApiUrl}/racao/`, item).toPromise();
+    return plainToClass(Estoque, retorno);
   }
 
-  removerRacao(id: number): Observable<Estoque> {
-    return this.httpclient.delete<Estoque>(`${this.ApiUrl}/racao/${id}`);
+  async removerRacao(id: number): Promise<Estoque> {
+    let retorno = await this.httpclient.delete<Estoque>(`${this.ApiUrl}/racao/${id}`).toPromise();
+    return plainToClass(Estoque, retorno);
   }
 
   async obterConsumos(paginacao: Paginacao): Promise<Paginacao> {
@@ -57,11 +63,13 @@ export class EstoqueService {
     return plainToClass(Paginacao, resultado)
   }
 
-  salvarConsumo(item: Consumo): Observable<Consumo> {
-    return this.httpclient.post<Consumo>(`${this.ApiUrl}/consumo`, item);
+  async salvarConsumo(item: Consumo): Promise<Consumo> {
+    let retorno = await this.httpclient.post<Consumo>(`${this.ApiUrl}/consumo`, item).toPromise();
+    return plainToClass(Consumo, retorno);
   }
 
-  atualizarConsumo(item: Consumo): Observable<Consumo> {
-    return this.httpclient.put<Consumo>(`${this.ApiUrl}/consumo`, item);
+  async atualizarConsumo(item: Consumo): Promise<Consumo> {
+    let retorno = await this.httpclient.put<Consumo>(`${this.ApiUrl}/consumo`, item).toPromise();
+    return plainToClass(Consumo, retorno);
   }
 }

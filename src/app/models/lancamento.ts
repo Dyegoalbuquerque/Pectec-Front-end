@@ -33,12 +33,4 @@ export class Lancamento {
                ValidadorTipo.stringValido(this.tipo) && 
                ValidadorTipo.numberValido(this.subcategoriaId);
     }
-
-    static ordenarPorVencimentoDecrecente = (a, b) => {
-        return new Date(b.vencimento).getTime() - new Date(a.vencimento).getTime();
-    }
-
-    static ordenarPorVencimentoCrescente = (a, b) => {
-        return new Date(a.vencimento).getTime() - new Date(b.vencimento).getTime();
-    }
 }

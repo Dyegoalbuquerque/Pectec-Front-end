@@ -3,9 +3,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Venda, Estoque } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { VendaService, EstoqueService } from 'src/app/services';
-import { plainToClass } from "class-transformer";
 import { VendaItem } from 'src/app/models/vendaItem';
 
 
@@ -32,10 +30,12 @@ export class VendaInsumoComponent implements OnInit {
     this.obterEstoque(this.venda);
   }
 
-  obterEstoque(venda: Venda) {
-    this.estoqueService.obterEstoqueRealPorCodigoCategoria("I").subscribe(data => {
-      this.estoques = plainToClass(Estoque, data.sort(Estoque.ordenarPorDescricao));
-    });
+  async obterEstoque(venda: Venda) {
+    try {
+      this.estoques = await this.estoqueService.obterEstoqueRealPorCodigoCategoria("I");
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   async salvar() {

@@ -1,9 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ManejoService, EstoqueService, ConfiguracaoService } from 'src/app/services';
+import { ManejoService, ConfiguracaoService } from 'src/app/services';
 import { ProgramaItem, UnidadeMedida, Situacao, Subcategoria } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
-import { plainToClass } from "class-transformer";
 
 @Component({
   selector: 'programa-component',
@@ -14,8 +13,8 @@ import { plainToClass } from "class-transformer";
 export class ProgramaFormComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<ProgramaFormComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
-              private manejoService: ManejoService, private categoriaService: ConfiguracaoService, 
-              private notifications: NotificationsService) {
+    private manejoService: ManejoService, private categoriaService: ConfiguracaoService,
+    private notifications: NotificationsService) {
   }
 
   unidadeMedidas: UnidadeMedida[];
@@ -25,41 +24,44 @@ export class ProgramaFormComponent implements OnInit {
   intervaloDia: any;
   objetivoPrograma: any;
 
-  objetivosPrograma = [{nome: "Consumo", valor: "C" }, {nome: "Procedimento", valor: "P"}];
-  intervalosDias = [{nome: "Um dia", valor: "UD" }, {nome: "Intervalo de dias", valor: "MUD"}];
+  objetivosPrograma = [{ nome: "Consumo", valor: "C" }, { nome: "Procedimento", valor: "P" }];
+  intervalosDias = [{ nome: "Um dia", valor: "UD" }, { nome: "Intervalo de dias", valor: "MUD" }];
 
   ngOnInit() {
     this.programaItem = this.data.programaItem;
     this.intervaloDia = { valor: this.programaItem.eIntervalo() ? "MUD" : "UD" };
-    this.objetivoPrograma = { valor: this.programaItem.eDoTipoConsumo() ? "C" : "P"};
+    this.objetivoPrograma = { valor: this.programaItem.eDoTipoConsumo() ? "C" : "P" };
     this.situacao = this.data.situacao;
     this.obterUnidadeMedidas();
     this.obterObjetivos();
     this.obterProcedimentos();
   }
 
-  obterObjetivos() {
-    this.categoriaService.obterSubcategorias().subscribe(data => {
-      this.objetivos = data;
-    });
+  async obterObjetivos() {
+    try {
+      this.objetivos = await this.categoriaService.obterSubcategorias();
+    } catch (e) {
+      console.error(e);
+    }
   }
 
-  obterProcedimentos() {
-  }
+  async obterProcedimentos() { }
 
-  obterUnidadeMedidas() {
-    this.categoriaService.obterUnidadeMedidas().subscribe(data => {
-      this.unidadeMedidas = plainToClass(UnidadeMedida, data.sort(Situacao.ordenar));
-    });
+  async obterUnidadeMedidas() {
+    try {
+      this.unidadeMedidas = await this.categoriaService.obterUnidadeMedidas();
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   validar(item: ProgramaItem): boolean {
-    return item.programaId && item.objetivoId && (item.inicio || (item.inicio && item.fim)) && 
-           ((this.objetivoPrograma.valor == 'C' && item.quantidade && item.unidadeMedida != '') || 
-            (this.objetivoPrograma.valor == 'P'));
+    return item.programaId && item.objetivoId && (item.inicio || (item.inicio && item.fim)) &&
+      ((this.objetivoPrograma.valor == 'C' && item.quantidade && item.unidadeMedida != '') ||
+        (this.objetivoPrograma.valor == 'P'));
   }
- 
-  salvar(): void {
+
+  salvar() {
     if (this.validar(this.programaItem)) {
 
       if (this.programaItem.id > 0) {

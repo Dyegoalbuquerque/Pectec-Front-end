@@ -61,8 +61,9 @@ export class RacaoComponent implements OnInit {
     this.racao.sobra = !sobra;
   }
 
-  obterInsumos() {
-    this.estoqueService.obterEstoqueRealPorCodigoCategoria("I").subscribe(data => {
+  async obterInsumos() {
+    try {
+      let data = await this.estoqueService.obterEstoqueRealPorCodigoCategoria("I");
 
       for (let i = 0; i < data.length; i++) {
         let insumo = data[i];
@@ -80,22 +81,30 @@ export class RacaoComponent implements OnInit {
       }
 
       this.insumos = this.insumos.sort(Estoque.ordenarPorDescricao);
-    });
+    } catch (e) {
+      console.error(e);
+    }
   }
 
-  obterUnidadeMedidas() {
-    this.categoriaService.obterUnidadeMedidas().subscribe(data => {
-      this.unidadeMedidas = plainToClass(UnidadeMedida, data);
-    });
+  async obterUnidadeMedidas() {
+    try {
+      this.unidadeMedidas = await this.categoriaService.obterUnidadeMedidas();
+    } catch (e) {
+      console.error(e);
+      this.mostrarMensagem("Ocorreu um problema", "Ração")
+    }
   }
 
-  obterSubcategorias(codigo: string) {
-    this.categoriaService.obterSubcategorias(codigo).subscribe(data => {
-      this.subcategorias = plainToClass(Subcategoria, data);;
-    });
+  async obterSubcategorias(codigo: string) {
+    try {
+      this.subcategorias = await this.categoriaService.obterSubcategorias(codigo);
+    } catch (e) {
+      console.error(e);
+      this.mostrarMensagem("Ocorreu um problema", "Ração")
+    }
   }
 
-  salvar(): void {
+  async salvar() {
 
     this.racao.consumos = [];
 
@@ -110,15 +119,14 @@ export class RacaoComponent implements OnInit {
     }
 
     if (this.racao.eValido()) {
-
-      this.estoqueService.salvarRacao(this.racao).subscribe(data => {
-        this.racao = data;
+      try {
+        this.racao = await this.estoqueService.salvarRacao(this.racao);
         this.mostrarMensagem("Salvo com sucesso", "Ração");
         this.fechar();
-      },
-        err => {
-          this.mostrarMensagem("Ocorreu um problema", "Ração");
-        });
+      } catch (e) {
+        console.error(e);
+        this.mostrarMensagem("Ocorreu um problema", "Ração")
+      }
     } else {
       this.mostrarMensagem("Preencha os campos obrigatórios", "Ração");
     }

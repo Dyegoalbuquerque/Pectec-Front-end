@@ -32,44 +32,55 @@ export class EstoqueFormComponent implements OnInit {
     this.estoque.comprado = true;
     this.obterCategorias();
     this.obterUnidadeMedidas();
-  } 
+  }
 
-  salvar(): void {
-    
+  async salvar() {
+
     if (this.estoque.eValido()) {
-      this.estoqueService.salvarEstoque(this.estoque).subscribe(data => {
-        this.estoque = plainToClass(Estoque, data);
+      try {
+
+        this.estoque = await this.estoqueService.salvarEstoque(this.estoque);
+
         this.mostrarMensagem("Salvo com sucesso", "Estoque");
         this.fechar();
-      },
-        err => {
-          this.mostrarMensagem("Ocorreu um problema", "Estoque");
-        });
+      } catch (e) {
+        console.error(e);
+        this.mostrarMensagem("Ocorreu um problema", "Estoque");
+      }
     } else {
       this.mostrarMensagem("Preencha os campos obrigatórios", "Estoque");
     }
   }
 
-  obterCategorias() {
-    this.categoriaService.obterCategorias().subscribe(data => {
-      this.categorias = plainToClass(Categoria, data);;
-    });
+  async obterCategorias() {
+    try {
+      this.categorias = await this.categoriaService.obterCategorias();
+    } catch (e) {
+      console.error(e);
+      this.mostrarMensagem("Ocorreu um problema", "Estoque");
+    }
   }
 
-  obterSubcategorias(codigo: string) {
-    this.categoriaService.obterSubcategorias(codigo).subscribe(data => {
-      this.subcategorias = plainToClass(Subcategoria, data);;
-    });
+  async obterSubcategorias(codigo: string) {
+    try {
+      this.subcategorias = await this.categoriaService.obterSubcategorias(codigo);
+    } catch (e) {
+      console.error(e);
+      this.mostrarMensagem("Ocorreu um problema", "Estoque");
+    }
   }
 
-  obterUnidadeMedidas() {
-    this.categoriaService.obterUnidadeMedidas().subscribe(data => {
-      this.unidadeMedidas = plainToClass(UnidadeMedida, data);;
-    });
+  async obterUnidadeMedidas() {
+    try {
+      this.unidadeMedidas = await this.categoriaService.obterUnidadeMedidas();
+    } catch (e) {
+      console.error(e);
+      this.mostrarMensagem("Ocorreu um problema", "Estoque");
+    }
   }
 
-  mudarCategoriaDoEstoque(codigo: string) {
-    this.obterSubcategorias(codigo);
+  async mudarCategoriaDoEstoque(codigo: string) {
+    await this.obterSubcategorias(codigo);
   }
 
   fechar(): void {
