@@ -24,6 +24,11 @@ export class EstoqueService {
     return plainToClass(Estoque, retorno);
   }
 
+  async obterOrigem(id: number): Promise<Estoque> {
+    let retorno = await this.httpclient.get<Estoque>(`${this.ApiUrl}/origens/${id}`).toPromise();
+    return plainToClass(Estoque, retorno);
+  }
+
   async obterPorCategoria(categoriaId: number): Promise<Estoque[]> {
     let retorno = await this.httpclient.get<Estoque[]>(`${this.ApiUrl}?categoriaId=${categoriaId}`).toPromise();
     return plainToClass(Estoque, retorno);

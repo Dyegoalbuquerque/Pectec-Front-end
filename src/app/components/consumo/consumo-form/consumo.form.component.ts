@@ -30,7 +30,14 @@ export class ConsumoFormComponent implements OnInit {
   async obterOrigens(consumo: Consumo) {
 
     if (consumo.id) {
-      this.origens = [consumo.origem];
+
+      try {
+        let retorno = await this.estoqueService.obterOrigem(consumo.origemId);
+        this.origens = [retorno];
+
+      } catch (e) {
+        console.error(e);
+      }
 
     } else if (consumo.categoriaId) {
 
