@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Lancamento } from '../models';
+import { Lancamento, BalancoLancamento } from '../models';
 import { Paginacao } from '../paginacao';
 import { plainToClass } from "class-transformer";
 
@@ -33,9 +33,9 @@ export class CustoService {
     return plainToClass(Lancamento, retorno);
   }
 
-  async obterBalancoLancamentos(ano: number): Promise<Lancamento> {
-    let retorno = await this.httpclient.get<Lancamento>(`${this.ApiUrl}/lancamentos/balanco?ano=${ano}`).toPromise();
-    retorno = plainToClass(Lancamento, retorno);
+  async obterBalancoLancamentos(ano: number): Promise<BalancoLancamento> {
+    let retorno = await this.httpclient.get<BalancoLancamento>(`${this.ApiUrl}/lancamentos/balanco?ano=${ano}`).toPromise();
+    retorno = plainToClass(BalancoLancamento, retorno);
     return retorno;
   }
 }

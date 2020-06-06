@@ -34,30 +34,4 @@ export class CustoComportamento {
 
         return itens;
     }
-
-    calcularTotalSaida(lista: Lancamento[]): number {
-        let total = 0;
-
-        lista.forEach(x => {
-            if (x.eDoTipoSaida()) {
-                total += x.valor;
-            }
-        });
-        return total;
-    }
-
-    calcularTotalEntrada(lista: Lancamento[]): number {
-        let total = 0;
-        
-        lista.forEach(x => {
-            if (x.eDoTipoEntrada()) {
-                total += x.valor;
-            }
-        });
-        return total;
-    }
-
-    calcularTotalSaldo(lista: Lancamento[]): number {
-        return this.calcularTotalEntrada(lista) - this.calcularTotalSaida(lista);
-    }
 }

@@ -11,6 +11,7 @@ import { IgxTreeGridComponent } from "igniteui-angular";
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import { Paginacao } from 'src/app/paginacao';
+import { BalancoLancamento } from 'src/app/models/balancoLancamento';
 
 
 @Component({
@@ -23,11 +24,9 @@ export class CustoComponent implements OnInit {
     private _snackBar: MatSnackBar, private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer, private custoComportamento: CustoComportamento) {
     this.definirIcones();
-    this.totalSaida = 0;
-    this.totalEntrada = 0;
-    this.totalSaldo = 0;
     this.anos = [];
     this.ano = 2019;
+    this.balancoLancamento = new BalancoLancamento();
     this.dataSourceLancamento = new MatTableDataSource<Lancamento>([]);
     this.dataSourceLancamento.paginator = this.paginator;
     this.colunasLancamentos = ['n', 'mes', 'vencimento', 'categoria', 'descricao', 'status', 'valor', 'tipo', 'remover', 'recibo'];
@@ -39,9 +38,7 @@ export class CustoComponent implements OnInit {
   @ViewChild("gridCronograma", { read: IgxTreeGridComponent, static: true }) gridCronograma: IgxTreeGridComponent;
 
   cronogramas: Lancamento[];
-  totalSaida: number;
-  totalEntrada: number;
-  totalSaldo: number;
+  balancoLancamento: BalancoLancamento;
   anos: any;
   ano: number;
   colunasLancamentos: string[];
@@ -51,23 +48,27 @@ export class CustoComponent implements OnInit {
   paginaEvent: PageEvent;
 
   ngOnInit() {
+    this.obterBalancoLancamentos(this.ano);
     this.obterLancamentos();
     this.obterCronogramas();
     this.montarAnos();
   }
 
+  async obterBalancoLancamentos(ano: number) {
+    try {
+      this.balancoLancamento = await this.custoService.obterBalancoLancamentos(ano);
+    }
+    catch (e) {
+      console.error(e);
+      this.mostrarMensagem("Ocorreu um problema", "Lançamento");
+    }
+  }
+
   async obterLancamentos() {
     try {
       let data = await this.custoService.obterLancamentoPorAno(this.ano, this.paginacao);
-
-      this.totalSaida = 0;
-      this.totalEntrada = 0;
-      this.totalSaldo = 0;
       this.dataSourceLancamento = new MatTableDataSource<Lancamento>(data.resultado);
       this.paginacao.total = data.total;
-      this.totalSaida = this.custoComportamento.calcularTotalSaida(this.dataSourceLancamento.data);
-      this.totalEntrada = this.custoComportamento.calcularTotalEntrada(this.dataSourceLancamento.data);
-      this.totalSaldo = this.custoComportamento.calcularTotalSaldo(this.dataSourceLancamento.data);
     }
     catch (e) {
       console.error(e);

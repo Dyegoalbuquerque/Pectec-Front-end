@@ -18,14 +18,6 @@ export class Lancamento {
 
     constructor() {}
 
-    eDoTipoEntrada() {
-        return this.tipo == 'E';
-    }
-
-    eDoTipoSaida() {
-        return this.tipo == 'S';
-    }
-
     eValido(): boolean {
         return ValidadorTipo.numberValido(this.valor) && 
                ValidadorTipo.dateValido(this.vencimento) && 

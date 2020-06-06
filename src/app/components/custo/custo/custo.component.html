@@ -51,9 +51,9 @@
       <br />
       <span>
         <h6>
-          &nbsp;&nbsp;&nbsp;&nbsp;Saída&nbsp;&nbsp;{{totalSaida | currency:'R$ ':true:'1.2-2'}}
-          &nbsp;&nbsp;&nbsp;&nbsp;Entrada&nbsp;&nbsp;{{totalEntrada | currency:'R$ ':true:'1.2-2'}}
-          &nbsp;&nbsp;&nbsp;&nbsp;Saldo&nbsp;&nbsp;{{totalSaldo | currency:'R$ ':true:'1.2-2'}}
+          &nbsp;&nbsp;&nbsp;&nbsp;Saída&nbsp;&nbsp;{{balancoLancamento.totalSaida | currency:'R$ ':true:'1.2-2'}}
+          &nbsp;&nbsp;&nbsp;&nbsp;Entrada&nbsp;&nbsp;{{balancoLancamento.totalEntrada | currency:'R$ ':true:'1.2-2'}}
+          &nbsp;&nbsp;&nbsp;&nbsp;Saldo&nbsp;&nbsp;{{balancoLancamento.totalSaldo | currency:'R$ ':true:'1.2-2'}}
         </h6>
       </span>
       <table mat-table [dataSource]="dataSourceLancamento">

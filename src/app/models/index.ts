@@ -15,3 +15,4 @@ export * from './subCategoria';
 export * from './causaObito';
 export * from './venda';
 export * from './vendaItem';
+export * from './balancoLancamento';
