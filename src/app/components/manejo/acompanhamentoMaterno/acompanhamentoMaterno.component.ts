@@ -5,8 +5,6 @@ import { ManejoService } from '../../../services/manejo.service';
 import { AcompanhamentoMaterno } from 'src/app/models/acompanhamentoMaterno';
 import { Animal } from 'src/app/models/animal';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
-import { plainToClass } from "class-transformer";
-import { Situacao } from 'src/app/models';
 
 @Component({
     templateUrl: './acompanhamentoMaterno.component.html',
@@ -14,10 +12,12 @@ import { Situacao } from 'src/app/models';
 })
 export class AcompanhamentoMaternoComponent implements OnInit {
 
-
     constructor(public dialogRef: MatDialogRef<AcompanhamentoMaternoComponent>,
         @Inject(MAT_DIALOG_DATA) public data: AcompanhamentoMaterno, private notifications: NotificationsService,
-        private manejoService: ManejoService) { }
+        private manejoService: ManejoService) {
+        this.acompanhamento = this.data;
+        this.acompanhamento.inceminacao = false;
+    }
 
     acompanhamento: AcompanhamentoMaterno;
     reprodutores: Animal[];
@@ -28,51 +28,43 @@ export class AcompanhamentoMaternoComponent implements OnInit {
     ngOnInit() {
         this.obterReprodutores();
         this.obterSituacoes();
-        this.acompanhamento = this.data;
-        this.acompanhamento.inceminacao = false;
     }
 
     mudarInceminacao(inceminacao) {
         this.acompanhamento.inceminacao = !inceminacao;
     }
 
-    obterReprodutores() {
-        this.manejoService.obterReprodutores().subscribe(data => {
-            this.reprodutores = plainToClass(Animal, data);
-        });
+    async obterReprodutores() {
+        this.reprodutores = await this.manejoService.obterReprodutores();
     }
 
-    obterSituacoes(){
-      this.manejoService.obterSituacoes("Upl").subscribe(data => {
-        this.situacoes = plainToClass(Situacao, data);
-      });
+    async obterSituacoes() {
+        this.situacoes = await this.manejoService.obterSituacoes("Upl");
     }
 
-    salvar(): void {
-        if (this.acompanhamento.eValido()) {
-            
-            if (this.acompanhamento.id > 0) {
-                this.manejoService.atualizarAcompanhamento(this.acompanhamento).subscribe(data => {
-                    this.acompanhamento = data;
+    async salvar() {
+        try {
+            if (this.acompanhamento.eValido()) {
+
+                if (this.acompanhamento.id > 0) {
+                    this.acompanhamento = await this.manejoService.atualizarAcompanhamento(this.acompanhamento);
                     this.mostrarMensagem("Salvo com sucesso", "Acompanhamento", NotificationType.Success);
                     this.fechar();
-                }, err => {
+                } else {
+                    this.acompanhamento = await this.manejoService.salvarAcompanhamento(this.acompanhamento);
+                    this.mostrarMensagem("Salvo com sucesso", "Acompanhamento", NotificationType.Success);
                     this.fechar();
-                    this.mostrarMensagem("Ocorreu um problema", "Acompanhamento", NotificationType.Error);
-                });
+                }
+
             } else {
-                this.manejoService.salvarAcompanhamento(this.acompanhamento).subscribe(data => {
-                    this.acompanhamento = data;
-                    this.mostrarMensagem("Salvo com sucesso", "Acompanhamento", NotificationType.Success);
-                    this.fechar();
-                }, err => {
-                    this.fechar();
-                    this.mostrarMensagem("Ocorreu um problema", "Acompanhamento", NotificationType.Error);
-                });
+                this.mostrarMensagem("Preencha os campos obrigatórios", "Acompanhamento", NotificationType.Alert);
             }
 
-        } else {
-            this.mostrarMensagem("Preencha os campos obrigatórios", "Acompanhamento", NotificationType.Alert);
+        } catch (e) {
+            console.error(e);
+            this.fechar();
+            this.mostrarMensagem("Ocorreu um problema", "Acompanhamento", NotificationType.Error);
+
         }
     }
 

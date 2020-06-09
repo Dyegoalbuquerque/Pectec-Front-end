@@ -2,14 +2,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ManejoService } from '../../../services';
-import { FichaComponent, AnimalComponent, AcompanhamentoMaternoComponent,
-         CicloComponent, CicloSimularComponent, ProgramaFormComponent, AnimalComportamento
+import {
+  FichaComponent, AnimalComponent, AcompanhamentoMaternoComponent,
+  ProgramaFormComponent, AnimalComportamento
 } from '..';
 import { AcompanhamentoMaterno } from 'src/app/models/acompanhamentoMaterno';
-import { Ciclo, CicloFilho, Situacao, Animal, Programa, ProgramaItem } from 'src/app/models';
+import { CicloFilho, Situacao, Animal, Programa, ProgramaItem } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { plainToClass } from "class-transformer";
 
 
 @Component({
@@ -19,7 +19,11 @@ import { plainToClass } from "class-transformer";
 export class ManejoComponent implements OnInit {
 
   constructor(private manejoService: ManejoService, public dialog: MatDialog,
-              private notifications: NotificationsService, private spinner: NgxSpinnerService) { }
+    private notifications: NotificationsService, private spinner: NgxSpinnerService) {
+    this.animalComportamento = new AnimalComportamento([]);
+    this.femeas = [];
+    this.situacaoSelecionada = new Situacao();
+  }
 
   animalComportamento: AnimalComportamento;
   femeas: Animal[];
@@ -33,79 +37,74 @@ export class ManejoComponent implements OnInit {
   panelOpenState = false;
 
   ngOnInit() {
-    this.animalComportamento = new AnimalComportamento([]);
-    this.femeas = [];
-    this.situacaoSelecionada = new Situacao();
     this.obterProgramaDoAnimal(1);
     this.obterSituacoesQuantidade();
     this.obterFemeas();
     this.obterFilhotes();
   }
 
-  obterProgramaDoAnimal(tipoProgramaId: number) {
-    this.manejoService.obterPrograma(tipoProgramaId).subscribe(data => {
-      this.programa = plainToClass(Programa, data);
-      this.programa.itens = plainToClass(ProgramaItem, this.programa.itens);
-    });
+  async obterProgramaDoAnimal(tipoProgramaId: number) {
+    try {
+      this.programa = await this.manejoService.obterPrograma(tipoProgramaId);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
-  obterProgramaItens(situacaoId: number) {
-    this.manejoService.obterProgramaItensPorSituacao(situacaoId).subscribe(data => {
-      this.programaItensSelecionados = plainToClass(ProgramaItem, data);
-    });
+  async obterProgramaItens(situacaoId: number) {
+    try {
+      this.programaItensSelecionados = await this.manejoService.obterProgramaItensPorSituacao(situacaoId);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
-  obterCiclos() {
-    this.manejoService.obterCiclosPorAno(2020).subscribe(data => {
-
-      let ids = [];
-      data.map(o => ids.push(o.id));
-
-      this.manejoService.obterCiclosFilhosPorIds(ids).subscribe(filhos => {
-        let itens = [];
-        for (let i = 0; i < data.length; i++) {
-          let cicloFilhos = filhos.filter(x => x.cicloId == data[i].id);
-          let lista = cicloFilhos.map(o => ({ ...o, cicloId: data[i].descricao }));
-
-          if (lista.length > 0) {
-            let total = 0;
-            lista.forEach(x => { total += x.valor; });
-
-            let cabecalho = {
-              id: data[i].descricao, valorRacao: 0, valor: total, valorMedicamentos: 0,
-              valorGastosExtra: 0, quantidadeAnimais: 0, quantidadeDias: 0,
-              quantidadeRacao: 0
-            };
-
-            itens.push(cabecalho);
-            itens = itens.concat(lista);
-          }
-        }
-        this.ciclosFilhos = itens;
-      });
-    });
+  async obterFemeas() {
+    try {
+      this.femeas = await this.manejoService.obterPrevisoes(2020);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
-  obterFemeas() {
-    this.manejoService.obterPrevisoes(2020).subscribe(data => {
-      this.femeas = plainToClass(Animal, data);
-    });
-  }
-
-  obterSituacoesQuantidade() {
-    this.manejoService.obterSituacoesQuantidades("Upl").subscribe(data => {
-      this.situacoes = plainToClass(Situacao, data.sort(Situacao.ordenar));
+  async obterSituacoesQuantidade() {
+    try {
+      this.situacoes = await this.manejoService.obterSituacoesQuantidades("Upl");
       this.animalComportamento = new AnimalComportamento(this.situacoes);
       this.situacaoSelecionada = this.situacoes.length ? this.situacoes[0] : new Situacao();
 
-      this.obterProgramaItens(this.situacaoSelecionada.id);
-    });
+      await this.obterProgramaItens(this.situacaoSelecionada.id);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
-  obterFilhotes() {
-    this.manejoService.obterFilhotes().subscribe(data => {
-      this.filhotes = plainToClass(Animal, data);
-    });
+  async obterFilhotes() {
+    try {
+      this.filhotes = await this.manejoService.obterFilhotes();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async executarAtualizacaoSituacoes() {
+    try {
+      this.mostrarSpinner();
+
+      await this.manejoService.atualizarSituacoes(1);
+
+      this.esconderSpinner();
+
+      await this.obterSituacoesQuantidade();
+      await this.obterFemeas();
+      await this.obterFilhotes();
+
+      this.mostrarMensagem("", "Salvo com sucesso", NotificationType.Success);
+    } catch (e) {
+      console.error(e);
+      this.esconderSpinner();
+      this.mostrarMensagem("", "Ocorreu um problema", NotificationType.Error);
+    }
   }
 
   selecionarSituacao(sigla: string) {
@@ -113,30 +112,6 @@ export class ManejoComponent implements OnInit {
 
     this.situacaoSelecionada = situacoes.length ? situacoes[0] : this.situacaoSelecionada;
     this.programaItensSelecionados = this.programa.itens.filter(i => i.situacaoId == this.situacaoSelecionada.id);
-  }
-
-  abrirCicloDialog(item: Ciclo): void {
-    const dialogRef = this.dialog.open(CicloComponent, {
-      width: '700px',
-      height: '650px',
-      data: item == null ? new Ciclo() : item
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.obterCiclos();
-    });
-  }
-
-  abrirCicloSimularDialog(item: Ciclo): void {
-    const dialogRef = this.dialog.open(CicloSimularComponent, {
-      width: '450px',
-      height: '550px',
-      data: item
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.obterCiclos();
-    });
   }
 
   abrirFichaDialog(numero: number): void {
@@ -151,22 +126,18 @@ export class ManejoComponent implements OnInit {
     });
   }
 
-  abrirAnimalDialog(id: number) {
+  async abrirAnimalDialog(id: number) {
 
     let parametrosDialog = { width: '480px', height: '550px', data: new Animal() };
 
     if (id) {
-      this.manejoService.obterAnimalPorId(id).subscribe(data => {
+      parametrosDialog.data = await this.manejoService.obterAnimalPorId(id);
+      const dialogRef = this.dialog.open(AnimalComponent, parametrosDialog);
 
-        parametrosDialog.data = data;
-        const dialogRef = this.dialog.open(AnimalComponent, parametrosDialog);
-
-        dialogRef.afterClosed().subscribe(result => {
-          this.obterFemeas();
-          this.obterFilhotes();
-        });
+      dialogRef.afterClosed().subscribe(result => {
+        this.obterFemeas();
+        this.obterFilhotes();
       });
-
     } else {
       const dialogRef = this.dialog.open(AnimalComponent, parametrosDialog);
 
@@ -177,32 +148,29 @@ export class ManejoComponent implements OnInit {
     }
   }
 
-  abrirAcompanhamentoDialog(id: number) {
+  async abrirAcompanhamentoDialog(id: number) {
 
-    this.manejoService.obterAcompanhamentosPorAnimal(id).subscribe(data => {
-      
-      data = plainToClass(AcompanhamentoMaterno, data);
+    let data = await this.manejoService.obterAcompanhamentosPorAnimal(id);
 
-      let acompanhamento;
+    let acompanhamento;
 
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].ativo) {
-          acompanhamento = data[i];
-          break;
-        }
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].ativo) {
+        acompanhamento = data[i];
+        break;
       }
+    }
 
-      acompanhamento = !acompanhamento ? new AcompanhamentoMaterno(id) : acompanhamento;
+    acompanhamento = !acompanhamento ? new AcompanhamentoMaterno(id) : acompanhamento;
 
-      const dialogRef = this.dialog.open(AcompanhamentoMaternoComponent, {
-        width: '700px',
-        height: '700px',
-        data: acompanhamento
-      });
+    const dialogRef = this.dialog.open(AcompanhamentoMaternoComponent, {
+      width: '700px',
+      height: '700px',
+      data: acompanhamento
+    });
 
-      dialogRef.afterClosed().subscribe(result => {
-        this.obterFemeas();
-      });
+    dialogRef.afterClosed().subscribe(result => {
+      this.obterFemeas();
     });
   }
 
@@ -220,22 +188,6 @@ export class ManejoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.obterProgramaDoAnimal(1);
       this.obterSituacoesQuantidade();
-    });
-  }
-
-  executarAtualizacaoSituacoes() {
-    this.mostrarSpinner();
-
-    this.manejoService.atualizarSituacoes(1).subscribe(data => {
-      this.esconderSpinner();
-      this.obterSituacoesQuantidade();
-      this.obterFemeas();
-      this.obterFilhotes();
-      this.mostrarMensagem("", "Salvo com sucesso", NotificationType.Success);
-
-    }, error => {
-      this.esconderSpinner();
-      this.mostrarMensagem("", "Ocorreu um problema", NotificationType.Error);
     });
   }
 

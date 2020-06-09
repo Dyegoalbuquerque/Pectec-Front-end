@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Situacao, ProgramaItem, Programa, Ciclo, CicloFilho, 
-         AcompanhamentoMaterno, Animal, CausaObito } from '../models';
+import {
+  Situacao, ProgramaItem, Programa, Ciclo, CicloFilho,
+  AcompanhamentoMaterno, Animal, CausaObito
+} from '../models';
 import { plainToClass } from "class-transformer";
 
 @Injectable({
@@ -13,12 +14,14 @@ export class ManejoService {
   ApiUrl = 'http://localhost:5000/api/manejos';
   constructor(private httpclient: HttpClient) { }
 
-  obterAnimalPorId(id: number): Observable<Animal> {
-    return this.httpclient.get<Animal>(`${this.ApiUrl}/animal/${id}`);
+  async obterAnimalPorId(id: number): Promise<Animal> {
+    let data = await this.httpclient.get<Animal>(`${this.ApiUrl}/animal/${id}`).toPromise();
+    return plainToClass(Animal, data);
   }
 
-  obterFilhotes(): Observable<Animal[]> {
-    return this.httpclient.get<Animal[]>(`${this.ApiUrl}/filhotes/`);
+  async obterFilhotes(): Promise<Animal[]> {
+    let data = await this.httpclient.get<Animal[]>(`${this.ApiUrl}/filhotes/`).toPromise();
+    return plainToClass(Animal, data);
   }
 
   async obterLotesVenda(tipo: string): Promise<Animal[]> {
@@ -26,99 +29,125 @@ export class ManejoService {
     return plainToClass(Animal, data);
   }
 
-  obterReprodutores(): Observable<Animal[]> {
-    return this.httpclient.get<Animal[]>(`${this.ApiUrl}/reprodutores/`);
+  async obterReprodutores(): Promise<Animal[]> {
+    let data = await this.httpclient.get<Animal[]>(`${this.ApiUrl}/reprodutores/`).toPromise();
+    return plainToClass(Animal, data);
   }
 
-  obterPrevisoes(ano: number): Observable<Animal[]> {
-    return this.httpclient.get<Animal[]>(`${this.ApiUrl}/acompanhamentos?ano=${ano}`);
+  async obterPrevisoes(ano: number): Promise<Animal[]> {
+    let data = await this.httpclient.get<Animal[]>(`${this.ApiUrl}/acompanhamentos?ano=${ano}`).toPromise();
+    return plainToClass(Animal, data);
   }
 
-  obterCausaObitos(): Observable<CausaObito[]> {
-    return this.httpclient.get<CausaObito[]>(`${this.ApiUrl}/causa-obitos`);
+  async obterCausaObitos(): Promise<CausaObito[]> {
+    let data = await this.httpclient.get<CausaObito[]>(`${this.ApiUrl}/causa-obitos`).toPromise();
+    return plainToClass(CausaObito, data);
   }
 
-  obterSituacoes(setor: string): Observable<Situacao[]> {
-    return this.httpclient.get<Situacao[]>(`${this.ApiUrl}/situacoes?setor=${setor}`);
+  async obterSituacoes(setor: string): Promise<Situacao[]> {
+    let data = await this.httpclient.get<Situacao[]>(`${this.ApiUrl}/situacoes?setor=${setor}`).toPromise();
+    return plainToClass(Situacao, data);
   }
 
-  obterPrograma(tipoProgramaId: number): Observable<Programa> {
-    return this.httpclient.get<Programa>(`${this.ApiUrl}/programa?tipoProgramaId=${tipoProgramaId}`);
+  async obterPrograma(tipoProgramaId: number): Promise<Programa> {
+    let data = await this.httpclient.get<Programa>(`${this.ApiUrl}/programa?tipoProgramaId=${tipoProgramaId}`).toPromise();
+    data = plainToClass(Programa, data);
+    data.itens = plainToClass(ProgramaItem, data.itens);
+    return data;
   }
 
-  obterProgramaItensPorSituacao(situacaoId: number): Observable<ProgramaItem[]> {
-    return this.httpclient.get<ProgramaItem[]>(`${this.ApiUrl}/programa-itens?situacaoId=${situacaoId}`);
+  async obterProgramaItensPorSituacao(situacaoId: number): Promise<ProgramaItem[]> {
+    let data = await this.httpclient.get<ProgramaItem[]>(`${this.ApiUrl}/programa-itens?situacaoId=${situacaoId}`).toPromise();
+    return plainToClass(ProgramaItem, data);
   }
 
-  obterFichaAnimal(numero: number): Observable<Animal> {
-    return this.httpclient.get<Animal>(`${this.ApiUrl}/animal/${numero}/ficha`);
+  async obterFichaAnimal(numero: number): Promise<Animal> {
+    let data = await this.httpclient.get<Animal>(`${this.ApiUrl}/animal/${numero}/ficha`).toPromise();
+    return plainToClass(Animal, data);
   }
 
-  obterAcompanhamentosPorAnimal(id: number): Observable<AcompanhamentoMaterno[]> {
-    return this.httpclient.get<AcompanhamentoMaterno[]>(`${this.ApiUrl}/animal/${id}/acompanhamentos`);
-  }
-  
-  obterCiclosFilhosPorIds(ids: number[]): Observable<CicloFilho[]> {
-    return this.httpclient.post<CicloFilho[]>(`${this.ApiUrl}/ciclo/filhos`, ids);
+  async obterAcompanhamentosPorAnimal(id: number): Promise<AcompanhamentoMaterno[]> {
+    let data = await this.httpclient.get<AcompanhamentoMaterno[]>(`${this.ApiUrl}/animal/${id}/acompanhamentos`).toPromise();
+    return plainToClass(AcompanhamentoMaterno, data);
   }
 
-  obterCiclosPorAno(ano: number): Observable<Ciclo[]> {
-    return this.httpclient.get<Ciclo[]>(`${this.ApiUrl}/ciclo/${ano}`);
+  async obterCiclosFilhosPorIds(ids: number[]): Promise<CicloFilho[]> {
+    let data = await this.httpclient.post<CicloFilho[]>(`${this.ApiUrl}/ciclo/filhos`, ids).toPromise();
+    return plainToClass(CicloFilho, data);
   }
 
-  salvarAnimal(item: Animal): Observable<Animal> {
-    return this.httpclient.post<Animal>(`${this.ApiUrl}/animal`, item);
+  async obterCiclosPorAno(ano: number): Promise<Ciclo[]> {
+    let data = await this.httpclient.get<Ciclo[]>(`${this.ApiUrl}/ciclo/${ano}`).toPromise();
+    return plainToClass(Ciclo, data);
   }
 
-  atualizarAnimal(item: Animal): Observable<Animal> {
-    return this.httpclient.put<Animal>(`${this.ApiUrl}/animal`, item);
+  async salvarAnimal(item: Animal): Promise<Animal> {
+    let data = await this.httpclient.post<Animal>(`${this.ApiUrl}/animal`, item).toPromise();
+    return plainToClass(Animal, data);
   }
 
-  removerAnimal(id: number): Observable<Animal> {
-    return this.httpclient.delete<Animal>(`${this.ApiUrl}/animal/${id}`);
+  async atualizarAnimal(item: Animal): Promise<Animal> {
+    let data = await this.httpclient.put<Animal>(`${this.ApiUrl}/animal`, item).toPromise();
+    return plainToClass(Animal, data);
   }
 
-  salvarAcompanhamento(item: AcompanhamentoMaterno): Observable<AcompanhamentoMaterno> {
-    return this.httpclient.post<AcompanhamentoMaterno>(`${this.ApiUrl}/animal/acompanhamento`, item);
+  async removerAnimal(id: number): Promise<Animal> {
+    let data = await this.httpclient.delete<Animal>(`${this.ApiUrl}/animal/${id}`).toPromise();
+    return plainToClass(Animal, data);
   }
 
-  salvarCiclo(item: CicloFilho): Observable<CicloFilho> {
-    return this.httpclient.post<CicloFilho>(`${this.ApiUrl}/ciclo`, item);
+  async  salvarAcompanhamento(item: AcompanhamentoMaterno): Promise<AcompanhamentoMaterno> {
+    let data = await this.httpclient.post<AcompanhamentoMaterno>(`${this.ApiUrl}/animal/acompanhamento`, item).toPromise();
+    return plainToClass(AcompanhamentoMaterno, data);
   }
 
-  atualizarAcompanhamento(item: AcompanhamentoMaterno): Observable<AcompanhamentoMaterno> {
-    return this.httpclient.put<AcompanhamentoMaterno>(`${this.ApiUrl}/animal/acompanhamento`, item);
+  async salvarCiclo(item: CicloFilho): Promise<CicloFilho> {
+    let data = await this.httpclient.post<CicloFilho>(`${this.ApiUrl}/ciclo`, item).toPromise();
+    return plainToClass(CicloFilho, data);
   }
 
-  simularCiclo(item: CicloFilho): Observable<CicloFilho> {
-    return this.httpclient.post<CicloFilho>(`${this.ApiUrl}/simular-ciclo`, item);
+  async atualizarAcompanhamento(item: AcompanhamentoMaterno): Promise<AcompanhamentoMaterno> {
+    let data = await this.httpclient.put<AcompanhamentoMaterno>(`${this.ApiUrl}/animal/acompanhamento`, item).toPromise();
+    return plainToClass(AcompanhamentoMaterno, data);
   }
 
-  atualizarCiclo(item: CicloFilho): Observable<CicloFilho> {
-    return this.httpclient.put<CicloFilho>(`${this.ApiUrl}/ciclo/`, item);
+  async simularCiclo(item: CicloFilho): Promise<CicloFilho> {
+    let data = await this.httpclient.post<CicloFilho>(`${this.ApiUrl}/simular-ciclo`, item).toPromise();
+    return plainToClass(CicloFilho, data);
   }
 
-  removerCiclo(id: number): Observable<CicloFilho> {
-    return this.httpclient.delete<CicloFilho>(`${this.ApiUrl}/ciclo/${id}`);
+  async atualizarCiclo(item: CicloFilho): Promise<CicloFilho> {
+    let data = await this.httpclient.put<CicloFilho>(`${this.ApiUrl}/ciclo/`, item).toPromise();
+    return plainToClass(CicloFilho, data);
   }
 
-  salvarProgramaItem(item: ProgramaItem): Observable<ProgramaItem> {
-    return this.httpclient.post<ProgramaItem>(`${this.ApiUrl}/programa-item`, item);
+  async removerCiclo(id: number): Promise<CicloFilho> {
+    let data = await this.httpclient.delete<CicloFilho>(`${this.ApiUrl}/ciclo/${id}`).toPromise();
+    return plainToClass(CicloFilho, data);
   }
 
-  atualizarProgramaItem(item: ProgramaItem): Observable<ProgramaItem> {
-    return this.httpclient.put<ProgramaItem>(`${this.ApiUrl}/programa-item/`, item);
+  async salvarProgramaItem(item: ProgramaItem): Promise<ProgramaItem> {
+    let data = await this.httpclient.post<ProgramaItem>(`${this.ApiUrl}/programa-item`, item).toPromise();
+    return plainToClass(ProgramaItem, data);
   }
 
-  obterSituacoesQuantidades(setor: string): Observable<Situacao[]> {
-    return this.httpclient.get<Situacao[]>(`${this.ApiUrl}/situacoes-quantidades?setor=${setor}`);
+  async atualizarProgramaItem(item: ProgramaItem): Promise<ProgramaItem> {
+    let data = await this.httpclient.put<ProgramaItem>(`${this.ApiUrl}/programa-item/`, item).toPromise();
+    return plainToClass(ProgramaItem, data);
   }
 
-  atualizarSituacoes(especieId: number): Observable<any> {
-    return this.httpclient.put<any>(`${this.ApiUrl}/situacoes/`,{especieId: especieId});
+  async obterSituacoesQuantidades(setor: string): Promise<Situacao[]> {
+    let data = await this.httpclient.get<Situacao[]>(`${this.ApiUrl}/situacoes-quantidades?setor=${setor}`).toPromise();
+    return plainToClass(Situacao, data);
   }
 
-  removerProgramaItem(id: number): Observable<ProgramaItem> {
-    return this.httpclient.delete<ProgramaItem>(`${this.ApiUrl}/programa-item/${id}`);
+  async atualizarSituacoes(especieId: number): Promise<any> {
+    let data = await this.httpclient.put<any>(`${this.ApiUrl}/situacoes/`, { especieId: especieId }).toPromise();
+    return plainToClass(Animal, data);
+  }
+
+  async removerProgramaItem(id: number): Promise<ProgramaItem> {
+    let data = await this.httpclient.delete<ProgramaItem>(`${this.ApiUrl}/programa-item/${id}`).toPromise();
+    return plainToClass(ProgramaItem, data);
   }
 }

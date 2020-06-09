@@ -27,45 +27,43 @@ export class CicloComponent implements OnInit {
   }, {
     nome: "Lactação",
     valor: "L"
-  },{
+  }, {
     nome: "Recria",
     valor: "R"
-  },{
+  }, {
     nome: "Terminação",
     valor: "T"
-  },{
+  }, {
     nome: "Reprodutor",
     valor: "B"
   }];
 
   items = [
-    {id: 1, name: 'Python'},
-    {id: 2, name: 'Node Js'},
-    {id: 3, name: 'Java'},
-    {id: 4, name: 'PHP', disabled: true},
-    {id: 5, name: 'Django'},
-    {id: 6, name: 'Angular'},
-    {id: 7, name: 'Vue'},
-    {id: 8, name: 'ReactJs'},
+    { id: 1, name: 'Python' },
+    { id: 2, name: 'Node Js' },
+    { id: 3, name: 'Java' },
+    { id: 4, name: 'PHP', disabled: true },
+    { id: 5, name: 'Django' },
+    { id: 6, name: 'Angular' },
+    { id: 7, name: 'Vue' },
+    { id: 8, name: 'ReactJs' },
   ];
   selected = [
-    {id: 2, name: 'Node Js'},
-    {id: 8, name: 'ReactJs'}
+    { id: 2, name: 'Node Js' },
+    { id: 8, name: 'ReactJs' }
   ];
 
   ngOnInit() {
     this.cicloFilho = new CicloFilho();
-    this.simulacao = this.cicloFilho.tipo == "S" ? true: false;;
+    this.simulacao = this.cicloFilho.tipo == "S" ? true : false;;
     this.ciclos = [];
     this.data.tipo = this.data.tipo == undefined ? "G" : this.data.tipo;
     this.cicloFilho = this.data;
     this.obterCiclos();
   }
 
-  obterCiclos() {
-    this.manejoService.obterCiclosPorAno(2020).subscribe(data => {
-      this.ciclos = data;
-    });
+  async obterCiclos() {
+    this.ciclos = await this.manejoService.obterCiclosPorAno(2020);
   }
 
   mudarSimulacao(simulacao) {
@@ -75,35 +73,30 @@ export class CicloComponent implements OnInit {
 
   validar(item: CicloFilho): boolean {
 
-    return  item.quantidadeAnimais && item.quantidadeDias &&
-            item.dataInicio && item.valorRacao > 0 && item.quantidadeRacao > 0 &&
-            item.tipo != undefined;
+    return item.quantidadeAnimais && item.quantidadeDias &&
+      item.dataInicio && item.valorRacao > 0 && item.quantidadeRacao > 0 &&
+      item.tipo != undefined;
   }
 
-  salvar(): void {
-    if (this.validar(this.cicloFilho)) {
+  async salvar() {
+    try {
+      if (this.validar(this.cicloFilho)) {
 
-      if (this.cicloFilho.id > 0) {
-        this.manejoService.atualizarCiclo(this.cicloFilho).subscribe(data => {
-          this.cicloFilho = data;
+        if (this.cicloFilho.id > 0) {
+          this.cicloFilho = await this.manejoService.atualizarCiclo(this.cicloFilho);
           this.mostrarMensagem("Salvo com sucesso", "Ciclo");
           this.fechar();
-        },
-          err => {
-            this.mostrarMensagem("Ocorreu um problema", "Ciclo");
-          });
+        } else {
+          this.cicloFilho = await this.manejoService.salvarCiclo(this.cicloFilho);
+          this.mostrarMensagem("Salvo com sucesso", "Ciclo");
+          this.fechar();
+        }
       } else {
-        this.manejoService.salvarCiclo(this.cicloFilho).subscribe(data => {
-          this.cicloFilho = data;
-          this.mostrarMensagem("Salvo com sucesso", "Ciclo");
-          this.fechar();
-        },
-          err => {
-            this.mostrarMensagem("Ocorreu um problema", "Ciclo");
-          });
+        this.mostrarMensagem("Preencha os campos obrigatórios", "Ciclo");
       }
-    } else {
-      this.mostrarMensagem("Preencha os campos obrigatórios", "Ciclo");
+    } catch (e) {
+      console.error(e);
+      this.mostrarMensagem("Ocorreu um problema", "Ciclo");
     }
   }
 
