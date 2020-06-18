@@ -48,7 +48,6 @@ export class AcompanhamentoMaterno {
                 ValidadorTipo.numberMaiorOuIgualZero(this.pesoFilhoteNascimento) &&
                 ValidadorTipo.numberMaiorOuIgualZero(this.quantidadeSexoM) &&
                 ValidadorTipo.numberMaiorOuIgualZero(this.quantidadeSexoF) &&
-                ValidadorTipo.stringValido(this.situacaoNascimento) &&
                 !ValidadorTipo.dateValido(this.dataApartarReal)) ||
 
             (ValidadorTipo.dateValido(this.dataPartoReal) &&

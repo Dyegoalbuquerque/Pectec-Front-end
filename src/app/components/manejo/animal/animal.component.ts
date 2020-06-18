@@ -36,6 +36,8 @@ export class AnimalComponent implements OnInit {
 
   async salvar() {
     try {
+      this.animal.especieId = 1;
+      
       if (this.validar(this.animal)) {
 
         if (this.animal.id > 0) {
