@@ -30,6 +30,8 @@ export class AcompanhamentoMaterno {
     quantidadeSexoM: number;
     quantidadeSexoF: number;
     situacaoNascimento: string;
+    quantidadeDoado: number;
+    quantidadeAdotado: number;
 
     eValido(): boolean {
 

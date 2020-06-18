@@ -165,7 +165,7 @@ export class ManejoComponent implements OnInit {
 
     const dialogRef = this.dialog.open(AcompanhamentoMaternoComponent, {
       width: '700px',
-      height: '700px',
+      height: '730px',
       data: acompanhamento
     });
 
