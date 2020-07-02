@@ -6,7 +6,6 @@ import { EstoqueService, ConfiguracaoService } from 'src/app/services';
 import { UnidadeMedida } from 'src/app/models/unidadeMedida';
 import { Estoque } from 'src/app/models/estoque';
 import { Categoria, Subcategoria } from 'src/app/models';
-import { plainToClass } from 'class-transformer';
 
 @Component({
   selector: 'estoque-form-dialog',
@@ -18,7 +17,12 @@ export class EstoqueFormComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<EstoqueFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Estoque, private _snackBar: MatSnackBar,
     private estoqueService: EstoqueService,
-    private categoriaService: ConfiguracaoService) { }
+    private categoriaService: ConfiguracaoService) {
+
+    this.categoriaSelecionada = new Categoria();
+    this.estoque = this.data;
+    this.estoque.comprado = true;
+  }
 
   estoque: Estoque;
   categoriaSelecionada: Categoria;
@@ -27,9 +31,6 @@ export class EstoqueFormComponent implements OnInit {
   unidadeMedidas: UnidadeMedida[];
 
   ngOnInit() {
-    this.categoriaSelecionada = new Categoria();
-    this.estoque = this.data;
-    this.estoque.comprado = true;
     this.obterCategorias();
     this.obterUnidadeMedidas();
   }

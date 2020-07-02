@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
-  Situacao, ProgramaItem, Programa, Ciclo, CicloFilho,
-  AcompanhamentoMaterno, Animal, CausaObito
+  Situacao, ProgramaItem, Programa, CicloReproducao, Animal, CausaObito
 } from '../models';
 import { plainToClass } from "class-transformer";
 
@@ -35,7 +34,7 @@ export class ManejoService {
   }
 
   async obterPrevisoes(ano: number): Promise<Animal[]> {
-    let data = await this.httpclient.get<Animal[]>(`${this.ApiUrl}/acompanhamentos?ano=${ano}`).toPromise();
+    let data = await this.httpclient.get<Animal[]>(`${this.ApiUrl}/ciclos-reproducao?ano=${ano}`).toPromise();
     return plainToClass(Animal, data);
   }
 
@@ -66,19 +65,9 @@ export class ManejoService {
     return plainToClass(Animal, data);
   }
 
-  async obterAcompanhamentosPorAnimal(id: number): Promise<AcompanhamentoMaterno[]> {
-    let data = await this.httpclient.get<AcompanhamentoMaterno[]>(`${this.ApiUrl}/animal/${id}/acompanhamentos`).toPromise();
-    return plainToClass(AcompanhamentoMaterno, data);
-  }
-
-  async obterCiclosFilhosPorIds(ids: number[]): Promise<CicloFilho[]> {
-    let data = await this.httpclient.post<CicloFilho[]>(`${this.ApiUrl}/ciclo/filhos`, ids).toPromise();
-    return plainToClass(CicloFilho, data);
-  }
-
-  async obterCiclosPorAno(ano: number): Promise<Ciclo[]> {
-    let data = await this.httpclient.get<Ciclo[]>(`${this.ApiUrl}/ciclo/${ano}`).toPromise();
-    return plainToClass(Ciclo, data);
+  async obterAcompanhamentosPorAnimal(id: number): Promise<CicloReproducao[]> {
+    let data = await this.httpclient.get<CicloReproducao[]>(`${this.ApiUrl}/animal/${id}/ciclos-reproducao`).toPromise();
+    return plainToClass(CicloReproducao, data);
   }
 
   async salvarAnimal(item: Animal): Promise<Animal> {
@@ -96,34 +85,14 @@ export class ManejoService {
     return plainToClass(Animal, data);
   }
 
-  async  salvarAcompanhamento(item: AcompanhamentoMaterno): Promise<AcompanhamentoMaterno> {
-    let data = await this.httpclient.post<AcompanhamentoMaterno>(`${this.ApiUrl}/animal/acompanhamento`, item).toPromise();
-    return plainToClass(AcompanhamentoMaterno, data);
+  async  salvarAcompanhamento(item: CicloReproducao): Promise<CicloReproducao> {
+    let data = await this.httpclient.post<CicloReproducao>(`${this.ApiUrl}/animal/ciclo-reproducao`, item).toPromise();
+    return plainToClass(CicloReproducao, data);
   }
 
-  async salvarCiclo(item: CicloFilho): Promise<CicloFilho> {
-    let data = await this.httpclient.post<CicloFilho>(`${this.ApiUrl}/ciclo`, item).toPromise();
-    return plainToClass(CicloFilho, data);
-  }
-
-  async atualizarAcompanhamento(item: AcompanhamentoMaterno): Promise<AcompanhamentoMaterno> {
-    let data = await this.httpclient.put<AcompanhamentoMaterno>(`${this.ApiUrl}/animal/acompanhamento`, item).toPromise();
-    return plainToClass(AcompanhamentoMaterno, data);
-  }
-
-  async simularCiclo(item: CicloFilho): Promise<CicloFilho> {
-    let data = await this.httpclient.post<CicloFilho>(`${this.ApiUrl}/simular-ciclo`, item).toPromise();
-    return plainToClass(CicloFilho, data);
-  }
-
-  async atualizarCiclo(item: CicloFilho): Promise<CicloFilho> {
-    let data = await this.httpclient.put<CicloFilho>(`${this.ApiUrl}/ciclo/`, item).toPromise();
-    return plainToClass(CicloFilho, data);
-  }
-
-  async removerCiclo(id: number): Promise<CicloFilho> {
-    let data = await this.httpclient.delete<CicloFilho>(`${this.ApiUrl}/ciclo/${id}`).toPromise();
-    return plainToClass(CicloFilho, data);
+  async atualizarAcompanhamento(item: CicloReproducao): Promise<CicloReproducao> {
+    let data = await this.httpclient.put<CicloReproducao>(`${this.ApiUrl}/animal/ciclo-reproducao`, item).toPromise();
+    return plainToClass(CicloReproducao, data);
   }
 
   async salvarProgramaItem(item: ProgramaItem): Promise<ProgramaItem> {

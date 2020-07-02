@@ -3,11 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ManejoService } from '../../../services';
 import {
-  FichaComponent, AnimalComponent, AcompanhamentoMaternoComponent,
-  ProgramaFormComponent, AnimalComportamento
+  FichaComponent, AnimalComponent, CicloReproducaoComponent,
+  ProgramaFormComponent, AnimalComportamento, CicloSimularFormComponent
 } from '..';
-import { AcompanhamentoMaterno } from 'src/app/models/acompanhamentoMaterno';
-import { CicloFilho, Situacao, Animal, Programa, ProgramaItem } from 'src/app/models';
+import { CicloReproducao } from 'src/app/models/cicloReproducao';
+import { Situacao, Animal, Programa, ProgramaItem } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -28,7 +28,7 @@ export class ManejoComponent implements OnInit {
   animalComportamento: AnimalComportamento;
   femeas: Animal[];
   filhotes: Animal[];
-  ciclosFilhos: CicloFilho[];
+  ciclosRepdorucao: CicloReproducao[];
   situacoes: Situacao[];
   programa: Programa;
   programaItensSelecionados: ProgramaItem[];
@@ -161,9 +161,9 @@ export class ManejoComponent implements OnInit {
       }
     }
 
-    acompanhamento = !acompanhamento ? new AcompanhamentoMaterno(id) : acompanhamento;
+    acompanhamento = !acompanhamento ? new CicloReproducao(id) : acompanhamento;
 
-    const dialogRef = this.dialog.open(AcompanhamentoMaternoComponent, {
+    const dialogRef = this.dialog.open(CicloReproducaoComponent, {
       width: '700px',
       height: '730px',
       data: acompanhamento
@@ -188,6 +188,17 @@ export class ManejoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.obterProgramaDoAnimal(1);
       this.obterSituacoesQuantidade();
+    });
+  }
+
+  abrirSimuladorCiclo(){
+    const dialogRef = this.dialog.open(CicloSimularFormComponent, {
+      width: '1200px',
+      height: '700px',
+      data: new CicloReproducao(0)
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
     });
   }
 

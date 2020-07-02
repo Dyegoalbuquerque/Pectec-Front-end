@@ -86,6 +86,72 @@
 
 <br /><br />
 
+
+<br />
+
+<mat-divider></mat-divider>
+<span class="required legenda-campos-obrigatorios">campos obrigatórios</span>
+
+<br />
+<br />
+
+<mat-chip-list>
+  <mat-chip color="primary">
+    Gestação do ciclo 114 dias
+  </mat-chip>
+
+  <mat-chip color="primary">
+    Lactação do ciclo 30 dias
+  </mat-chip>
+
+  <mat-chip color="primary">
+    Recria do ciclo 6 dias
+  </mat-chip>
+</mat-chip-list>
+
+<br />
+
+<div class="row">
+  <div class="racao-simular-upl">
+    <mat-card>
+      <span>
+        <button mat-raised-button color="primary">adicionar ração</button>
+      </span>
+      <div *ngFor="let ciclo of ciclofilhos">
+        <mat-form-field>
+          <mat-label class="required">Ração do ciclo</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let subcategoria of subcategorias" [value]="subcategoria.id">
+              {{subcategoria.descricao}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+        <mat-form-field>
+          <mat-label class="required">Quantidade em Kg</mat-label>
+          <input matInput type="number" class="example-right-align">
+          <mat-icon matSuffix>filter_9</mat-icon>
+        </mat-form-field>
+
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+        <mat-form-field>
+          <mat-label class="required">Dias</mat-label>
+          <input matInput type="number" class="example-right-align">
+          <mat-icon matSuffix>filter_9</mat-icon>
+        </mat-form-field>
+      </div>
+    </mat-card>
+  </div>
+  <div class="medicamento-simular-upl">
+  </div>
+</div>
+
+<br />
+
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close (click)="fechar()">Cancelar</button>
   <button mat-button color="success" cdkFocusInitial (click)="salvar()">Salvar</button>

@@ -1,4 +1,4 @@
-import { AcompanhamentoMaterno } from './acompanhamentoMaterno';
+import { CicloReproducao } from './cicloReproducao';
 
 
 export class Animal{
@@ -18,5 +18,5 @@ export class Animal{
     sexo: string;
     quantidadeCiclo: number;
     procedencia: string;
-    acompanhamentos: AcompanhamentoMaterno[];
+    ciclos: CicloReproducao[];
 }

@@ -13,7 +13,7 @@ import { NotificationsService, NotificationType } from 'angular2-notifications';
 export class ProgramaFormComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<ProgramaFormComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
-    private manejoService: ManejoService, private categoriaService: ConfiguracaoService,
+    private manejoService: ManejoService, private configuracaoService: ConfiguracaoService,
     private notifications: NotificationsService) {
 
     this.programaItem = this.data.programaItem;
@@ -41,7 +41,8 @@ export class ProgramaFormComponent implements OnInit {
 
   async obterObjetivos() {
     try {
-      this.objetivos = await this.categoriaService.obterSubcategorias();
+      let objetivos = [];
+      this.objetivos = await this.configuracaoService.obterSubcategorias(this.objetivoPrograma);
     } catch (e) {
       console.error(e);
     }
@@ -51,7 +52,7 @@ export class ProgramaFormComponent implements OnInit {
 
   async obterUnidadeMedidas() {
     try {
-      this.unidadeMedidas = await this.categoriaService.obterUnidadeMedidas();
+      this.unidadeMedidas = await this.configuracaoService.obterUnidadeMedidas();
     } catch (e) {
       console.error(e);
     }

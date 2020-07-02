@@ -20,6 +20,9 @@
         <button mat-menu-item (click)="executarAtualizacaoSituacoes()">
           Executar atualização da Upl
         </button>
+        <button mat-menu-item (click)="abrirSimuladorCiclo()">
+          Simular ciclo da Upl
+        </button>
       </mat-menu>
     </p>
 
@@ -287,108 +290,6 @@
       </mat-accordion>
     </div>
 
-  </mat-tab>
-  <!-- tab ciclos -->
-  <mat-tab>
-    <ng-template mat-tab-label>
-      Ciclos
-    </ng-template>
-
-    <p>
-      Um ciclo mostra o quanto irá gastar em um lote de animais durante um período de tempo.
-
-      <button mat-raised-button color="success" class="right" (click)="abrirCicloDialog()">Criar ciclo</button>
-    </p>
-
-    <br />
-
-    <mat-divider></mat-divider>
-
-    <br />
-
-    <div class="grid-ciclo">
-
-      <igx-tree-grid #treegrid [data]="ciclosFilhos" expansionDepth="0" [autoGenerate]="false" height="480px"
-        width="100%" primaryKey="id" foreignKey="cicloId">
-        <igx-column field="id" header="Identificação" [dataType]="'string'"> </igx-column>
-        <igx-column field="tipo" header="Tipo de ciclo" [dataType]="'string'">
-          <ng-template igxCell let-cell="cell" let-val>
-            <span *ngIf="cell.row.rowData.tipo == 'G'">
-              <mat-chip-list>
-                <mat-chip color="warn">Gestação</mat-chip>
-              </mat-chip-list>
-            </span>
-            <span *ngIf="cell.row.rowData.tipo == 'L'">
-              <mat-chip-list>
-                <mat-chip color="warn">Lactação</mat-chip>
-              </mat-chip-list>
-            </span>
-            <span *ngIf="cell.row.rowData.tipo == 'R'">
-              <mat-chip-list>
-                <mat-chip color="warn">Recria</mat-chip>
-              </mat-chip-list>
-            </span>
-            <span *ngIf="cell.row.rowData.tipo == 'B'">
-              <mat-chip-list>
-                <mat-chip color="warn">Reprodutor</mat-chip>
-              </mat-chip-list>
-            </span>
-          </ng-template>
-        </igx-column>
-        <igx-column field="quantidadeAnimais" header="Nº de animais" [dataType]="number">
-          <ng-template igxCell let-cell="cell" let-val>
-            <span *ngIf="cell.row.rowData.quantidadeAnimais > 0">
-              {{val}}
-            </span>
-          </ng-template>
-        </igx-column>
-        <igx-column field="quantidadeDias" header="Qtd de dias" dataType="number">
-          <ng-template igxCell let-cell="cell" let-val>
-            <span *ngIf="cell.row.rowData.quantidadeDias > 0">
-              {{val}}
-            </span>
-          </ng-template>
-        </igx-column>
-        <igx-column field="quantidadeRacao" header="Kg/dia ração" [dataType]="number">
-          <ng-template igxCell let-cell="cell" let-val>
-            <span *ngIf="cell.row.rowData.quantidadeRacao > 0">
-              {{val}}
-            </span>
-          </ng-template>
-        </igx-column>
-        <igx-column field="valorRacao" header="Valor kg ração" [dataType]="number">
-          <ng-template igxCell let-cell="cell" let-val>
-            <span *ngIf="cell.row.rowData.valorRacao > 0">
-              {{val | currency:'R$ ':true:'1.2-2'}}
-            </span>
-          </ng-template>
-        </igx-column>
-        <igx-column field="valor" header="Valor do ciclo" [cellClasses]="priceClasses" [dataType]="number">
-          <ng-template igxCell let-cell="cell" let-val>
-            <span *ngIf="cell.row.rowData.valor > 0">
-              {{val | currency:'R$ ':true:'1.2-2'}}
-            </span>
-          </ng-template>
-        </igx-column>
-        <igx-column field="dataInicio" header="Início" [dataType]="'date'">
-          <ng-template igxCell let-cell="cell" let-val>
-            <span *ngIf="cell.row.rowData.dataInicio != ''">{{val | date: 'dd/MM/yyyy'}}</span>
-          </ng-template>
-        </igx-column>
-        <igx-column field="dataTermino" header="Término" [dataType]="'date'">
-          <ng-template igxCell let-cell="cell" let-val>
-            <span *ngIf="cell.row.rowData.dataTermino != ''">{{val | date: 'dd/MM/yyyy'}}</span>
-          </ng-template>
-        </igx-column>
-        <igx-column field="" header="">
-          <a class="remover" mat-stroked-button color="warn" (click)="dialog.open(element.id)">remover</a>
-          <igx-dialog #dialog title="Confirmação" leftButtonLabel="Cancelar" (onLeftButtonSelect)="dialog.close()"
-            rightButtonLabel="Remover" (onRightButtonSelect)="removerCiclo(element.id)"
-            message="Deseja remover este registro ?">
-          </igx-dialog>
-        </igx-column>
-      </igx-tree-grid>
-    </div>
   </mat-tab>
   <!-- lote -->
   <mat-tab>

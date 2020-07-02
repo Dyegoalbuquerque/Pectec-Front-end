@@ -8,8 +8,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MaterialModule } from './material-module';
 import { HttpClientModule } from "@angular/common/http";
 import { LoginComponent } from './components/login/login.component';
-import { ManejoComponent, AnimalComponent, CicloSimularComponent,
-         CicloComponent, FichaComponent, ProgramaFormComponent, AcompanhamentoMaternoComponent } from './components/manejo';
+import { ManejoComponent, AnimalComponent, CicloResumoComponent,
+         FichaComponent, ProgramaFormComponent, CicloReproducaoComponent, CicloSimularFormComponent } from './components/manejo';
 import { CustoComponent, LancamentoComponent, ReciboComponent } from './components/custo';
 import { EstoqueComponent, RacaoComponent, EstoqueFormComponent,
          EstoqueHistoricoComponent } from './components/estoque';
@@ -31,14 +31,14 @@ import {
 
 @NgModule({
   declarations: [
-    AppComponent, LoginComponent, ManejoComponent, CicloSimularComponent, ReciboComponent,
-    CustoComponent, FichaComponent, LancamentoComponent, CicloComponent, LoginComponent,
-    AnimalComponent, AcompanhamentoMaternoComponent, EstoqueComponent, EstoqueHistoricoComponent,
+    AppComponent, LoginComponent, ManejoComponent, CicloResumoComponent, ReciboComponent,
+    CustoComponent, FichaComponent, LancamentoComponent, CicloSimularFormComponent, LoginComponent,
+    AnimalComponent, CicloReproducaoComponent, EstoqueComponent, EstoqueHistoricoComponent,
     RacaoComponent, EstoqueFormComponent, ProgramaFormComponent, ConsumoComponent,
     ConsumoFormComponent, VendaComponent, VendaRacaoComponent, VendaInsumoComponent, VendaAnimalComponent
   ],
-  entryComponents: [CicloSimularComponent, FichaComponent, LancamentoComponent, CicloComponent, 
-    AnimalComponent, AcompanhamentoMaternoComponent, EstoqueHistoricoComponent, ReciboComponent,
+  entryComponents: [CicloResumoComponent, FichaComponent, LancamentoComponent, CicloSimularFormComponent, 
+    AnimalComponent, CicloReproducaoComponent, EstoqueHistoricoComponent, ReciboComponent,
                     RacaoComponent, EstoqueFormComponent, VendaRacaoComponent, ProgramaFormComponent, 
                     ConsumoFormComponent, VendaInsumoComponent, VendaAnimalComponent],
   imports: [
@@ -49,7 +49,7 @@ import {
     IgxRadioModule, NgSelectModule, MDBBootstrapModule.forRoot(), ChartsModule, 
     Ng5SliderModule, SimpleNotificationsModule.forRoot(), NgxSpinnerModule
   ],
-  providers: [],
+  providers: [], 
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

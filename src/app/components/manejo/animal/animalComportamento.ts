@@ -138,10 +138,21 @@ export class AnimalComportamento {
 
         let acompanhamento = this.obterAcompanhamentoMaternoAtivo(femea);
 
-        let quantidade = acompanhamento &&
-            acompanhamento.quantidadeFilhoteVV ?
-            acompanhamento.quantidadeFilhoteVV -
-            acompanhamento.quantidadeFilhoteMorto : 0;
+        let quantidade;
+        let vivos;
+        let adotados;
+        let doados;
+        let mortos;
+
+        if (acompanhamento) {
+            vivos = acompanhamento.quantidadeFilhoteVV ? acompanhamento.quantidadeFilhoteVV : 0;
+            adotados = acompanhamento.quantidadeAdotado ? acompanhamento.quantidadeAdotado : 0;
+            doados = acompanhamento.quantidadeDoado ? acompanhamento.quantidadeDoado : 0;
+            mortos = acompanhamento.quantidadeFilhoteMorto ? acompanhamento.quantidadeFilhoteMorto  : 0;
+
+            quantidade = (vivos + adotados) - (mortos + doados);
+        }
+
 
         return quantidade;
     }
@@ -151,10 +162,10 @@ export class AnimalComportamento {
         let acompanhamento = this.obterAcompanhamentoMaternoAtivo(femea);
 
         let quantidade = acompanhamento &&
-                         acompanhamento.quantidadeFilhoteVV &&
-                         acompanhamento.quantidadeFilhoteMorto ?
-                         acompanhamento.quantidadeFilhoteMorto +
-                         acompanhamento.quantidadeFilhoteNM : 0;
+            acompanhamento.quantidadeFilhoteVV &&
+            acompanhamento.quantidadeFilhoteMorto ?
+            acompanhamento.quantidadeFilhoteMorto +
+            acompanhamento.quantidadeFilhoteNM : 0;
 
         return quantidade;
     }

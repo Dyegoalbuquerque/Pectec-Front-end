@@ -2,24 +2,24 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ManejoService } from '../../../services/manejo.service';
-import { AcompanhamentoMaterno } from 'src/app/models/acompanhamentoMaterno';
+import { CicloReproducao } from 'src/app/models/cicloReproducao';
 import { Animal } from 'src/app/models/animal';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 
 @Component({
-    templateUrl: './acompanhamentoMaterno.component.html',
-    styleUrls: ['./acompanhamentoMaterno.component.css']
+    templateUrl: './cicloReproducao.component.html',
+    styleUrls: ['./cicloReproducao.component.css']
 })
-export class AcompanhamentoMaternoComponent implements OnInit {
+export class CicloReproducaoComponent implements OnInit {
 
-    constructor(public dialogRef: MatDialogRef<AcompanhamentoMaternoComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: AcompanhamentoMaterno, private notifications: NotificationsService,
+    constructor(public dialogRef: MatDialogRef<CicloReproducaoComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: CicloReproducao, private notifications: NotificationsService,
         private manejoService: ManejoService) {
         this.acompanhamento = this.data;
         this.acompanhamento.inceminacao = false;
     }
 
-    acompanhamento: AcompanhamentoMaterno;
+    acompanhamento: CicloReproducao;
     reprodutores: Animal[];
     situacoes = [];
     items = [];

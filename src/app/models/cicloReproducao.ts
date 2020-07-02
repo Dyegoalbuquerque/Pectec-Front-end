@@ -1,6 +1,6 @@
 import { ValidadorTipo } from '../validadorTipo';
 
-export class AcompanhamentoMaterno {
+export class CicloReproducao {
 
     constructor(femeaId: number) {
         this.femeaId = femeaId;

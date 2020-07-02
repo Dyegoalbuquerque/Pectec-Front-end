@@ -1,0 +1,23 @@
+<h5 mat-dialog-title>Simulação do ciclo</h5>
+
+
+<label>Quantidade de fêmeas&nbsp;&nbsp;<b>{{ ciclo.quantidadeFemeas}}</b></label><br />
+<label>Dias de gestação&nbsp;&nbsp;<b>{{ciclo.quantidadeDiasGestacao}}</b></label><br />
+<label>Dias para apartar&nbsp;&nbsp;<b>{{ciclo.quantidadeDiasLactacao}}</b></label><br />
+<label>Início do ciclo&nbsp;&nbsp;<b>{{ciclo.dataInicio | date: 'dd/MM/yyyy'}}</b></label><br />
+<label>Valor da ração gestação&nbsp;&nbsp;<b>{{ciclo.valorRacaoGestacao | currency:'R$':true:'1.2-2'}}</b></label>
+<br />
+<label>Valor da ração lactação&nbsp;&nbsp;<b>{{ciclo.valorRacaoLactacao | currency:'R$':true:'1.2-2'}}</b></label>
+<br />
+<label>Valor da ração recria&nbsp;&nbsp;<b>{{ciclo.valorRacaoRecria | currency:'R$':true:'1.2-2'}}</b></label> <br />
+<label>Data do parto provável&nbsp;&nbsp;<b>{{ciclo.dataParicao | date: 'dd/MM/yyyy'}}</b></label> <br />
+<label>Data de apartar&nbsp;&nbsp;<b>{{ciclo.dataApartar | date: 'dd/MM/yyyy'}}</b></label> <br /> <br />
+<label>Total do ciclo&nbsp;&nbsp;<b>{{ciclo.valorCicloEstimado | currency:'R$':true:'1.2-2'}}</b></label>
+
+
+<br /><br />
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="fechar()">Cancelar</button>
+  <button mat-button color="success" cdkFocusInitial (click)="salvar()">Simular</button>
+</mat-dialog-actions>
