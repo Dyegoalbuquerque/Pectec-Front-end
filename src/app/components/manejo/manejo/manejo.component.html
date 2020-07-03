@@ -225,82 +225,15 @@
       </mat-accordion>
     </div>
   </mat-tab>
-  <!-- tab filhotes -->
+  <!-- creche -->
   <mat-tab>
     <ng-template mat-tab-label>
-      Filhotes
+      Creche
     </ng-template>
 
     <p>
-      Acompanhe seus filhotes até o final de sua vida útil.
+      Quantidade de leitões na creche.
 
-    </p>
-
-    <br />
-
-    <mat-divider></mat-divider>
-
-    <br />
-
-    <div class="lista-animal">
-      <mat-accordion>
-        <mat-expansion-panel *ngFor="let filhote of filhotes"
-          [disabled]="animalComportamento.obterSituacao(filhote.situacao) == 'Óbito'" (opened)="panelOpenState = true"
-          (closed)="panelOpenState = false">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <mat-chip-list>
-                <mat-chip>
-                  Mãe {{filhote.maeId}}
-                </mat-chip>
-              </mat-chip-list>
-
-              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
-              Nº filhote {{filhote.numero}}
-
-              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
-              {{filhote.raca}}
-
-              <span>&nbsp;&nbsp;&nbsp;</span>
-
-              {{filhote.sexo}}
-
-              <span>&nbsp;&nbsp;&nbsp;</span>
-
-              <mat-chip-list>
-
-                <mat-chip color="primary" selected>
-                  {{animalComportamento.obterSituacao(filhote.situacao)}}
-                  {{animalComportamento.calcularDiasDoAnimal(filhote)}} dias
-                </mat-chip>
-              </mat-chip-list>
-
-            </mat-panel-title>
-            <mat-panel-description>
-
-
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-
-          <a mat-raised-button (click)="abrirAnimalDialog(filhote.id)">Dados do filhote</a>
-
-        </mat-expansion-panel>
-      </mat-accordion>
-    </div>
-
-  </mat-tab>
-  <!-- lote -->
-  <mat-tab>
-    <ng-template mat-tab-label>
-      Lotes
-    </ng-template>
-
-    <p>
-      Um lote reune animais agrupados para melhor trabalho de manejo.
-
-      <button mat-raised-button color="success" class="right">Criar lote</button>
     </p>
 
     <br />
