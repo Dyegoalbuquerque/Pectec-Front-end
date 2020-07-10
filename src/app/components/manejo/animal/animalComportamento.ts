@@ -14,24 +14,24 @@ export class AnimalComportamento {
 
     situacoes: Situacao[];
 
-    calcularAlertaDeParicao(femea: Animal) {
+    calcularQuantidadeDiasAteHoje(data: string) {
 
-        let acompanhamentoAtivo = this.obterAcompanhamentoMaternoAtivo(femea);
-        var hoje = new Date();
-        var dataPartoPrevisao = new Date(acompanhamentoAtivo.dataPartoPrevisao);
+        console.log(data);
+        var dataInicio = new Date(data);
 
-        var subtracao = dataPartoPrevisao.getTime() - hoje.getTime();
-
+        var subtracao = Math.abs(new Date().getTime() - dataInicio.getTime());
         return Math.ceil(subtracao / (1000 * 60 * 60 * 24));
     }
 
+    calcularAlertaDeParicao(femea: Animal) {
+
+        let acompanhamentoAtivo = this.obterAcompanhamentoMaternoAtivo(femea);
+
+        return this.calcularQuantidadeDiasAteHoje(acompanhamentoAtivo.dataPartoPrevisao);
+    }
+
     calcularDiasDoAnimal(animal: Animal) {
-
-        var hoje = new Date();
-        var dataNascimento = new Date(animal.dataNascimento);
-
-        var subtracao = Math.abs(hoje.getTime() - dataNascimento.getTime());
-        return Math.ceil(subtracao / (1000 * 60 * 60 * 24));
+        return this.calcularQuantidadeDiasAteHoje(animal.dataNascimento);
     }
 
     calcularDiasDesdeFecundacao(femea: Animal) {
@@ -41,12 +41,8 @@ export class AnimalComportamento {
         if (acompanhamentoAtivo == null || acompanhamentoAtivo.dataFecundacao == null) {
             return 0;
         }
-
-        var hoje = new Date();
-        var dataFecundacao = new Date(acompanhamentoAtivo.dataFecundacao);
-
-        var subtracao = Math.abs(hoje.getTime() - dataFecundacao.getTime());
-        return Math.ceil(subtracao / (1000 * 60 * 60 * 24));
+        
+        return this.calcularQuantidadeDiasAteHoje(acompanhamentoAtivo.dataFecundacao);
     }
 
     taNoPeriodoConfirmacaoDeGestacao(femea: Animal) {
@@ -133,8 +129,8 @@ export class AnimalComportamento {
 
         return situacao ? situacao.nome : '';
     }
-
-    quantidadeFilhotesVivos(femea: Animal) {
+ 
+    calcularQuantidadeFilhotesAtual(femea: Animal) {
 
         let acompanhamento = this.obterAcompanhamentoMaternoAtivo(femea);
 
@@ -143,30 +139,28 @@ export class AnimalComportamento {
         let adotados;
         let doados;
         let mortos;
+        let vendidos;
+        let apartados;
 
         if (acompanhamento) {
             vivos = acompanhamento.quantidadeFilhoteVV ? acompanhamento.quantidadeFilhoteVV : 0;
             adotados = acompanhamento.quantidadeAdotado ? acompanhamento.quantidadeAdotado : 0;
             doados = acompanhamento.quantidadeDoado ? acompanhamento.quantidadeDoado : 0;
             mortos = acompanhamento.quantidadeFilhoteMorto ? acompanhamento.quantidadeFilhoteMorto  : 0;
+            vendidos = acompanhamento.quantidadeVendido ? acompanhamento.quantidadeVendido : 0;
+            apartados = acompanhamento.quantidadeApartado ? acompanhamento.quantidadeApartado : 0;
 
-            quantidade = (vivos + adotados) - (mortos + doados);
+            quantidade = (vivos + adotados) - (mortos + doados + vendidos + apartados);
         }
 
 
         return quantidade;
     }
 
-    quantidadeFilhotesMortos(femea: Animal) {
+    calcularQuantidadeDiasDeParida(femea: Animal) {
 
         let acompanhamento = this.obterAcompanhamentoMaternoAtivo(femea);
 
-        let quantidade = acompanhamento &&
-            acompanhamento.quantidadeFilhoteVV &&
-            acompanhamento.quantidadeFilhoteMorto ?
-            acompanhamento.quantidadeFilhoteMorto +
-            acompanhamento.quantidadeFilhoteNM : 0;
-
-        return quantidade;
+        return this.calcularQuantidadeDiasAteHoje(acompanhamento.dataPartoReal);
     }
 }

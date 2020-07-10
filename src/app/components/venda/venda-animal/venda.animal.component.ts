@@ -1,7 +1,7 @@
 
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Venda, VendaItem } from 'src/app/models';
+import { Venda } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { VendaService, ManejoService } from 'src/app/services';
 
@@ -17,13 +17,13 @@ export class VendaAnimalComponent implements OnInit {
     private manejoService: ManejoService, private notifications: NotificationsService) { }
 
   venda: Venda;
-  vendaItem: VendaItem;
+  vendaItem: any;
   lotes: any[];
   limiteDeQuantidade: string = '';
 
   async ngOnInit() {
     this.venda = this.data;
-    this.vendaItem = new VendaItem('A');
+    this.vendaItem = {};
     await this.obterLotes("L");
   }
 
@@ -39,7 +39,7 @@ export class VendaAnimalComponent implements OnInit {
   async salvar() {
 
     try {
-      this.venda.itens = [this.vendaItem];
+      //this.venda.itens = [this.vendaItem];
 
       if (this.venda.eValido()) {
         this.venda = await this.vendaService.salvarVendaAnimal(this.venda);

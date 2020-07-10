@@ -1,4 +1,4 @@
-export * from './cicloReproducao/cicloReproducao.component';
+export * from './ciclo-reproducao/cicloReproducao.component';
 export * from './animal/animal.component';
 export * from './animal/animalComportamento';
 export * from './ciclo-simular-form/ciclo.simular.form.component';

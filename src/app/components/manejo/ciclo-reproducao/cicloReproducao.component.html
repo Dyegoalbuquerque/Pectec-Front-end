@@ -1,4 +1,4 @@
-<h5>Ciclo de reprodução  da matriz</h5>
+<h5>Ciclo de reprodução da matriz</h5>
 
 <br />
 <mat-divider></mat-divider>
@@ -6,8 +6,9 @@
 <br />
 <br />
 
-<igx-switch [checked]="acompanhamento.inceminacao" [(ngModel)]="acompanhamento.inceminacao" [disabled]="acompanhamento.dataFecundacao && acompanhamento.dataFecundacao != ''" [checked]="acompanhamento.inceminacao"
-  (change)="mudarInceminacao(inceminacao)">
+<igx-switch [checked]="acompanhamento.inceminacao" [(ngModel)]="acompanhamento.inceminacao"
+  [disabled]="acompanhamento.dataFecundacao && acompanhamento.dataFecundacao != ''"
+  [checked]="acompanhamento.inceminacao" (change)="mudarInceminacao(inceminacao)">
   Inceminação
 </igx-switch>
 
@@ -101,7 +102,7 @@
   </mat-form-field>
 
   <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-  
+
   <mat-form-field>
     <mat-label class="required">Quantidade machos</mat-label>
     <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.quantidadeSexoM">
@@ -133,6 +134,22 @@
   <mat-form-field>
     <mat-label>Nº leitões adotados</mat-label>
     <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.quantidadeAdotado">
+    <mat-icon matSuffix>filter_9</mat-icon>
+  </mat-form-field>
+
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+  <mat-form-field>
+    <mat-label>Nº leitões vendidos</mat-label>
+    <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.quantidadeVendido">
+    <mat-icon matSuffix>filter_9</mat-icon>
+  </mat-form-field>
+
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+  <mat-form-field>
+    <mat-label>Nº leitões apartados</mat-label>
+    <input matInput type="number" class="example-right-align" [(ngModel)]="acompanhamento.quantidadeApartado">
     <mat-icon matSuffix>filter_9</mat-icon>
   </mat-form-field>
 

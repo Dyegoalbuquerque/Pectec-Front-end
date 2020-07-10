@@ -166,14 +166,14 @@
 
               <span>&nbsp;&nbsp;</span>
 
-              <span *ngIf="animalComportamento.quantidadeFilhotesVivos(femea) > 0">
-                {{animalComportamento.quantidadeFilhotesVivos(femea)}} vivos
+              <span *ngIf="animalComportamento.calcularQuantidadeFilhotesAtual(femea) > 0">
+                {{animalComportamento.calcularQuantidadeFilhotesAtual(femea)}} leitões
               </span>
 
               <span>&nbsp;&nbsp;</span>
 
-              <span *ngIf="animalComportamento.quantidadeFilhotesMortos(femea) > 0">
-                {{animalComportamento.quantidadeFilhotesMortos(femea)}} mortos
+              <span *ngIf="animalComportamento.foiParida(femea)">
+                {{animalComportamento.calcularQuantidadeDiasDeParida(femea)}} dias
               </span>
 
             </mat-panel-title>
@@ -217,7 +217,7 @@
 
           <a mat-raised-button (click)="abrirFichaDialog(femea.id)">Exibir ficha</a>
           <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          <a mat-raised-button color="warn" (click)="abrirAcompanhamentoDialog(femea.id)">Acompanhamento materno</a>
+          <a mat-raised-button color="warn" (click)="abrirCicloReproducaoDialog(femea.id)">Ciclo de reprodução</a>
           <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
           <a mat-raised-button (click)="abrirAnimalDialog(femea.id)">Dados da matriz</a>
 

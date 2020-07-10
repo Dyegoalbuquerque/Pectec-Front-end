@@ -1,6 +1,4 @@
-import { VendaItem } from './vendaItem';
 import { ValidadorTipo } from '../validadorTipo';
-
 
 export class Venda {
 
@@ -11,22 +9,11 @@ export class Venda {
     ano: number;
     valorTotal: number;
     valorCustoTotal: number;
-    itens: VendaItem[];
+    quantidade: number;
 
     eValido(): boolean {
 
-        let itensValidos = false;
-
-        this.itens.forEach(i => {
-
-            itensValidos = 
-                ValidadorTipo.numberValido(i.origemId) &&
-                ValidadorTipo.numberValido(i.quantidade) &&
-                ValidadorTipo.stringValido(i.tipo) &&
-                ValidadorTipo.numberValido(i.valor)
-        });
-
-        let result = ValidadorTipo.booleanVerdadeiro(itensValidos) && 
+        let result = 
                      ValidadorTipo.dateValido(this.data);
 
         return result;

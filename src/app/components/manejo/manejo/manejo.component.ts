@@ -148,7 +148,7 @@ export class ManejoComponent implements OnInit {
     }
   }
 
-  async abrirAcompanhamentoDialog(id: number) {
+  async abrirCicloReproducaoDialog(id: number) {
 
     let data = await this.manejoService.obterAcompanhamentosPorAnimal(id);
 

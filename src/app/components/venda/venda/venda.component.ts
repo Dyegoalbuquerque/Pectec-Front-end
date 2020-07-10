@@ -7,7 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { VendaService } from '../../../services';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource, PageEvent } from '@angular/material';
-import { VendaAnimalComponent, VendaInsumoComponent, VendaRacaoComponent } from '..';
+import { VendaAnimalComponent} from '..';
 import { Paginacao } from 'src/app/paginacao';
 
 @Component({
@@ -69,30 +69,6 @@ export class VendaComponent implements OnInit {
     lista.forEach(x => {
       this.totalVendido += x.valorTotal;
       this.totalLucro += x.valorTotal - x.valorCustoTotal;
-    });
-  }
-
-  abrirVendaRacaoDialog(item: Venda): void {
-    const dialogRef = this.dialog.open(VendaRacaoComponent, {
-      width: '480px',
-      height: '500px',
-      data: item == null ? new Venda() : item
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.obterVendas(2020);
-    });
-  }
-
-  abrirVendaInsumoDialog(item: Venda): void {
-    const dialogRef = this.dialog.open(VendaInsumoComponent, {
-      width: '480px',
-      height: '500px',
-      data: item == null ? new Venda() : item
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.obterVendas(2020);
     });
   }
 

@@ -8,12 +8,6 @@
         Criar venda
     </button>
     <mat-menu #venda="matMenu">
-        <button mat-menu-item (click)="abrirVendaRacaoDialog()">
-            Venda de ração
-        </button>
-        <button mat-menu-item (click)="abrirVendaInsumoDialog()">
-            Venda de insumo
-        </button>
         <button mat-menu-item (click)="abrirVendaLeitaoDialog()">
             Venda de leitão
         </button>
@@ -54,12 +48,12 @@
         </ng-container>
 
         <ng-container matColumnDef="tipo">
-            <th mat-header-cell *matHeaderCellDef> Tipo da venda </th>
-            <td mat-cell *matCellDef="let element"> </td>
+            <th mat-header-cell *matHeaderCellDef> Quantidade de animais </th>
+            <td mat-cell *matCellDef="let element"> {{element.quantidade}}</td>
         </ng-container>
 
         <ng-container matColumnDef="descricao">
-            <th mat-header-cell *matHeaderCellDef> Descrição da venda</th>
+            <th mat-header-cell *matHeaderCellDef> Valor</th>
             <td mat-cell *matCellDef="let element">
                 {{element.mostrarValoresDetalhado()}}
             </td>
