@@ -1,10 +1,134 @@
 <h5>Upl</h5>
 
 <mat-tab-group>
-  <!-- upl -->
+  <!-- controle de ciclos -->
   <mat-tab>
     <ng-template mat-tab-label>
-      Visão geral
+      Controle ciclos de reprodução
+    </ng-template>
+
+    <p>
+      Acompanhe os ciclos reprodutivos da granja.
+      <button mat-raised-button color="success" class="right" [matMenuTriggerFor]="programa">
+        Ações
+      </button>
+      <mat-menu #programa="matMenu">
+        <button mat-menu-item (click)="abrirAnimalDialog()">Nova matriz</button>
+      </mat-menu>
+    </p>
+    <br />
+    <mat-divider></mat-divider>
+    <br />
+    <mat-chip-list>
+      <mat-chip color="primary">Gestação &nbsp;&nbsp;<strong>10</strong></mat-chip>
+      <mat-chip color="primary">Lactação &nbsp;&nbsp;<strong>10</strong></mat-chip>
+      <mat-chip color="primary">Confirmação gestação &nbsp;&nbsp;<strong>10</strong></mat-chip>
+      <mat-chip color="primary">Recria &nbsp;&nbsp;<strong>10</strong></mat-chip>
+      <mat-chip color="primary">Leitões &nbsp;&nbsp;<strong>10</strong></mat-chip>
+    </mat-chip-list>
+    <br />
+
+    <div class="lista-animal">
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let femea of femeas"
+          [disabled]="animalComportamento.obterSituacao(femea.situacao) == 'Óbito'" (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Nº matriz {{femea.numero}}
+
+              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+              {{femea.raca}}
+
+              <span>&nbsp;&nbsp;&nbsp;</span>
+
+              <mat-chip-list>
+
+                <mat-chip *ngIf="animalComportamento.obterSituacao(femea.situacao) != 'Óbito' && 
+                                   animalComportamento.obterSituacao(femea.situacao) != 'Confirmação gestação' &&
+                                   animalComportamento.obterSituacao(femea.situacao) != 'Recria'" color="primary"
+                  selected>
+                  {{animalComportamento.obterSituacao(femea.situacao)}}
+                  {{animalComportamento.calcularDiasDesdeFecundacao(femea)}} dias
+                </mat-chip>
+
+                <mat-chip *ngIf="animalComportamento.obterSituacao(femea.situacao) == 'Óbito' || 
+                                   animalComportamento.obterSituacao(femea.situacao) == 'Recria'">
+                  {{animalComportamento.obterSituacao(femea.situacao)}}
+                </mat-chip>
+
+                <mat-chip *ngIf="animalComportamento.obterSituacao(femea.situacao) == 'Confirmação gestação' && 
+                                   !animalComportamento.taNoPeriodoConfirmacaoDeGestacao(femea)">
+                  {{animalComportamento.obterSituacao(femea.situacao)}}
+                  {{animalComportamento.calcularDiasDesdeFecundacao(femea)}} dias
+                </mat-chip>
+                <mat-chip *ngIf="animalComportamento.obterSituacao(femea.situacao) == 'Confirmação gestação' && 
+                                   animalComportamento.taNoPeriodoConfirmacaoDeGestacao(femea)" color="warn" selected>
+                  {{animalComportamento.obterSituacao(femea.situacao)}}
+                  {{animalComportamento.calcularDiasDesdeFecundacao(femea)}} dias
+                </mat-chip>
+              </mat-chip-list>
+
+              <span>&nbsp;&nbsp;</span>
+
+              <span *ngIf="animalComportamento.foiParida(femea)">
+                {{animalComportamento.calcularQuantidadeFilhotesAtual(femea)}} leitões
+              </span>
+
+              <span>&nbsp;&nbsp;</span>
+
+              <span *ngIf="animalComportamento.foiParida(femea)">
+                {{animalComportamento.calcularQuantidadeDiasDeParida(femea)}} dias
+              </span>
+
+            </mat-panel-title>
+            <mat-panel-description>
+
+              <span *ngIf="animalComportamento.foiFecundada(femea) && 
+                            !animalComportamento.foiParida(femea)">
+
+                cobertura em {{animalComportamento.obterDataCobertura(femea) | date: 'dd/MM/yyyy'}}
+                <span>&nbsp;&nbsp;</span>
+
+                <strong>parto provável em
+                  {{animalComportamento.obterDataPartoPrevisao(femea) | date: 'dd/MM/yyyy'}}
+                </strong>
+
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+                <mat-chip color="warn" *ngIf="animalComportamento.taEmAlertaDeParto(femea)" selected>
+                  FALTAM {{animalComportamento.calcularAlertaDeParicao(femea)}} dias
+                </mat-chip>
+              </span>
+
+              <span *ngIf="animalComportamento.foiParida(femea)">
+
+                parto em {{animalComportamento.obterDataPartoReal(femea) | date: 'dd/MM/yyyy'}}
+                <span>&nbsp;&nbsp;</span>
+
+                <strong>apartar provável em
+                  {{animalComportamento.obterDataApartarPrevisao(femea) | date: 'dd/MM/yyyy'}}
+                </strong>
+              </span>
+
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <a mat-raised-button (click)="abrirFichaDialog(femea.id)">Exibir ficha</a>
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <a mat-raised-button color="warn" (click)="abrirCicloReproducaoDialog(femea.id)">Ciclo de reprodução</a>
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <a mat-raised-button (click)="abrirAnimalDialog(femea.id)">Dados da matriz</a>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </mat-tab>
+  <!-- programa dos ciclos -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Programa dos ciclos da upl
     </ng-template>
 
     <p>
@@ -78,7 +202,8 @@
             </span>
             <h6 class="mb-1">
               <mat-chip-list>
-                <mat-chip *ngIf="programaItem.eDoTipoConsumo()" color="primary" selected>{{programaItem.mostrarObjetivo()}}</mat-chip>
+                <mat-chip *ngIf="programaItem.eDoTipoConsumo()" color="primary" selected>
+                  {{programaItem.mostrarObjetivo()}}</mat-chip>
                 <mat-chip *ngIf="!programaItem.eDoTipoConsumo()"> {{programaItem.mostrarObjetivo()}}</mat-chip>
                 <span>&nbsp;&nbsp;</span>{{programaItem.mostrarDescricao()}}
               </mat-chip-list>
@@ -98,132 +223,6 @@
       </div>
     </div>
     <br /><br />
-  </mat-tab>
-  <!-- controle de matrizes -->
-  <mat-tab>
-    <ng-template mat-tab-label>
-      Controle de matrizes
-    </ng-template>
-
-    <p>
-      Cadastre suas matrizes para acompanhamento até o final de sua vida útil.
-
-
-      <button mat-raised-button color="success" class="right" [matMenuTriggerFor]="programa">
-        Ações
-      </button>
-      <mat-menu #programa="matMenu">
-        <button mat-menu-item (click)="abrirAnimalDialog()">Nova matriz</button>
-      </mat-menu>
-    </p>
-
-    <br />
-
-    <mat-divider></mat-divider>
-
-    <br />
-
-    <div class="lista-animal">
-      <mat-accordion>
-        <mat-expansion-panel *ngFor="let femea of femeas"
-          [disabled]="animalComportamento.obterSituacao(femea.situacao) == 'Óbito'" (opened)="panelOpenState = true"
-          (closed)="panelOpenState = false">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Nº matriz {{femea.numero}}
-
-              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
-              {{femea.raca}}
-
-              <span>&nbsp;&nbsp;&nbsp;</span>
-
-              <mat-chip-list>
-
-                <mat-chip *ngIf="animalComportamento.obterSituacao(femea.situacao) != 'Óbito' && 
-                                 animalComportamento.obterSituacao(femea.situacao) != 'Confirmação gestação' &&
-                                 animalComportamento.obterSituacao(femea.situacao) != 'Recria'" color="primary"
-                  selected>
-                  {{animalComportamento.obterSituacao(femea.situacao)}}
-                  {{animalComportamento.calcularDiasDesdeFecundacao(femea)}} dias
-                </mat-chip>
-
-                <mat-chip *ngIf="animalComportamento.obterSituacao(femea.situacao) == 'Óbito' || 
-                                 animalComportamento.obterSituacao(femea.situacao) == 'Recria'">
-                  {{animalComportamento.obterSituacao(femea.situacao)}} </mat-chip>
-
-                <mat-chip *ngIf="animalComportamento.obterSituacao(femea.situacao) == 'Confirmação gestação' && 
-                                 !animalComportamento.taNoPeriodoConfirmacaoDeGestacao(femea)">
-                  {{animalComportamento.obterSituacao(femea.situacao)}}
-                  {{animalComportamento.calcularDiasDesdeFecundacao(femea)}} dias
-                </mat-chip>
-                <mat-chip *ngIf="animalComportamento.obterSituacao(femea.situacao) == 'Confirmação gestação' && 
-                                 animalComportamento.taNoPeriodoConfirmacaoDeGestacao(femea)" color="warn" selected>
-                  {{animalComportamento.obterSituacao(femea.situacao)}}
-                  {{animalComportamento.calcularDiasDesdeFecundacao(femea)}} dias
-                </mat-chip>
-              </mat-chip-list>
-
-              <span>&nbsp;&nbsp;</span>
-
-              <span *ngIf="animalComportamento.calcularQuantidadeFilhotesAtual(femea) > 0">
-                {{animalComportamento.calcularQuantidadeFilhotesAtual(femea)}} leitões
-              </span>
-
-              <span>&nbsp;&nbsp;</span>
-
-              <span *ngIf="animalComportamento.foiParida(femea)">
-                {{animalComportamento.calcularQuantidadeDiasDeParida(femea)}} dias
-              </span>
-
-            </mat-panel-title>
-            <mat-panel-description>
-
-              <span *ngIf="animalComportamento.foiFecundada(femea) && 
-                          !animalComportamento.foiParida(femea)">
-
-                cobertura em {{animalComportamento.obterDataCobertura(femea) | date: 'dd/MM/yyyy'}}
-                <span>&nbsp;&nbsp;</span>
-
-                <strong>parto provável em
-                  {{animalComportamento.obterDataPartoPrevisao(femea) | date: 'dd/MM/yyyy'}}</strong>
-
-                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
-                <mat-chip color="warn" *ngIf="animalComportamento.taEmAlertaDePArto(femea)" selected>
-                  FALTAM {{animalComportamento.calcularAlertaDeParicao(femea)}} dias
-                </mat-chip>
-              </span>
-
-              <span *ngIf="animalComportamento.foiFecundada(femea) && 
-                           animalComportamento.foiParida(femea)">
-
-                parto em {{animalComportamento.obterDataPartoReal(femea) | date: 'dd/MM/yyyy'}}
-                <span>&nbsp;&nbsp;</span>
-
-                <strong>apartar provável em
-                  {{animalComportamento.obterDataApartarPrevisao(femea) | date: 'dd/MM/yyyy'}}
-                </strong>
-
-                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
-                <mat-chip color="warn" *ngIf="animalComportamento.taEmAlertaDePArto(femea)" selected>
-                  FALTAM {{animalComportamento.calcularAlertaDeParicao(femea)}} dias
-                </mat-chip>
-              </span>
-
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-
-          <a mat-raised-button (click)="abrirFichaDialog(femea.id)">Exibir ficha</a>
-          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          <a mat-raised-button color="warn" (click)="abrirCicloReproducaoDialog(femea.id)">Ciclo de reprodução</a>
-          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          <a mat-raised-button (click)="abrirAnimalDialog(femea.id)">Dados da matriz</a>
-
-        </mat-expansion-panel>
-      </mat-accordion>
-    </div>
   </mat-tab>
   <!-- creche -->
   <mat-tab>

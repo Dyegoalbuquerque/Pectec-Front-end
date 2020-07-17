@@ -22,7 +22,7 @@ export class EstoqueComportamento {
         itens.push(cabecalho);
         itens = itens.concat(dataEstoque);
         itens.forEach(x => {
-            x.unidadeMedida = x.unidadeMedida.descricao;
+            x.unidadeMedida = x.unidadeMedida;
             x.descricao = x.subcategoria.descricao;
 
             let valor = x.valorUnitario && x.quantidadeEmbalagem ?

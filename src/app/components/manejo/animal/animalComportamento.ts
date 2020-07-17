@@ -117,7 +117,7 @@ export class AnimalComportamento {
         return acompanhamentoAtivo != null && acompanhamentoAtivo.dataPartoReal;
     }
 
-    taEmAlertaDePArto(femea) {
+    taEmAlertaDeParto(femea) {
         let dias = this.calcularAlertaDeParicao(femea);
 
         return dias > 0 && dias <= 10;

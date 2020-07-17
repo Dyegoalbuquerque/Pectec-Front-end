@@ -34,6 +34,7 @@ export class CicloReproducao {
     quantidadeAdotado: number;
     quantidadeVendido: number;
     quantidadeApartado: number;
+    numeroFemeaAdocao: number;
 
     eValido(): boolean {
 

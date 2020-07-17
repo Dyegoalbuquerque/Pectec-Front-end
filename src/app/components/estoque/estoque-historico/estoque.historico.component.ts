@@ -24,7 +24,7 @@ export class EstoqueHistoricoComponent implements OnInit {
 
   async obterInsumos() {
     try {
-      let retorno = await this.estoqueService.obterPorCategoria(3);
+      let retorno = await this.estoqueService.obterPorCategoria(1);
       let historico = this.estoqueComportamento.construirHistorico("Insumo", retorno);
       this.estoques = this.estoques.concat(historico);
     } catch (e) {
