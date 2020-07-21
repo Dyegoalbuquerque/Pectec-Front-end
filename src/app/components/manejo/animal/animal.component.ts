@@ -27,7 +27,7 @@ export class AnimalComponent implements OnInit {
   }
 
   async obterSituacoes() {
-    this.situacoes = await this.manejoService.obterSituacoes("Upl");
+    this.situacoes = await this.manejoService.obterSituacoes("UPL");
   }
 
   async obterCausaObitos() {

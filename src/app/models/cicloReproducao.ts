@@ -32,7 +32,6 @@ export class CicloReproducao {
     situacaoNascimento: string;
     quantidadeDoado: number;
     quantidadeAdotado: number;
-    quantidadeVendido: number;
     quantidadeApartado: number;
     numeroFemeaAdocao: number;
 
