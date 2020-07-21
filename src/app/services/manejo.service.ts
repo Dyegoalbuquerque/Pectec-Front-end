@@ -65,7 +65,7 @@ export class ManejoService {
     return plainToClass(Animal, data);
   }
 
-  async obterAcompanhamentosPorAnimal(id: number): Promise<CicloReproducao[]> {
+  async obterCiclosPorAnimal(id: number): Promise<CicloReproducao[]> {
     let data = await this.httpclient.get<CicloReproducao[]>(`${this.ApiUrl}/animal/${id}/ciclos-reproducao`).toPromise();
     return plainToClass(CicloReproducao, data);
   }

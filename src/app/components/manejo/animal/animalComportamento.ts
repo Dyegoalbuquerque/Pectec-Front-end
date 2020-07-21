@@ -16,7 +16,6 @@ export class AnimalComportamento {
 
     calcularQuantidadeDiasAteHoje(data: string) {
 
-        console.log(data);
         var dataInicio = new Date(data);
 
         var subtracao = Math.abs(new Date().getTime() - dataInicio.getTime());

@@ -69,7 +69,7 @@ export class ManejoComponent implements OnInit {
 
   async obterSituacoesQuantidade() {
     try {
-      this.situacoes = await this.manejoService.obterSituacoesQuantidades("Upl");
+      this.situacoes = await this.manejoService.obterSituacoesQuantidades("UPL");
       this.animalComportamento = new AnimalComportamento(this.situacoes);
       this.situacaoSelecionada = this.situacoes.length ? this.situacoes[0] : new Situacao();
 
@@ -150,7 +150,7 @@ export class ManejoComponent implements OnInit {
 
   async abrirCicloReproducaoDialog(id: number) {
 
-    let data = await this.manejoService.obterAcompanhamentosPorAnimal(id);
+    let data = await this.manejoService.obterCiclosPorAnimal(id);
 
     let acompanhamento;
 
