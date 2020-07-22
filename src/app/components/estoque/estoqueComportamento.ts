@@ -16,6 +16,7 @@ export class EstoqueComportamento {
 
         let total = 0;
         dataEstoque.forEach(x => { total += x.quantidadeEntrada; });
+        total = parseFloat(total.toFixed(2));
 
         let cabecalho = { id: tipoEstoque, descricao: "", quantidadeEntrada: total, dataEntrada: "", unidadeMedida: "", subcategoria: "", valor: "" };
 
@@ -25,8 +26,7 @@ export class EstoqueComportamento {
             x.unidadeMedida = x.unidadeMedida;
             x.descricao = x.subcategoria.descricao;
 
-            let valor = x.valorUnitario && x.quantidadeEmbalagem ?
-                x.valorUnitario * x.quantidadeEmbalagem : 0;
+            let valor = x.valorUnitario ? x.valorUnitario : 0;
             x.valor = parseFloat(valor.toFixed(2));
         });
 

@@ -16,7 +16,7 @@
         <igx-column field="quantidadeEntrada" header="Quantidade" dataType="number">
             <ng-template igxCell let-cell="cell" let-val>
                 <span *ngIf="cell.row.rowData.quantidadeEntrada == 0">-</span>
-                <span *ngIf="cell.row.rowData.quantidadeEntrada != 0">{{val}}</span>
+                <span *ngIf="cell.row.rowData.quantidadeEntrada != 0">{{ val | number }}</span>
             </ng-template>
         </igx-column>
         <igx-column field="dataEntrada" header="Data entrada" [dataType]="'date'">

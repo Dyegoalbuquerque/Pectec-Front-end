@@ -35,7 +35,8 @@
           (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              Nº matriz {{femea.numero}}
+              <mat-icon matSuffix *ngIf="femea.pertence == 'G'">star_border</mat-icon> 
+              &nbsp;&nbsp; Nº matriz {{femea.numero}}
 
               <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 

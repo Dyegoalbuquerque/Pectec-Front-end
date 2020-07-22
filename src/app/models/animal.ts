@@ -19,4 +19,5 @@ export class Animal{
     quantidadeCiclo: number;
     procedencia: string;
     ciclos: CicloReproducao[];
+    pertence: string;
 }

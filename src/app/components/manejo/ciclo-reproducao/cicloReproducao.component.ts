@@ -39,7 +39,7 @@ export class CicloReproducaoComponent implements OnInit {
     }
 
     async obterSituacoes() {
-        this.situacoes = await this.manejoService.obterSituacoes("Upl");
+        this.situacoes = await this.manejoService.obterSituacoes("UPL");
     }
 
     async salvar() {
@@ -48,16 +48,16 @@ export class CicloReproducaoComponent implements OnInit {
 
                 if (this.acompanhamento.id > 0) {
                     this.acompanhamento = await this.manejoService.atualizarAcompanhamento(this.acompanhamento);
-                    this.mostrarMensagem("Salvo com sucesso", "Acompanhamento", NotificationType.Success);
+                    this.mostrarMensagem("Salvo com sucesso", "Ciclo de reprodução", NotificationType.Success);
                     this.fechar();
                 } else {
                     this.acompanhamento = await this.manejoService.salvarAcompanhamento(this.acompanhamento);
-                    this.mostrarMensagem("Salvo com sucesso", "Acompanhamento", NotificationType.Success);
+                    this.mostrarMensagem("Salvo com sucesso", "Ciclo de reprodução", NotificationType.Success);
                     this.fechar();
                 }
 
             } else {
-                this.mostrarMensagem("Preencha os campos obrigatórios", "Acompanhamento", NotificationType.Alert);
+                this.mostrarMensagem("Preencha os campos obrigatórios", "Ciclo de reprodução", NotificationType.Alert);
             }
 
         } catch (e) {
