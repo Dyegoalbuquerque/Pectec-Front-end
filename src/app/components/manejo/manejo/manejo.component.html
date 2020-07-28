@@ -23,7 +23,7 @@
       <mat-chip color="primary">Gestação &nbsp;&nbsp;<strong>10</strong></mat-chip>
       <mat-chip color="primary">Lactação &nbsp;&nbsp;<strong>10</strong></mat-chip>
       <mat-chip color="primary">Confirmação gestação &nbsp;&nbsp;<strong>10</strong></mat-chip>
-      <mat-chip color="primary">Recria &nbsp;&nbsp;<strong>10</strong></mat-chip>
+      <mat-chip color="primary">IDC &nbsp;&nbsp;<strong>10</strong></mat-chip>
       <mat-chip color="primary">Leitões &nbsp;&nbsp;<strong>10</strong></mat-chip>
     </mat-chip-list>
     <br />
@@ -48,14 +48,14 @@
 
                 <mat-chip *ngIf="animalComportamento.obterSituacao(femea.situacao) != 'Óbito' && 
                                    animalComportamento.obterSituacao(femea.situacao) != 'Confirmação gestação' &&
-                                   animalComportamento.obterSituacao(femea.situacao) != 'Recria'" color="primary"
+                                   animalComportamento.obterSituacao(femea.situacao) != 'IDC'" color="primary"
                   selected>
                   {{animalComportamento.obterSituacao(femea.situacao)}}
                   {{animalComportamento.calcularDiasDesdeFecundacao(femea)}} dias
                 </mat-chip>
 
                 <mat-chip *ngIf="animalComportamento.obterSituacao(femea.situacao) == 'Óbito' || 
-                                   animalComportamento.obterSituacao(femea.situacao) == 'Recria'">
+                                   animalComportamento.obterSituacao(femea.situacao) == 'IDC'">
                   {{animalComportamento.obterSituacao(femea.situacao)}}
                 </mat-chip>
 

@@ -25,7 +25,6 @@ export class VendaComponent implements OnInit {
     this.dataSourceVenda = new MatTableDataSource<Venda>([]);
     this.dataSourceVenda.paginator = this.paginator;
     this.totalVendido = 0;
-    this.totalLucro = 0;
     this.paginacao = new Paginacao(1, 50);
     this.paginaOptions = [50, 100];
   }
@@ -35,7 +34,6 @@ export class VendaComponent implements OnInit {
   colunasVenda: string[];
   dataSourceVenda: MatTableDataSource<Venda>;
   totalVendido: number;
-  totalLucro: number;
   paginacao: Paginacao;
   paginaOptions: number[];
   paginaEvent: PageEvent;
@@ -49,7 +47,6 @@ export class VendaComponent implements OnInit {
     try {
       let data = await this.vendaService.obterVendas(ano, this.paginacao);
       this.totalVendido = 0;
-      this.totalLucro = 0;
       this.dataSourceVenda = new MatTableDataSource<Venda>(data.resultado.sort(Venda.ordenarPorDataDecrecente));
       this.paginacao.total = data.total;
       this.somarTotais(this.dataSourceVenda.data);
@@ -68,7 +65,6 @@ export class VendaComponent implements OnInit {
   somarTotais(lista: any[]) {
     lista.forEach(x => {
       this.totalVendido += x.valorTotal;
-      this.totalLucro += x.valorTotal - x.valorCustoTotal;
     });
   }
 

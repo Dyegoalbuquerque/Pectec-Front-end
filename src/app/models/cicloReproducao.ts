@@ -10,9 +10,6 @@ export class CicloReproducao {
     inceminacao: boolean;
     procedenciaReprodutor: string;
     femeaId: number;
-    diasGestacao: number;
-    diasLactacao: number;
-    diasRecriaPrevisao: number;
     dataFecundacao: string;
     dataRecria: string;
     dataPartoPrevisao: string;
@@ -34,6 +31,7 @@ export class CicloReproducao {
     quantidadeAdotado: number;
     quantidadeApartado: number;
     numeroFemeaAdocao: number;
+    valorApartado: number;
 
     eValido(): boolean {
 
