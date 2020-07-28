@@ -40,7 +40,6 @@ export class ManejoComponent implements OnInit {
     this.obterProgramaDoAnimal(1);
     this.obterSituacoesQuantidade();
     this.obterFemeas();
-    this.obterFilhotes();
   }
 
   async obterProgramaDoAnimal(tipoProgramaId: number) {
@@ -79,53 +78,6 @@ export class ManejoComponent implements OnInit {
     }
   }
 
-  async obterFilhotes() {
-    try {
-      this.filhotes = await this.manejoService.obterFilhotes();
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  async executarAtualizacaoSituacoes() {
-    try {
-      this.mostrarSpinner();
-
-      await this.manejoService.atualizarSituacoes(1);
-
-      this.esconderSpinner();
-
-      await this.obterSituacoesQuantidade();
-      await this.obterFemeas();
-      await this.obterFilhotes();
-
-      this.mostrarMensagem("", "Salvo com sucesso", NotificationType.Success);
-    } catch (e) {
-      console.error(e);
-      this.esconderSpinner();
-      this.mostrarMensagem("", "Ocorreu um problema", NotificationType.Error);
-    }
-  }
-
-  selecionarSituacao(sigla: string) {
-    let situacoes = this.situacoes.filter(s => s.sigla == sigla);
-
-    this.situacaoSelecionada = situacoes.length ? situacoes[0] : this.situacaoSelecionada;
-    this.programaItensSelecionados = this.programa.itens.filter(i => i.situacaoId == this.situacaoSelecionada.id);
-  }
-
-  abrirFichaDialog(numero: number): void {
-    const dialogRef = this.dialog.open(FichaComponent, {
-      width: '900px',
-      height: '600px',
-      data: new Animal()
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.obterFemeas();
-    });
-  }
-
   async abrirAnimalDialog(id: number) {
 
     let parametrosDialog = { width: '480px', height: '550px', data: new Animal() };
@@ -136,14 +88,12 @@ export class ManejoComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(result => {
         this.obterFemeas();
-        this.obterFilhotes();
       });
     } else {
       const dialogRef = this.dialog.open(AnimalComponent, parametrosDialog);
 
       dialogRef.afterClosed().subscribe(result => {
         this.obterFemeas();
-        this.obterFilhotes();
       });
     }
   }
@@ -167,6 +117,25 @@ export class ManejoComponent implements OnInit {
       width: '700px',
       height: '730px',
       data: acompanhamento
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.obterFemeas();
+    });
+  }
+
+  selecionarSituacao(sigla: string) {
+    let situacoes = this.situacoes.filter(s => s.sigla == sigla);
+
+    this.situacaoSelecionada = situacoes.length ? situacoes[0] : this.situacaoSelecionada;
+    this.programaItensSelecionados = this.programa.itens.filter(i => i.situacaoId == this.situacaoSelecionada.id);
+  }
+
+  abrirFichaDialog(numero: number): void {
+    const dialogRef = this.dialog.open(FichaComponent, {
+      width: '900px',
+      height: '600px',
+      data: new Animal()
     });
 
     dialogRef.afterClosed().subscribe(result => {

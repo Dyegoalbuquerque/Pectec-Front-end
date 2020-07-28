@@ -18,11 +18,6 @@ export class ManejoService {
     return plainToClass(Animal, data);
   }
 
-  async obterFilhotes(): Promise<Animal[]> {
-    let data = await this.httpclient.get<Animal[]>(`${this.ApiUrl}/filhotes/`).toPromise();
-    return plainToClass(Animal, data);
-  }
-
   async obterLotesVenda(tipo: string): Promise<Animal[]> {
     let data = await this.httpclient.get<Animal[]>(`${this.ApiUrl}/lote?tipo=${tipo}`).toPromise();
     return plainToClass(Animal, data);
@@ -108,11 +103,6 @@ export class ManejoService {
   async obterSituacoesQuantidades(setor: string): Promise<Situacao[]> {
     let data = await this.httpclient.get<Situacao[]>(`${this.ApiUrl}/situacoes-quantidades?setor=${setor}`).toPromise();
     return plainToClass(Situacao, data);
-  }
-
-  async atualizarSituacoes(especieId: number): Promise<any> {
-    let data = await this.httpclient.put<any>(`${this.ApiUrl}/situacoes/`, { especieId: especieId }).toPromise();
-    return plainToClass(Animal, data);
   }
 
   async removerProgramaItem(id: number): Promise<ProgramaItem> {

@@ -11,7 +11,8 @@ export class CicloReproducao {
     procedenciaReprodutor: string;
     femeaId: number;
     dataFecundacao: string;
-    dataRecria: string;
+    dataFinalIDC: string;
+    dataFinalIdcPrevisao: string;
     dataPartoPrevisao: string;
     dataPartoReal: string;
     dataApartarPrevisao: string;
@@ -26,7 +27,6 @@ export class CicloReproducao {
     quantidadeFilhoteMorto: number;
     quantidadeSexoM: number;
     quantidadeSexoF: number;
-    situacaoNascimento: string;
     quantidadeDoado: number;
     quantidadeAdotado: number;
     quantidadeApartado: number;
