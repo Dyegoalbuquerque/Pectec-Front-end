@@ -20,4 +20,16 @@ export class Animal{
     procedencia: string;
     ciclos: CicloReproducao[];
     pertence: string;
+
+    pertenceAgranja(){
+        return this.pertence == 'G';
+    }
+
+    taEmSituacaoDeIDC(){
+        return this.situacao == 'IDC';
+    }
+
+    taEmSituacaoConfirmacaoGestacao(){
+        return this.situacao == 'CG';
+    }
 }

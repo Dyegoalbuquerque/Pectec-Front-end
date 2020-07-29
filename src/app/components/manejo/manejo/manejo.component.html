@@ -19,53 +19,35 @@
     <br />
     <mat-divider></mat-divider>
     <br />
-    <mat-chip-list>
-      <mat-chip color="primary">Gestação &nbsp;&nbsp;<strong>10</strong></mat-chip>
-      <mat-chip color="primary">Lactação &nbsp;&nbsp;<strong>10</strong></mat-chip>
-      <mat-chip color="primary">Confirmação gestação &nbsp;&nbsp;<strong>10</strong></mat-chip>
-      <mat-chip color="primary">IDC &nbsp;&nbsp;<strong>10</strong></mat-chip>
-      <mat-chip color="primary">Leitões &nbsp;&nbsp;<strong>10</strong></mat-chip>
-    </mat-chip-list>
-    <br />
 
     <div class="lista-animal">
       <mat-accordion>
-        <mat-expansion-panel *ngFor="let femea of femeas"
-          [disabled]="animalComportamento.obterSituacao(femea.situacao) == 'Óbito'" (opened)="panelOpenState = true"
-          (closed)="panelOpenState = false">
+        <mat-expansion-panel *ngFor="let femea of femeas" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <mat-icon matSuffix *ngIf="femea.pertence == 'G'">star_border</mat-icon> 
+              <mat-icon matSuffix *ngIf="femea.pertenceAgranja()">star_border</mat-icon> 
               &nbsp;&nbsp; Nº matriz {{femea.numero}}
 
               <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
               {{femea.raca}}
-
               <span>&nbsp;&nbsp;&nbsp;</span>
 
               <mat-chip-list>
 
-                <mat-chip *ngIf="animalComportamento.obterSituacao(femea.situacao) != 'Óbito' && 
-                                   animalComportamento.obterSituacao(femea.situacao) != 'Confirmação gestação' &&
-                                   animalComportamento.obterSituacao(femea.situacao) != 'IDC'" color="primary"
-                  selected>
+                <mat-chip *ngIf="animalComportamento.taNoPeriodoEntreGestacaoElactacao(femea)" color="primary" selected>
                   {{animalComportamento.obterSituacao(femea.situacao)}}
                   {{animalComportamento.calcularDiasDesdeFecundacao(femea)}} dias
                 </mat-chip>
 
-                <mat-chip *ngIf="animalComportamento.obterSituacao(femea.situacao) == 'Óbito' || 
-                                   animalComportamento.obterSituacao(femea.situacao) == 'IDC'">
+                <mat-chip *ngIf="femea.taEmSituacaoDeIDC()">
                   {{animalComportamento.obterSituacao(femea.situacao)}}
                 </mat-chip>
 
-                <mat-chip *ngIf="animalComportamento.obterSituacao(femea.situacao) == 'Confirmação gestação' && 
-                                   !animalComportamento.taNoPeriodoConfirmacaoDeGestacao(femea)">
+                <mat-chip *ngIf="animalComportamento.taEmConfirmacaoGestacaoEnaoTaEmAlerta(femea)">
                   {{animalComportamento.obterSituacao(femea.situacao)}}
                   {{animalComportamento.calcularDiasDesdeFecundacao(femea)}} dias
                 </mat-chip>
-                <mat-chip *ngIf="animalComportamento.obterSituacao(femea.situacao) == 'Confirmação gestação' && 
-                                   animalComportamento.taNoPeriodoConfirmacaoDeGestacao(femea)" color="warn" selected>
+                <mat-chip *ngIf="animalComportamento.taEmAlertaDeConfirmacaoDeGestacao(femea)" color="warn" selected>
                   {{animalComportamento.obterSituacao(femea.situacao)}}
                   {{animalComportamento.calcularDiasDesdeFecundacao(femea)}} dias
                 </mat-chip>
@@ -86,8 +68,7 @@
             </mat-panel-title>
             <mat-panel-description>
 
-              <span *ngIf="animalComportamento.foiFecundada(femea) && 
-                            !animalComportamento.foiParida(femea)">
+              <span *ngIf="animalComportamento.foiFecundadaEnaoPariu(femea)">
 
                 cobertura em {{animalComportamento.obterDataCobertura(femea) | date: 'dd/MM/yyyy'}}
                 <span>&nbsp;&nbsp;</span>

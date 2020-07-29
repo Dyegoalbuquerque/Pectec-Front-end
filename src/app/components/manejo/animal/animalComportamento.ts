@@ -44,7 +44,7 @@ export class AnimalComportamento {
         return this.calcularQuantidadeDiasAteHoje(acompanhamentoAtivo.dataFecundacao);
     }
 
-    taNoPeriodoConfirmacaoDeGestacao(femea: Animal) {
+    taEmAlertaDeConfirmacaoDeGestacao(femea: Animal) {
         let dias = this.calcularDiasDesdeFecundacao(femea);
 
         return femea.situacao == "CG" && dias >= 15;
@@ -161,5 +161,17 @@ export class AnimalComportamento {
         let acompanhamento = this.obterAcompanhamentoMaternoAtivo(femea);
 
         return this.calcularQuantidadeDiasAteHoje(acompanhamento.dataPartoReal);
+    }
+
+    foiFecundadaEnaoPariu(femea: Animal){
+        return this.foiFecundada(femea) && !this.foiParida(femea);
+    }
+
+    taNoPeriodoEntreGestacaoElactacao(femea: Animal){
+        return femea.situacao == 'G' || femea.situacao == 'L';
+    }
+
+    taEmConfirmacaoGestacaoEnaoTaEmAlerta(femea: Animal){  
+        return femea.taEmSituacaoConfirmacaoGestacao() && !this.taEmAlertaDeConfirmacaoDeGestacao(femea);
     }
 }
