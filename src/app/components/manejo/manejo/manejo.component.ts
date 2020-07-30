@@ -101,23 +101,14 @@ export class ManejoComponent implements OnInit {
 
   async abrirCicloReproducaoDialog(id: number) {
 
-    let data = await this.manejoService.obterCiclosPorAnimal(id);
+    let data = await this.manejoService.obterCicloAtivoPorAnimal(id);
 
-    let acompanhamento;
-
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].ativo) {
-        acompanhamento = data[i];
-        break;
-      }
-    }
-
-    acompanhamento = !acompanhamento ? new CicloReproducao(id) : acompanhamento;
+    let ciclo = data.length ? data[0] : new CicloReproducao(id);
 
     const dialogRef = this.dialog.open(CicloReproducaoComponent, {
       width: '700px',
       height: '730px',
-      data: acompanhamento
+      data: ciclo
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -127,14 +118,14 @@ export class ManejoComponent implements OnInit {
 
   async gerarRelatorioUpl() {
     try {
-      let dataInicio = `${new Date().getDate()}-${new Date().getMonth()+1}-${new Date().getFullYear()}`;
-      let dataFinal = `${new Date().getDate()}-${new Date().getMonth()+1}-${new Date().getFullYear()}`;
-     
+      let dataInicio = `${new Date().getDate()}-${new Date().getMonth() + 1}-${new Date().getFullYear()}`;
+      let dataFinal = `${new Date().getDate()}-${new Date().getMonth() + 1}-${new Date().getFullYear()}`;
+
       let relatorioUpl = await this.manejoService.obterRelatorioUpl(dataInicio, dataFinal);
       let relatorioPdf = new RelatorioUplPdf();
 
       relatorioPdf.gerarRelatorioUpl(relatorioUpl);
-      
+
     } catch (e) {
       console.error(e);
     }
