@@ -127,12 +127,13 @@ export class ManejoComponent implements OnInit {
 
   async gerarRelatorioUpl() {
     try {
-      let relatorioUpl = await this.manejoService.obterRelatorioUpl();
-
-      let data = `${new Date().getDay()}-${new Date().getMonth()}-${new Date().getFullYear()}`;
+      let dataInicio = `${new Date().getDate()}-${new Date().getMonth()+1}-${new Date().getFullYear()}`;
+      let dataFinal = `${new Date().getDate()}-${new Date().getMonth()+1}-${new Date().getFullYear()}`;
+     
+      let relatorioUpl = await this.manejoService.obterRelatorioUpl(dataInicio, dataFinal);
       let relatorioPdf = new RelatorioUplPdf();
 
-      relatorioPdf.gerarRelatorioUpl(data, relatorioUpl);
+      relatorioPdf.gerarRelatorioUpl(relatorioUpl);
       
     } catch (e) {
       console.error(e);

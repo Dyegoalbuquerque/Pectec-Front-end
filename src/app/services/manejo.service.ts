@@ -111,8 +111,8 @@ export class ManejoService {
     return plainToClass(ProgramaItem, data);
   }
 
-  async obterRelatorioUpl(): Promise<RelatorioUpl> {
-    let data = await this.httpclient.get<RelatorioUpl>(`${this.ApiUrl}/relatorios/upl`).toPromise();
+  async obterRelatorioUpl(dataInicial: string , dataFinal: string): Promise<RelatorioUpl> {
+    let data = await this.httpclient.get<RelatorioUpl>(`${this.ApiUrl}/relatorios/upl?dataInicial=${dataInicial}&dataFinal=${dataFinal}`).toPromise();
     return plainToClass(RelatorioUpl, data);
   }
 }

@@ -2,7 +2,9 @@
 export class RelatorioUpl {
 
     constructor() { }
-
+    
+    dataInicial: string;
+    dataFinal: string;
     quantidadeTotalMatriz: number;
     quantidadeTotalReprodutor: number;
     quantidadeTotalMarra: number;
