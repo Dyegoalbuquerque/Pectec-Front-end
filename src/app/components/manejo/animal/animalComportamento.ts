@@ -24,7 +24,7 @@ export class AnimalComportamento {
 
     calcularAlertaDeParicao(femea: Animal) {
 
-        let acompanhamentoAtivo = this.obterAcompanhamentoMaternoAtivo(femea);
+        let acompanhamentoAtivo = this.obterCicloAtivo(femea);
 
         return this.calcularQuantidadeDiasAteHoje(acompanhamentoAtivo.dataPartoPrevisao);
     }
@@ -35,12 +35,12 @@ export class AnimalComportamento {
 
     calcularDiasDesdeFecundacao(femea: Animal) {
 
-        let acompanhamentoAtivo = this.obterAcompanhamentoMaternoAtivo(femea);
+        let acompanhamentoAtivo = this.obterCicloAtivo(femea);
 
         if (acompanhamentoAtivo == null || acompanhamentoAtivo.dataFecundacao == null) {
             return 0;
         }
-        
+
         return this.calcularQuantidadeDiasAteHoje(acompanhamentoAtivo.dataFecundacao);
     }
 
@@ -50,68 +50,51 @@ export class AnimalComportamento {
         return femea.situacao == "CG" && dias >= 15;
     }
 
-    verificarAcompanhamentoMaternoAtivo(item) {
-        if (item.acompanhamentos.length > 0) {
-
-            for (let i = 0; i < item.acompanhamentos.length; i++) {
-                if (item.acompanhamentos[i].ativo) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    obterAcompanhamentoMaternoAtivo(item) {
+    obterCicloAtivo(item) {
 
         if (item.acompanhamentos == null) {
             return null;
         }
 
         if (item.acompanhamentos.length > 0) {
-
-            for (let i = 0; i < item.acompanhamentos.length; i++) {
-                if (item.acompanhamentos[i].ativo) {
-                    return item.acompanhamentos[i];
-                }
-            }
+            return item.acompanhamentos[0];
         }
         return null;
     }
 
     obterDataCobertura(femea: Animal) {
-        let acompanhamento = this.obterAcompanhamentoMaternoAtivo(femea);
+        let acompanhamento = this.obterCicloAtivo(femea);
         return acompanhamento == null ? '' : acompanhamento.dataFecundacao;
     }
 
     obterDataPartoPrevisao(femea: Animal) {
 
-        let acompanhamento = this.obterAcompanhamentoMaternoAtivo(femea);
+        let acompanhamento = this.obterCicloAtivo(femea);
         return acompanhamento == null ? '' : acompanhamento.dataPartoPrevisao;
     }
 
-    obterDataApartarPrevisao(femea: Animal) {
+    obterDataDesmamePrevisao(femea: Animal) {
 
-        let acompanhamento = this.obterAcompanhamentoMaternoAtivo(femea);
-        return acompanhamento == null ? '' : acompanhamento.dataApartarPrevisao;
+        let acompanhamento = this.obterCicloAtivo(femea);
+        return acompanhamento == null ? '' : acompanhamento.dataDesmamePrevisao;
     }
 
     obterDataPartoReal(femea: Animal) {
 
-        let acompanhamento = this.obterAcompanhamentoMaternoAtivo(femea);
+        let acompanhamento = this.obterCicloAtivo(femea);
         return acompanhamento == null ? '' : acompanhamento.dataPartoReal;
     }
 
     foiFecundada(femea) {
 
-        let acompanhamentoAtivo = this.obterAcompanhamentoMaternoAtivo(femea);
+        let acompanhamentoAtivo = this.obterCicloAtivo(femea);
 
         return acompanhamentoAtivo != null && acompanhamentoAtivo.dataFecundacao != '';
     }
 
     foiParida(femea) {
 
-        let acompanhamentoAtivo = this.obterAcompanhamentoMaternoAtivo(femea);
+        let acompanhamentoAtivo = this.obterCicloAtivo(femea);
 
         return acompanhamentoAtivo != null && acompanhamentoAtivo.dataPartoReal;
     }
@@ -128,10 +111,10 @@ export class AnimalComportamento {
 
         return situacao ? situacao.nome : '';
     }
- 
+
     calcularQuantidadeFilhotesAtual(femea: Animal) {
 
-        let acompanhamento = this.obterAcompanhamentoMaternoAtivo(femea);
+        let acompanhamento = this.obterCicloAtivo(femea);
 
         let quantidade;
         let vivos;
@@ -145,7 +128,7 @@ export class AnimalComportamento {
             vivos = acompanhamento.quantidadeFilhoteVV ? acompanhamento.quantidadeFilhoteVV : 0;
             adotados = acompanhamento.quantidadeAdotado ? acompanhamento.quantidadeAdotado : 0;
             doados = acompanhamento.quantidadeDoado ? acompanhamento.quantidadeDoado : 0;
-            mortos = acompanhamento.quantidadeFilhoteMorto ? acompanhamento.quantidadeFilhoteMorto  : 0;
+            mortos = acompanhamento.quantidadeFilhoteMorto ? acompanhamento.quantidadeFilhoteMorto : 0;
             vendidos = acompanhamento.quantidadeVendido ? acompanhamento.quantidadeVendido : 0;
             apartados = acompanhamento.quantidadeApartado ? acompanhamento.quantidadeApartado : 0;
 
@@ -158,20 +141,20 @@ export class AnimalComportamento {
 
     calcularQuantidadeDiasDeParida(femea: Animal) {
 
-        let acompanhamento = this.obterAcompanhamentoMaternoAtivo(femea);
+        let acompanhamento = this.obterCicloAtivo(femea);
 
         return this.calcularQuantidadeDiasAteHoje(acompanhamento.dataPartoReal);
     }
 
-    foiFecundadaEnaoPariu(femea: Animal){
+    foiFecundadaEnaoPariu(femea: Animal) {
         return this.foiFecundada(femea) && !this.foiParida(femea);
     }
 
-    taNoPeriodoEntreGestacaoElactacao(femea: Animal){
+    taNoPeriodoEntreGestacaoElactacao(femea: Animal) {
         return femea.situacao == 'G' || femea.situacao == 'L';
     }
 
-    taEmConfirmacaoGestacaoEnaoTaEmAlerta(femea: Animal){  
+    taEmConfirmacaoGestacaoEnaoTaEmAlerta(femea: Animal) {
         return femea.taEmSituacaoConfirmacaoGestacao() && !this.taEmAlertaDeConfirmacaoDeGestacao(femea);
     }
 }

@@ -9,15 +9,16 @@
 
     <p>
       Acompanhe os ciclos reprodutivos da granja.
-      <button mat-raised-button color="success" class="right" [matMenuTriggerFor]="programa">
+     
+      <button mat-raised-button color="success" class="right" [matMenuTriggerFor]="upl">
         Ações
       </button>
-      <mat-menu #programa="matMenu">
+      <mat-menu #upl="matMenu">
         <button mat-menu-item (click)="abrirAnimalDialog()">Nova matriz</button>
+        <button mat-menu-item (click)="gerarRelatorioUpl()">Relatório da Upl</button>
+        <button mat-menu-item (click)="abrirSimuladorCiclo()">Simular ciclo da Upl</button>
       </mat-menu>
     </p>
-    <br />
-    <mat-divider></mat-divider>
     <br />
 
     <div class="lista-animal">
@@ -89,8 +90,8 @@
                 parto em {{animalComportamento.obterDataPartoReal(femea) | date: 'dd/MM/yyyy'}}
                 <span>&nbsp;&nbsp;</span>
 
-                <strong>apartar provável em
-                  {{animalComportamento.obterDataApartarPrevisao(femea) | date: 'dd/MM/yyyy'}}
+                <strong>desmame provável em
+                  {{animalComportamento.obterDataDesmamePrevisao(femea) | date: 'dd/MM/yyyy'}}
                 </strong>
               </span>
 
@@ -115,18 +116,6 @@
 
     <p>
       Veja o resumo da granja em todas as situações dos animais.
-
-      <button mat-raised-button color="success" class="right" [matMenuTriggerFor]="upl">
-        Ações
-      </button>
-      <mat-menu #upl="matMenu">
-        <button mat-menu-item (click)="gerarRelatorioUpl()">
-          Relatório da Upl
-        </button>
-        <button mat-menu-item (click)="abrirSimuladorCiclo()">
-          Simular ciclo da Upl
-        </button>
-      </mat-menu>
     </p>
 
     <br />

@@ -61,7 +61,7 @@ export class ManejoComponent implements OnInit {
 
   async obterFemeas() {
     try {
-      this.femeas = await this.manejoService.obterPrevisoes(2020);
+      this.femeas = await this.manejoService.obterCiclosReproducao(2020);
     } catch (e) {
       console.error(e);
     }
@@ -118,8 +118,8 @@ export class ManejoComponent implements OnInit {
 
   async gerarRelatorioUpl() {
     try {
-      let dataInicio = `${new Date().getDate()}-${new Date().getMonth() + 1}-${new Date().getFullYear()}`;
-      let dataFinal = `${new Date().getDate()}-${new Date().getMonth() + 1}-${new Date().getFullYear()}`;
+      let dataInicio = "2020-01-01T03:00:00.000Z";
+      let dataFinal = new Date().toString();
 
       let relatorioUpl = await this.manejoService.obterRelatorioUpl(dataInicio, dataFinal);
       let relatorioPdf = new RelatorioUplPdf();

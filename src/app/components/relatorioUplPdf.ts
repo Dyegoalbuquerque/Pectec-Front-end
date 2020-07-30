@@ -5,6 +5,11 @@ import { RelatorioUpl } from '../models/relatorioUpl';
 export class RelatorioUplPdf {
 
     gerarRelatorioUpl(relatorio: RelatorioUpl) {
+        let dataInicial = new Date(relatorio.dataInicial);
+        let dataFinal = new Date(relatorio.dataFinal);
+        let dataInicialTexto = `${dataInicial.getDate()}/${dataInicial.getMonth()+1}/${dataInicial.getFullYear()}`;
+        let dataFinalTexto = `${dataFinal.getDate()}/${dataFinal.getMonth()+1}/${dataFinal.getFullYear()}`;
+        let textoDatas = `De ${dataInicialTexto} á ${dataFinalTexto}`;
         let documento = new jsPDF();
 
         var logo = new Image();
@@ -17,7 +22,7 @@ export class RelatorioUplPdf {
         documento.setFont("courier");
         documento.setFontStyle("normal");     
         documento.setFontSize(12);
-        documento.text(`Data ${relatorio.dataInicial} á ${relatorio.dataFinal}`, 100, 30);
+        documento.text(textoDatas, 92, 30);
         documento.setLineWidth(0.1);
         documento.line(20, 35, 182, 35);
 
@@ -59,6 +64,6 @@ export class RelatorioUplPdf {
         documento.text(relatorio.pldMedioGeral.toString(), 180, 165, null, null, 'right');
         documento.text(relatorio.pmldMedioGeral.toString(), 180, 175, null, null, 'right');
 
-        documento.save(`relatorio-upl-${relatorio.dataInicial}.pdf`);
+        documento.save(`relatorio-upl-${dataInicialTexto}-${dataFinalTexto}.pdf`);
     }
 }

@@ -15,23 +15,23 @@ export class CicloReproducao {
     dataFinalIdcPrevisao: string;
     dataPartoPrevisao: string;
     dataPartoReal: string;
-    dataApartarPrevisao: string;
-    dataApartarReal
+    dataDesmamePrevisao: string;
+    dataDesmameReal: string;
     ativo: boolean;
     quantidadeFilhote: number;
     quantidadeFilhoteVV: number;
     quantidadeFilhoteNM: number;
     quantidadeFilhoteMF: number;
     pesoFilhoteNascimento: number;
-    pesoFilhoteApartar: number;
+    pesoFilhoteDesmamado: number;
     quantidadeFilhoteMorto: number;
     quantidadeSexoM: number;
     quantidadeSexoF: number;
     quantidadeDoado: number;
     quantidadeAdotado: number;
-    quantidadeApartado: number;
+    quantidadeDesmamado: number;
     numeroFemeaAdocao: number;
-    valorApartado: number;
+    valorDesmamado: number;
 
     eValido(): boolean {
 
@@ -40,7 +40,7 @@ export class CicloReproducao {
                 ValidadorTipo.booleanFalso(this.inceminacao) &&
                 ValidadorTipo.dateValido(this.dataFecundacao) &&
                 !ValidadorTipo.dateValido(this.dataPartoReal) &&
-                !ValidadorTipo.dateValido(this.dataApartarReal)) ||
+                !ValidadorTipo.dateValido(this.dataDesmameReal)) ||
 
             (ValidadorTipo.dateValido(this.dataPartoReal) &&
                 ValidadorTipo.numberValido(this.quantidadeFilhote) &&
@@ -50,10 +50,10 @@ export class CicloReproducao {
                 ValidadorTipo.numberMaiorOuIgualZero(this.pesoFilhoteNascimento) &&
                 ValidadorTipo.numberMaiorOuIgualZero(this.quantidadeSexoM) &&
                 ValidadorTipo.numberMaiorOuIgualZero(this.quantidadeSexoF) &&
-                !ValidadorTipo.dateValido(this.dataApartarReal)) ||
+                !ValidadorTipo.dateValido(this.dataDesmameReal)) ||
 
             (ValidadorTipo.dateValido(this.dataPartoReal) &&
-              ValidadorTipo.numberValido(this.pesoFilhoteApartar));
+              ValidadorTipo.numberValido(this.pesoFilhoteDesmamado));
 
         return resultado;
     }

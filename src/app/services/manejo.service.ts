@@ -29,7 +29,7 @@ export class ManejoService {
     return plainToClass(Animal, data);
   }
 
-  async obterPrevisoes(ano: number): Promise<Animal[]> {
+  async obterCiclosReproducao(ano: number): Promise<Animal[]> {
     let data = await this.httpclient.get<Animal[]>(`${this.ApiUrl}/ciclos-reproducao?ano=${ano}`).toPromise();
     return plainToClass(Animal, data);
   }
