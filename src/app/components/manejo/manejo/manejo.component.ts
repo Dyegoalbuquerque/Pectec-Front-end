@@ -11,7 +11,6 @@ import { Situacao, Animal, Programa, ProgramaItem } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { RelatorioUplPdf } from '../../relatorioUplPdf';
-import { RelatorioUpl } from 'src/app/models/relatorioUpl';
 
 
 @Component({
@@ -126,6 +125,20 @@ export class ManejoComponent implements OnInit {
     });
   }
 
+  async gerarRelatorioUpl() {
+    try {
+      let relatorioUpl = await this.manejoService.obterRelatorioUpl();
+
+      let data = `${new Date().getDay()}-${new Date().getMonth()}-${new Date().getFullYear()}`;
+      let relatorioPdf = new RelatorioUplPdf();
+
+      relatorioPdf.gerarRelatorioUpl(data, relatorioUpl);
+      
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   selecionarSituacao(sigla: string) {
     let situacoes = this.situacoes.filter(s => s.sigla == sigla);
 
@@ -171,24 +184,6 @@ export class ManejoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
     });
-  }
-
-  gerarRelatorioUpl() {
-    let data = `${new Date().getDay()}-${new Date().getMonth()}-${new Date().getFullYear()}`;
-    let relatorio = new RelatorioUplPdf();
-
-    let relatorioDados = new RelatorioUpl();
-
-    relatorioDados.quantidadeTotalMatriz = 66;
-    relatorioDados.nldMedioGeral = 9;
-    relatorioDados.nlnMedioGeral = 8;
-    relatorioDados.pldMedioGeral = 6;
-    relatorioDados.plnMedioGeral = 33;
-    relatorioDados.pmldMedioGeral = 7;
-    relatorioDados.pmlnMedioGeral = 42;
-
-
-    relatorio.gerarRelatorioUpl(data, relatorioDados);
   }
 
   mostrarMensagem(mensagem: string, action: string, tipo: NotificationType) {

@@ -2,7 +2,6 @@ export * from './animal';
 export * from './categoria';
 export * from './estoque';
 export * from './consumo';
-export * from './fase';
 export * from './lancamento';
 export * from './programa';
 export * from './programaItem';

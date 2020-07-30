@@ -4,6 +4,7 @@ import {
   Situacao, ProgramaItem, Programa, CicloReproducao, Animal, CausaObito
 } from '../models';
 import { plainToClass } from "class-transformer";
+import { RelatorioUpl } from '../models/relatorioUpl';
 
 @Injectable({
   providedIn: 'root'
@@ -108,5 +109,10 @@ export class ManejoService {
   async removerProgramaItem(id: number): Promise<ProgramaItem> {
     let data = await this.httpclient.delete<ProgramaItem>(`${this.ApiUrl}/programa-item/${id}`).toPromise();
     return plainToClass(ProgramaItem, data);
+  }
+
+  async obterRelatorioUpl(): Promise<RelatorioUpl> {
+    let data = await this.httpclient.get<RelatorioUpl>(`${this.ApiUrl}/relatorios/upl`).toPromise();
+    return plainToClass(RelatorioUpl, data);
   }
 }
