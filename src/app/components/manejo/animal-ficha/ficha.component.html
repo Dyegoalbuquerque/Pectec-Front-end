@@ -1,62 +1,54 @@
 <h5 mat-dialog-title>Ficha da matriz</h5>
 
- 
-  <label>Nº matriz <b>13</b></label><br/>
-  <label>Idade  <b>1.8 anos</b></label><br/>
-  <label>Raça <b>pietrain</b></label><br/>
+<br />
+<label>Nº<b>{{femea.numero}}</b></label><br />
+<label>Idade <b>{{femea.dataNascimento}}</b></label><br />
+<label>Raça <b>{{femea.raca}}</b></label><br />
+<label>Quantidade ciclos <b>{{femea.quantidadeCiclo}}</b></label>
 
-  <div>
-    <h5>Histórico</h5>
+<div>
+  <h6>Histórico</h6>
+  <mat-divider></mat-divider>
+  <br />
 
-    <br/>
+  <div class="row">
+    <div class="list-group menu-ficha">
+      <a  class="list-group-item list-group-item-action flex-column"
+        *ngFor="let itemMenu of menu">
+        <div class="d-flex">
+          <span class="mb-1 menu-ficha-nome">{{itemMenu}}</span>
+        </div>
+      </a>
+    </div>
 
-    <mat-divider></mat-divider>
+    <div class="menu-ficha-detalhe">
+      <mat-card>
+        <div class="d-flex">
+          <strong>
+            akjs dkajsd kajsd akdj 
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          </strong>
 
-    <div class="example-container mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource">
-      <ng-container matColumnDef="valor">
-        <th mat-header-cell *matHeaderCellDef> 
-          Valor 
-          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        </th>
-        <td mat-cell *matCellDef="let element"> 
-          {{element.valor | currency:'R$':true:'1.2-2'}} 
-          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        </td>
-      </ng-container>
-    
-      <!-- Name Column -->
-      <ng-container matColumnDef="juros">
-        <th mat-header-cell *matHeaderCellDef> 
-          Juros
-          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        </th>
-        <td mat-cell *matCellDef="let element"> 
-          {{element.juros | number : '1.2-2'}}%
-          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        </td>
-      </ng-container>
-    
-      <!-- Weight Column -->
-      <ng-container matColumnDef="vencimento">
-        <th mat-header-cell *matHeaderCellDef> 
-          Vencimento 
-          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        </th>
-        <td mat-cell *matCellDef="let element"> 
-          {{element.vencimento | date: 'dd/MM/yyyy'}} 
-          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        </td>
-      </ng-container>
-    
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+          <span>
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <i>dakjs dkajsd kajds kajd</i>
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          </span>
+          <h6 class="mb-1">
+            <mat-chip-list>
+              <mat-chip> kasjd kajsd kjasd k</mat-chip>
+              <span>&nbsp;&nbsp;</span>ajshd ajshd jashd 
+            </mat-chip-list>
+          </h6>
+        </div>
+        <p>adjhsd ajhsd jahsd j</p>
+      </mat-card>
     </div>
   </div>
+</div>
 
-  <br/>
-  <br/>
-  <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close (click)="fechar()">Fechar</button>
-  </mat-dialog-actions>
+<br />
+<br />
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="fechar()">Fechar</button>
+</mat-dialog-actions>

@@ -140,8 +140,8 @@ export class ManejoComponent implements OnInit {
 
   abrirFichaDialog(numero: number): void {
     const dialogRef = this.dialog.open(FichaComponent, {
-      width: '900px',
-      height: '600px',
+      width: '1200px',
+      height: '700px',
       data: new Animal()
     });
 
