@@ -23,7 +23,7 @@
 </igx-radio>
 
 <mat-form-field>
-  <mat-label *ngIf="intervaloDia.valor == 'UD'" class="required">Dia</mat-label>
+  <mat-label *ngIf="intervaloDia.valor == 'UD' || intervaloDia.valor == 'FD'" class="required">Em</mat-label>
   <mat-label *ngIf="intervaloDia.valor == 'MUD'" class="required">De</mat-label>
   <input matInput type="number" class="example-right-align" [(ngModel)]="programaItem.inicio">
   <mat-icon matSuffix>filter_9</mat-icon>

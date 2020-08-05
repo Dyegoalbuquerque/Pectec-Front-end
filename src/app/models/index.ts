@@ -5,7 +5,7 @@ export * from './consumo';
 export * from './lancamento';
 export * from './programa';
 export * from './programaItem';
-export * from './situacao';
+export * from './tag';
 export * from './unidadeMedida';
 export * from './cicloReproducao';
 export * from './subCategoria';

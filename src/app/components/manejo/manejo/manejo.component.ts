@@ -7,7 +7,7 @@ import {
   ProgramaFormComponent, AnimalComportamento, CicloSimularFormComponent
 } from '..';
 import { CicloReproducao } from 'src/app/models/cicloReproducao';
-import { Situacao, Animal, Programa, ProgramaItem } from 'src/app/models';
+import { Tag, Animal, Programa, ProgramaItem } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { RelatorioUplPdf } from '../../relatorioUplPdf';
@@ -23,37 +23,37 @@ export class ManejoComponent implements OnInit {
     private notifications: NotificationsService, private spinner: NgxSpinnerService) {
     this.animalComportamento = new AnimalComportamento([]);
     this.femeas = [];
-    this.situacaoSelecionada = new Situacao();
+    this.situacaoSelecionada = new Tag();
   }
 
   animalComportamento: AnimalComportamento;
   femeas: Animal[];
   filhotes: Animal[];
   ciclosRepdorucao: CicloReproducao[];
-  situacoes: Situacao[];
+  situacoes: Tag[];
   programa: Programa;
   programaItensSelecionados: ProgramaItem[];
-  situacaoSelecionada: Situacao;
+  situacaoSelecionada: Tag;
 
   panelOpenState = false;
 
   ngOnInit() {
-    this.obterProgramaDoAnimal(1);
-    this.obterSituacoesQuantidade();
     this.obterFemeas();
+    this.obterPrograma("AM");
+    this.obterTagsQuantidade();
   }
 
-  async obterProgramaDoAnimal(tipoProgramaId: number) {
+  async obterPrograma(tipoPrograma: string) {
     try {
-      this.programa = await this.manejoService.obterPrograma(tipoProgramaId);
+      this.programa = await this.manejoService.obterPrograma(tipoPrograma);
     } catch (e) {
       console.error(e);
     }
   }
 
-  async obterProgramaItens(situacaoId: number) {
+  async obterProgramaItens(tagId: number) {
     try {
-      this.programaItensSelecionados = await this.manejoService.obterProgramaItensPorSituacao(situacaoId);
+      this.programaItensSelecionados = await this.manejoService.obterProgramaItensPorTag(tagId);
     } catch (e) {
       console.error(e);
     }
@@ -67,13 +67,14 @@ export class ManejoComponent implements OnInit {
     }
   }
 
-  async obterSituacoesQuantidade() {
+  async obterTagsQuantidade() {
     try {
-      this.situacoes = await this.manejoService.obterSituacoesQuantidades("UPL");
+      this.situacoes = await this.manejoService.obterTagsQuantidades("UPL");
       this.animalComportamento = new AnimalComportamento(this.situacoes);
-      this.situacaoSelecionada = this.situacoes.length ? this.situacoes[0] : new Situacao();
 
       await this.obterProgramaItens(this.situacaoSelecionada.id);
+      
+      this.selecionarTag(this.situacoes[0].sigla);
     } catch (e) {
       console.error(e);
     }
@@ -131,11 +132,10 @@ export class ManejoComponent implements OnInit {
     }
   }
 
-  selecionarSituacao(sigla: string) {
+  selecionarTag(sigla: string) {
     let situacoes = this.situacoes.filter(s => s.sigla == sigla);
-
     this.situacaoSelecionada = situacoes.length ? situacoes[0] : this.situacaoSelecionada;
-    this.programaItensSelecionados = this.programa.itens.filter(i => i.situacaoId == this.situacaoSelecionada.id);
+    this.programaItensSelecionados = this.programa.itens.filter(i => i.tagId == this.situacaoSelecionada.id);
   }
 
   abrirFichaDialog(numero: number): void {
@@ -156,14 +156,14 @@ export class ManejoComponent implements OnInit {
     let programaItem = itensFiltrados.length > 0 ? itensFiltrados[0] : new ProgramaItem(this.programa.id, this.situacaoSelecionada.id);
 
     const dialogRef = this.dialog.open(ProgramaFormComponent, {
-      width: '730px',
+      width: '930px',
       height: '580px',
       data: { programaItem: programaItem, situacao: this.situacaoSelecionada }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.obterProgramaDoAnimal(1);
-      this.obterSituacoesQuantidade();
+      this.obterPrograma("AM");
+      this.obterTagsQuantidade();
     });
   }
 

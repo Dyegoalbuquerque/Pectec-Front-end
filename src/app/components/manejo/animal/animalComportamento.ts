@@ -1,5 +1,5 @@
 import { Animal } from 'src/app/models/animal';
-import { Situacao } from 'src/app/models/situacao';
+import { Tag } from 'src/app/models/tag';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -8,11 +8,11 @@ import { Injectable } from '@angular/core';
 
 export class AnimalComportamento {
 
-    constructor(situacoes: Situacao[]) {
+    constructor(situacoes: Tag[]) {
         this.situacoes = situacoes;
     }
 
-    situacoes: Situacao[];
+    situacoes: Tag[];
 
     calcularQuantidadeDiasAteHoje(data: string) {
 
@@ -122,7 +122,7 @@ export class AnimalComportamento {
         let doados;
         let mortos;
         let vendidos;
-        let apartados;
+        let desmamados;
 
         if (acompanhamento) {
             vivos = acompanhamento.quantidadeFilhoteVV ? acompanhamento.quantidadeFilhoteVV : 0;
@@ -130,9 +130,9 @@ export class AnimalComportamento {
             doados = acompanhamento.quantidadeDoado ? acompanhamento.quantidadeDoado : 0;
             mortos = acompanhamento.quantidadeFilhoteMorto ? acompanhamento.quantidadeFilhoteMorto : 0;
             vendidos = acompanhamento.quantidadeVendido ? acompanhamento.quantidadeVendido : 0;
-            apartados = acompanhamento.quantidadeApartado ? acompanhamento.quantidadeApartado : 0;
+            desmamados = acompanhamento.quantidadeDesmamado ? acompanhamento.quantidadeDesmamado : 0;
 
-            quantidade = (vivos + adotados) - (mortos + doados + vendidos + apartados);
+            quantidade = (vivos + adotados) - (mortos + doados + vendidos + desmamados);
         }
 
 

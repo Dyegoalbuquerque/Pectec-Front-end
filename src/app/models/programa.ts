@@ -6,9 +6,7 @@ export class Programa {
     constructor(){
     }
     id: number;
+    tipo: string;
     nome: string;
-    tipoProgramaId: number;
-    dataCadastro: string;
     itens: ProgramaItem[];
-    inativo: boolean;
 }

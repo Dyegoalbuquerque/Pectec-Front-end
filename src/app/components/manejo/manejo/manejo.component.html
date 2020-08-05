@@ -1,6 +1,12 @@
 <h5>Upl</h5>
 
 <mat-tab-group>
+   <!-- acontecimentos diário -->
+   <mat-tab>
+    <ng-template mat-tab-label>
+      Acontecimentos diário
+    </ng-template>
+  </mat-tab>
   <!-- controle de ciclos -->
   <mat-tab>
     <ng-template mat-tab-label>
@@ -124,7 +130,7 @@
 
     <div class="row">
       <div class="list-group menu-situacoes-upl">
-        <a (click)="selecionarSituacao(situacao.sigla)" class="list-group-item list-group-item-action flex-column"
+        <a (click)="selecionarTag(situacao.sigla)" class="list-group-item list-group-item-action flex-column"
           *ngFor="let situacao of situacoes">
           <div class="d-flex">
             <span class="mb-1 menu-situacoes-nome">{{situacao.nome}}</span>

@@ -1,18 +1,16 @@
 export class ProgramaItem {
 
-    constructor(programaId?: number, situacaoId?: number) {
+    constructor(programaId?: number, tagId?: number) {
         this.programaId = programaId;
-        this.situacaoId = situacaoId;
+        this.tagId = tagId;
     }
 
     id: number;
     programaId: number;
     descricao: string;
     observacao: string;
-    inicio: number;
-    fim: number;
-    situacaoId: number;
-    quantidadeDias: number;
+    tempoOcorrencia: string;
+    tagId: number;
     quantidade: number;
     unidadeMedida: string;
     objetivo: any;
@@ -23,12 +21,16 @@ export class ProgramaItem {
     }
 
     eIntervalo() {
-        return this.inicio && this.fim ? true : false;
+        return this.tempoOcorrencia ? this.tempoOcorrencia.includes("-") : false;
     }
 
     mostrarDescricaoIntervalo() {
-        let intervalo = this.inicio ? `Dia ${this.inicio}` : '';
-        intervalo += this.fim ? ` até ${this.fim}` : '';
+        let tempoDividido = this.tempoOcorrencia ? this.tempoOcorrencia.split("-") : "";
+        let inicio = tempoDividido ? tempoDividido[0] : "";
+        let fim = tempoDividido ? tempoDividido[1] : "";
+
+        let intervalo = this.tempoOcorrencia ? `Dia ${inicio}` : '';
+        intervalo += fim ? ` até ${fim}` : '';
 
         return intervalo;
     }

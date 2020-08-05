@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
-  Situacao, ProgramaItem, Programa, CicloReproducao, Animal, CausaObito
+  Tag, ProgramaItem, Programa, CicloReproducao, Animal, CausaObito
 } from '../models';
 import { plainToClass } from "class-transformer";
 import { RelatorioUpl } from '../models/relatorioUpl';
@@ -39,20 +39,20 @@ export class ManejoService {
     return plainToClass(CausaObito, data);
   }
 
-  async obterSituacoes(setor: string): Promise<Situacao[]> {
-    let data = await this.httpclient.get<Situacao[]>(`${this.ApiUrl}/situacoes?setor=${setor}`).toPromise();
-    return plainToClass(Situacao, data);
+  async obterTags(setor: string): Promise<Tag[]> {
+    let data = await this.httpclient.get<Tag[]>(`${this.ApiUrl}/tags?setor=${setor}`).toPromise();
+    return plainToClass(Tag, data);
   }
 
-  async obterPrograma(tipoProgramaId: number): Promise<Programa> {
-    let data = await this.httpclient.get<Programa>(`${this.ApiUrl}/programa?tipoProgramaId=${tipoProgramaId}`).toPromise();
+  async obterPrograma(tipoPrograma: string): Promise<Programa> {
+    let data = await this.httpclient.get<Programa>(`${this.ApiUrl}/programa?tipoPrograma=${tipoPrograma}`).toPromise();
     data = plainToClass(Programa, data);
     data.itens = plainToClass(ProgramaItem, data.itens);
     return data;
   }
 
-  async obterProgramaItensPorSituacao(situacaoId: number): Promise<ProgramaItem[]> {
-    let data = await this.httpclient.get<ProgramaItem[]>(`${this.ApiUrl}/programa-itens?situacaoId=${situacaoId}`).toPromise();
+  async obterProgramaItensPorTag(tagId: number): Promise<ProgramaItem[]> {
+    let data = await this.httpclient.get<ProgramaItem[]>(`${this.ApiUrl}/programa-itens?tagId=${tagId}`).toPromise();
     return plainToClass(ProgramaItem, data);
   }
 
@@ -101,9 +101,9 @@ export class ManejoService {
     return plainToClass(ProgramaItem, data);
   }
 
-  async obterSituacoesQuantidades(setor: string): Promise<Situacao[]> {
-    let data = await this.httpclient.get<Situacao[]>(`${this.ApiUrl}/situacoes-quantidades?setor=${setor}`).toPromise();
-    return plainToClass(Situacao, data);
+  async obterTagsQuantidades(setor: string): Promise<Tag[]> {
+    let data = await this.httpclient.get<Tag[]>(`${this.ApiUrl}/tags-quantidades?setor=${setor}`).toPromise();
+    return plainToClass(Tag, data);
   }
 
   async removerProgramaItem(id: number): Promise<ProgramaItem> {

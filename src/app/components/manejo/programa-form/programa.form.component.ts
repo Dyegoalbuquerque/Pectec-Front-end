@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ManejoService, ConfiguracaoService } from 'src/app/services';
-import { ProgramaItem, UnidadeMedida, Situacao, Subcategoria } from 'src/app/models';
+import { ProgramaItem, UnidadeMedida, Tag, Subcategoria } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 
 @Component({
@@ -21,13 +21,14 @@ export class ProgramaFormComponent implements OnInit {
     this.objetivoPrograma = { valor: this.programaItem.eDoTipoConsumo() ? "C" : "P" };
     this.situacao = this.data.situacao;
     this.objetivosPrograma = [{ nome: "Consumo", valor: "C" }, { nome: "Procedimento", valor: "P" }];
-    this.intervalosDias = [{ nome: "Um dia", valor: "UD" }, { nome: "Intervalo de dias", valor: "MUD" }];
+    this.intervalosDias = [{ nome: "Um dia", valor: "UD" }, { nome: "Intervalo de dias", valor: "MUD" }, 
+                           { nome: "Frequência de dias", valor: "FD" }];
   }
 
   unidadeMedidas: UnidadeMedida[];
   programaItem: ProgramaItem;
   objetivos: Subcategoria[];
-  situacao: Situacao;
+  situacao: Tag;
   intervaloDia: any;
   objetivoPrograma: any;
   objetivosPrograma: any;
@@ -41,7 +42,6 @@ export class ProgramaFormComponent implements OnInit {
 
   async obterObjetivos() {
     try {
-      let objetivos = [];
       this.objetivos = await this.configuracaoService.obterSubcategorias(this.objetivoPrograma);
     } catch (e) {
       console.error(e);
@@ -84,7 +84,7 @@ export class ProgramaFormComponent implements OnInit {
   }
   
   validar(item: ProgramaItem): boolean {
-    return item.programaId && item.objetivoId && (item.inicio || (item.inicio && item.fim)) &&
+    return item.programaId && item.objetivoId && (item.tempoOcorrencia) &&
       ((this.objetivoPrograma.valor == 'C' && item.quantidade && item.unidadeMedida != '') ||
         (this.objetivoPrograma.valor == 'P'));
   }
