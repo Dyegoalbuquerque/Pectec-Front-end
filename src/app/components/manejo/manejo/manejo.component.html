@@ -1,12 +1,6 @@
 <h5>Upl</h5>
 
 <mat-tab-group>
-   <!-- acontecimentos diário -->
-   <mat-tab>
-    <ng-template mat-tab-label>
-      Acontecimentos diário
-    </ng-template>
-  </mat-tab>
   <!-- controle de ciclos -->
   <mat-tab>
     <ng-template mat-tab-label>
@@ -15,15 +9,15 @@
 
     <p>
       Acompanhe os ciclos reprodutivos da granja.
-     
+
       <button mat-raised-button color="success" class="right" [matMenuTriggerFor]="upl">
         Ações
       </button>
       <mat-menu #upl="matMenu">
         <button mat-menu-item (click)="abrirAnimalDialog()">Nova matriz</button>
         <button mat-menu-item (click)="gerarRelatorioUpl()">Relatório da Upl</button>
-        <button mat-menu-item >Relatório de matrizes</button>
-        <button mat-menu-item >Relatório de previsões</button>
+        <button mat-menu-item>Relatório de matrizes</button>
+        <button mat-menu-item>Relatório de previsões</button>
         <button mat-menu-item (click)="abrirSimuladorCiclo()">Simular ciclo da Upl</button>
       </mat-menu>
     </p>
@@ -31,10 +25,11 @@
 
     <div class="lista-animal">
       <mat-accordion>
-        <mat-expansion-panel *ngFor="let femea of femeas" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel *ngFor="let femea of femeas" (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <mat-icon matSuffix *ngIf="femea.pertenceAgranja()">star_border</mat-icon> 
+              <mat-icon matSuffix *ngIf="femea.pertenceAgranja()">star_border</mat-icon>
               &nbsp;&nbsp; Nº matriz {{femea.numero}}
 
               <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -199,6 +194,51 @@
       </div>
     </div>
     <br /><br />
+  </mat-tab>
+  <!-- acontecimentos diário -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Acontecimentos diário
+    </ng-template>
+
+
+    <div class="tabela-lancamento  mat-elevation-z8">
+      <br />
+      <table mat-table [dataSource]="dataSourceAcontecimento">
+
+        <ng-container matColumnDef="descricao">
+          <th mat-header-cell *matHeaderCellDef> Descrição </th>
+          <td mat-cell *matCellDef="let element"> {{element.descricao}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="na">
+
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let element">
+            <a class="remover" mat-raised-button color="warn">n/a</a>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="editar">
+
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let element">
+            <a class="remover" mat-raised-button color="primary">editar</a>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="verificar">
+
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let element">
+            <a class="recibo" mat-raised-button color="success">verificar</a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="colunasAcontecimentos; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: colunasAcontecimentos;"></tr>
+      </table>
+    </div>
   </mat-tab>
 </mat-tab-group>
 

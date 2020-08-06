@@ -11,6 +11,8 @@ import { Tag, Animal, Programa, ProgramaItem } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { RelatorioUplPdf } from '../../relatorioUplPdf';
+import { MatTableDataSource } from '@angular/material/table';
+import { Acontecimento } from 'src/app/models/acontecimento';
 
 
 @Component({
@@ -24,8 +26,12 @@ export class ManejoComponent implements OnInit {
     this.animalComportamento = new AnimalComportamento([]);
     this.femeas = [];
     this.situacaoSelecionada = new Tag();
+    this.colunasAcontecimentos = ['descricao', 'na', 'editar', 'verificar'];
+    this.dataSourceAcontecimento = new MatTableDataSource<Acontecimento>([]);
   }
 
+  colunasAcontecimentos: any[];
+  dataSourceAcontecimento: MatTableDataSource<Acontecimento>;
   animalComportamento: AnimalComportamento;
   femeas: Animal[];
   filhotes: Animal[];
@@ -41,6 +47,22 @@ export class ManejoComponent implements OnInit {
     this.obterFemeas();
     this.obterPrograma("AM");
     this.obterTagsQuantidade();
+    this.obterAcontecimentos();
+  }
+
+  obterAcontecimentos() {
+    try {
+      let lista = [];
+      for (let i = 0; i < 20; i++) {
+        let acontecimento = new Acontecimento();
+        acontecimento.descricao = "É um suplemento essenciais e colina, que auxilia no metabolismo, nas suas fases de desenvolvimento. Auxilia na recomposição e manutenção da microbiota intestinal equilibrada.";
+        lista.push(acontecimento);
+      }
+      this.dataSourceAcontecimento = new MatTableDataSource<Acontecimento>(lista);
+    }
+    catch (e) {
+      console.error(e);
+    }
   }
 
   async obterPrograma(tipoPrograma: string) {
@@ -73,7 +95,7 @@ export class ManejoComponent implements OnInit {
       this.animalComportamento = new AnimalComportamento(this.situacoes);
 
       await this.obterProgramaItens(this.situacaoSelecionada.id);
-      
+
       this.selecionarTag(this.situacoes[0].sigla);
     } catch (e) {
       console.error(e);
