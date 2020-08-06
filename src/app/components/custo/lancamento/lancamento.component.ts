@@ -5,7 +5,6 @@ import { CustoService, ConfiguracaoService } from '../../../services';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Categoria, Lancamento, Subcategoria } from 'src/app/models';
 import { SnackbarHelper } from '../../snackbarHelper';
-import { plainToClass } from "class-transformer";
 
 @Component({
   selector: 'lancamento-dialog',
@@ -65,7 +64,7 @@ export class LancamentoComponent implements OnInit {
 
   async obterSubcategorias(codigo: string) {
     try {
-      this.subcategorias = await this.categoriaService.obterSubcategorias(codigo);
+      this.subcategorias = await this.categoriaService.obterSubcategorias([codigo]);
     } catch (e) {
       console.error(e);
       this.mostrarMensagem("Ocorreu um problema", "Lançamento");

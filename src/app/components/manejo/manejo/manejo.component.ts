@@ -150,10 +150,9 @@ export class ManejoComponent implements OnInit {
     });
   }
 
-  abrirProgramaDialog(id: number) {
+  abrirProgramaDialog() {
 
-    let itensFiltrados = this.programa.itens.filter(i => i.id == id);
-    let programaItem = itensFiltrados.length > 0 ? itensFiltrados[0] : new ProgramaItem(this.programa.id, this.situacaoSelecionada.id);
+    let programaItem = new ProgramaItem(this.programa.id, this.situacaoSelecionada.id);
 
     const dialogRef = this.dialog.open(ProgramaFormComponent, {
       width: '930px',

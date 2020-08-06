@@ -16,6 +16,24 @@ export class ProgramaItem {
     objetivo: any;
     objetivoId: number;
 
+    preparar(intervaloDia: any){
+
+        let tempoOcorrenciaFormatado = intervaloDia.valor == "MUD" ?
+        `${intervaloDia.inicio}-${intervaloDia.fim}` :
+           intervaloDia.valor == "UD" ?
+        `${intervaloDia.inicio}` :
+           intervaloDia.valor == "FD" ?
+        `${intervaloDia.inicio}~${intervaloDia.inicio}` : "";
+
+        this.tempoOcorrencia = tempoOcorrenciaFormatado;
+    }
+
+    validar(objetivoTipo: string): boolean {
+        return this.programaId && this.objetivoId && (this.tempoOcorrencia) &&
+               ((objetivoTipo == 'C' && this.quantidade && this.unidadeMedida != '') ||
+               (objetivoTipo == 'P'));
+    }
+
     eDoTipoConsumo() {
         return this.quantidade && this.unidadeMedida ? true : false;
     }

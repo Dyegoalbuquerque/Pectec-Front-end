@@ -17,8 +17,8 @@ export class ProgramaFormComponent implements OnInit {
     private notifications: NotificationsService) {
 
     this.programaItem = this.data.programaItem;
-    this.intervaloDia = { valor: this.programaItem.eIntervalo() ? "MUD" : "UD" };
-    this.objetivoPrograma = { valor: this.programaItem.eDoTipoConsumo() ? "C" : "P" };
+    this.intervaloDia = { valor: "UD", inicio: "", fim: "" };
+    this.objetivoPrograma = { valor: "C" };
     this.situacao = this.data.situacao;
     this.objetivosPrograma = [{ nome: "Consumo", valor: "C" }, { nome: "Procedimento", valor: "P" }];
     this.intervalosDias = [{ nome: "Um dia", valor: "UD" }, { nome: "Intervalo de dias", valor: "MUD" }, 
@@ -37,18 +37,15 @@ export class ProgramaFormComponent implements OnInit {
   ngOnInit() {
     this.obterUnidadeMedidas();
     this.obterObjetivos();
-    this.obterProcedimentos();
   }
 
   async obterObjetivos() {
     try {
-      this.objetivos = await this.configuracaoService.obterSubcategorias(this.objetivoPrograma);
+      this.objetivos = await this.configuracaoService.obterSubcategorias(["I", "R", "M", "P"]);
     } catch (e) {
       console.error(e);
     }
   }
-
-  async obterProcedimentos() { }
 
   async obterUnidadeMedidas() {
     try {
@@ -61,7 +58,10 @@ export class ProgramaFormComponent implements OnInit {
   async salvar() {
 
     try {
-      if (this.validar(this.programaItem)) {
+
+      if (this.programaItem.validar(this.objetivoPrograma.valor)) {
+
+        this.programaItem.preparar(this.intervaloDia);
 
         if (this.programaItem.id > 0) {
           this.programaItem = await this.manejoService.atualizarProgramaItem(this.programaItem);
@@ -81,12 +81,6 @@ export class ProgramaFormComponent implements OnInit {
       console.error(e);
       this.mostrarMensagem("Ocorreu um problema", "Programa", NotificationType.Error);
     }
-  }
-  
-  validar(item: ProgramaItem): boolean {
-    return item.programaId && item.objetivoId && (item.tempoOcorrencia) &&
-      ((this.objetivoPrograma.valor == 'C' && item.quantidade && item.unidadeMedida != '') ||
-        (this.objetivoPrograma.valor == 'P'));
   }
 
   fechar(): void {

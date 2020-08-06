@@ -50,7 +50,7 @@ export class CicloSimularFormComponent implements OnInit {
 
   async obterSubcategorias(codigo: string) {
     try {
-      this.subcategorias = await this.categoriaService.obterSubcategorias(codigo);
+      this.subcategorias = await this.categoriaService.obterSubcategorias([codigo]);
     } catch (e) {
       console.error(e);
       this.mostrarMensagem("Ocorreu um problema", "Ração")

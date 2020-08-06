@@ -21,8 +21,8 @@ export class ConfiguracaoService {
     return plainToClass(UnidadeMedida, retorno);
   }
 
-  async obterSubcategorias(codigoCategoria?: string): Promise<Subcategoria[]> {
-    let retorno = await  this.httpclient.get<Subcategoria[]>(`${this.ApiUrl}/subcategorias?codigoCategoria=${codigoCategoria}`).toPromise();
+  async obterSubcategorias(categorias?: any[]): Promise<Subcategoria[]> {
+    let retorno = await  this.httpclient.get<Subcategoria[]>(`${this.ApiUrl}/subcategorias?categorias=${categorias}`).toPromise();
     return plainToClass(Subcategoria, retorno);
   }
 }
