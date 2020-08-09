@@ -30,10 +30,6 @@ export class CicloReproducaoComponent implements OnInit {
         this.obterSituacoes();
     }
 
-    mudarInceminacao(inceminacao) {
-        this.acompanhamento.inceminacao = !inceminacao;
-    }
-
     async obterReprodutores() {
         this.reprodutores = await this.manejoService.obterReprodutores();
     }
@@ -66,6 +62,14 @@ export class CicloReproducaoComponent implements OnInit {
             this.mostrarMensagem("Ocorreu um problema", "Acompanhamento", NotificationType.Error);
 
         }
+    }
+
+    mudarInceminacao(inceminacao) {
+        this.acompanhamento.inceminacao = !inceminacao;
+    }
+
+    mudarAtivo(ativo) {
+        this.acompanhamento.ativo = !ativo;
     }
 
     fechar(): void {

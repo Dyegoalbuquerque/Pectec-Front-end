@@ -8,8 +8,18 @@
 
 <igx-switch [checked]="acompanhamento.inceminacao" [(ngModel)]="acompanhamento.inceminacao"
   [disabled]="acompanhamento.dataFecundacao && acompanhamento.dataFecundacao != ''"
-  [checked]="acompanhamento.inceminacao" (change)="mudarInceminacao(inceminacao)">
+  (change)="mudarInceminacao(acompanhamento.inceminacao)">
   Inceminação
+</igx-switch>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<igx-switch  [checked]="acompanhamento.ativo" *ngIf="acompanhamento.dataFecundacao"
+   [(ngModel)]="acompanhamento.ativo" (change)="mudarAtivo(acompanhamento.ativo)">
+   <mat-label *ngIf="acompanhamento.ativo && acompanhamento.dataPartoReal">Confirmada gestação</mat-label>
+   <mat-label *ngIf="acompanhamento.ativo && !acompanhamento.dataPartoReal">Em confirmação gestação</mat-label>
+   <mat-label *ngIf="!acompanhamento.ativo && !acompanhamento.dataPartoReal">Não confirmada gestação</mat-label>
+   <mat-label *ngIf="!acompanhamento.ativo && acompanhamento.dataPartoReal">Encerar ciclo</mat-label>
 </igx-switch>
 
 <br />
