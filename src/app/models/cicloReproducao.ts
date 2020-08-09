@@ -24,6 +24,8 @@ export class CicloReproducao {
     quantidadeFilhoteMF: number;
     pesoFilhoteNascimento: number;
     pesoFilhoteDesmamado: number;
+    pesoLeitegadaNascimento: number;
+    pesoLeitegadaDesmamado: number;
     quantidadeFilhoteMorto: number;
     quantidadeSexoM: number;
     quantidadeSexoF: number;

@@ -129,7 +129,7 @@ export class ManejoComponent implements OnInit {
 
     const dialogRef = this.dialog.open(CicloReproducaoComponent, {
       width: '700px',
-      height: '730px',
+      height: '790px',
       data: ciclo
     });
 
