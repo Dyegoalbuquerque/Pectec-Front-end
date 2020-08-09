@@ -47,7 +47,7 @@ export class AnimalComportamento {
     taEmAlertaDeConfirmacaoDeGestacao(femea: Animal) {
         let dias = this.calcularDiasDesdeFecundacao(femea);
 
-        return femea.situacao == "CG" && dias >= 15;
+        return femea.tag == "CG" && dias >= 15;
     }
 
     obterCicloAtivo(item) {
@@ -107,9 +107,9 @@ export class AnimalComportamento {
 
     obterSituacao(sigla) {
 
-        let situacao = this.situacoes.filter(x => x.sigla == sigla)[0];
+        let tag = this.situacoes.filter(x => x.sigla == sigla)[0];
 
-        return situacao ? situacao.nome : '';
+        return tag ? tag.nome : '';
     }
 
     calcularQuantidadeFilhotesAtual(femea: Animal) {
@@ -151,7 +151,7 @@ export class AnimalComportamento {
     }
 
     taNoPeriodoEntreGestacaoElactacao(femea: Animal) {
-        return femea.situacao == 'G' || femea.situacao == 'L';
+        return femea.tag == 'G' || femea.tag == 'L';
     }
 
     taEmConfirmacaoGestacaoEnaoTaEmAlerta(femea: Animal) {

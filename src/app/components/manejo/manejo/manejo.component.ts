@@ -25,9 +25,10 @@ export class ManejoComponent implements OnInit {
     private notifications: NotificationsService, private spinner: NgxSpinnerService) {
     this.animalComportamento = new AnimalComportamento([]);
     this.femeas = [];
-    this.situacaoSelecionada = new Tag();
+    this.tagSelecionada = new Tag('');
     this.colunasAcontecimentos = ['descricao', 'na', 'editar', 'verificar'];
     this.dataSourceAcontecimento = new MatTableDataSource<Acontecimento>([]);
+    this.programaItensSelecionados = [];
   }
 
   colunasAcontecimentos: any[];
@@ -36,17 +37,16 @@ export class ManejoComponent implements OnInit {
   femeas: Animal[];
   filhotes: Animal[];
   ciclosRepdorucao: CicloReproducao[];
-  situacoes: Tag[];
+  tags: Tag[];
   programa: Programa;
   programaItensSelecionados: ProgramaItem[];
-  situacaoSelecionada: Tag;
+  tagSelecionada: Tag;
 
   panelOpenState = false;
 
   ngOnInit() {
     this.obterFemeas();
     this.obterPrograma("AM");
-    this.obterTagsQuantidade();
     this.obterAcontecimentos();
   }
 
@@ -68,6 +68,7 @@ export class ManejoComponent implements OnInit {
   async obterPrograma(tipoPrograma: string) {
     try {
       this.programa = await this.manejoService.obterPrograma(tipoPrograma);
+      this.obterTagsQuantidade();
     } catch (e) {
       console.error(e);
     }
@@ -91,12 +92,10 @@ export class ManejoComponent implements OnInit {
 
   async obterTagsQuantidade() {
     try {
-      this.situacoes = await this.manejoService.obterTagsQuantidades("UPL");
-      this.animalComportamento = new AnimalComportamento(this.situacoes);
-
-      await this.obterProgramaItens(this.situacaoSelecionada.id);
-
-      this.selecionarTag(this.situacoes[0].sigla);
+      this.tags = await this.manejoService.obterTagsQuantidades("UPL");
+      this.animalComportamento = new AnimalComportamento(this.tags);
+      
+      this.selecionarTag(this.tags[0].sigla);
     } catch (e) {
       console.error(e);
     }
@@ -154,10 +153,16 @@ export class ManejoComponent implements OnInit {
     }
   }
 
+  selecionarProgramaItens(){
+    this.programaItensSelecionados = this.programa.itens.length ? 
+                                     this.programa.itens.filter(i => i.tagId == this.tagSelecionada.id) :
+                                     [];
+  }
+
   selecionarTag(sigla: string) {
-    let situacoes = this.situacoes.filter(s => s.sigla == sigla);
-    this.situacaoSelecionada = situacoes.length ? situacoes[0] : this.situacaoSelecionada;
-    this.programaItensSelecionados = this.programa.itens.filter(i => i.tagId == this.situacaoSelecionada.id);
+    let tags = this.tags.filter(s => s.sigla == sigla);
+    this.tagSelecionada = tags.length ? tags[0] : this.tagSelecionada;
+    this.selecionarProgramaItens();
   }
 
   abrirFichaDialog(numero: number): void {
@@ -174,12 +179,12 @@ export class ManejoComponent implements OnInit {
 
   abrirProgramaDialog() {
 
-    let programaItem = new ProgramaItem(this.programa.id, this.situacaoSelecionada.id);
+    let programaItem = new ProgramaItem(this.programa.id, this.tagSelecionada.id);
 
     const dialogRef = this.dialog.open(ProgramaFormComponent, {
       width: '930px',
       height: '580px',
-      data: { programaItem: programaItem, situacao: this.situacaoSelecionada }
+      data: { programaItem: programaItem, situacao: this.tagSelecionada }
     });
 
     dialogRef.afterClosed().subscribe(result => {

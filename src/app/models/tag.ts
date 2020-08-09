@@ -2,7 +2,8 @@
 
 export class Tag {
     
-    constructor(){
+    constructor(nome?: string){
+      this.nome = nome;
     }
     id: number;
     nome: string;

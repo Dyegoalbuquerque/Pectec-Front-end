@@ -31,7 +31,7 @@
 
 <mat-form-field>
   <mat-label class="required">Situação</mat-label>
-  <mat-select [(ngModel)]="animal.situacao">
+  <mat-select [(ngModel)]="animal.tag">
     <mat-option [value]="">
       Selecione
     </mat-option>
@@ -41,18 +41,18 @@
   </mat-select>
 </mat-form-field>
 
-<span *ngIf="animal.situacao == 'O'">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span *ngIf="animal.tag == 'O'">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
-<mat-form-field *ngIf="animal.situacao == 'O'">
+<mat-form-field *ngIf="animal.tag == 'O'">
   <mat-label class="required">Data do óbito</mat-label>
   <input matInput [matDatepicker]="picker" [(ngModel)]="animal.dataObito">
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
 </mat-form-field>
 
-<span *ngIf="animal.situacao == 'O'">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span *ngIf="animal.tag == 'O'">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
-<mat-form-field *ngIf="animal.situacao == 'O'">
+<mat-form-field *ngIf="animal.tag == 'O'">
   <mat-label class="required">Causa do óbito</mat-label>
   <mat-select [(ngModel)]="animal.causaObitoId">
     <mat-option [value]="">

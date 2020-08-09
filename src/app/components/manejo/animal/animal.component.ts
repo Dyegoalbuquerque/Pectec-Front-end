@@ -65,8 +65,8 @@ export class AnimalComponent implements OnInit {
   validar(item: Animal): boolean {
 
     return item.dataNascimento && item.raca && item.sexo &&
-      ((item.dataObito && item.situacao == 'O' && item.causaObitoId > 0) ||
-        (item.situacao != 'O' && !item.dataObito && !item.causaObitoId))
+      ((item.dataObito && item.tag == 'O' && item.causaObitoId > 0) ||
+        (item.tag != 'O' && !item.dataObito && !item.causaObitoId))
   }
 
   mostrarMensagem(mensagem: string, action: string) {

@@ -6,7 +6,7 @@ export class Animal{
     constructor(){ }
     id: number;
     especieId: number;
-    situacao: string;
+    tag: string;
     numero: number;
     nome: string;
     raca: string;
@@ -23,10 +23,10 @@ export class Animal{
     }
 
     taEmSituacaoDeIDC(){
-        return this.situacao == 'IDC';
+        return this.tag == 'IDC';
     }
 
     taEmSituacaoConfirmacaoGestacao(){
-        return this.situacao == 'CG';
+        return this.tag == 'CG';
     }
 }
