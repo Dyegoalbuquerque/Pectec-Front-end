@@ -11,6 +11,7 @@ export class ProgramaItem {
     observacao: string;
     tempoOcorrencia: string;
     tagId: number;
+    ativo: boolean;
     quantidade: number;
     unidadeMedida: string;
     objetivo: any;

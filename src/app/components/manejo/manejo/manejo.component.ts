@@ -94,7 +94,7 @@ export class ManejoComponent implements OnInit {
     try {
       this.tags = await this.manejoService.obterTagsQuantidades("UPL");
       this.animalComportamento = new AnimalComportamento(this.tags);
-      
+
       this.selecionarTag(this.tags[0].sigla);
     } catch (e) {
       console.error(e);
@@ -153,10 +153,20 @@ export class ManejoComponent implements OnInit {
     }
   }
 
-  selecionarProgramaItens(){
-    this.programaItensSelecionados = this.programa.itens.length ? 
-                                     this.programa.itens.filter(i => i.tagId == this.tagSelecionada.id) :
-                                     [];
+  async mudarAtivo(programaItem) {
+    programaItem.ativo = !programaItem.ativo;
+
+    try {
+        await this.manejoService.atualizarProgramaItem(programaItem);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  selecionarProgramaItens() {
+    this.programaItensSelecionados = this.programa.itens.length ?
+      this.programa.itens.filter(i => i.tagId == this.tagSelecionada.id) :
+      [];
   }
 
   selecionarTag(sigla: string) {

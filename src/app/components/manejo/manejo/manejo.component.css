@@ -83,6 +83,9 @@ mat-card{
   margin-bottom: 10px;
 }
 
-
-
-
+.switch-ativo {
+  position: absolute; 
+  right: 10px;
+  margin-right: 5px;
+  padding-top: 5px;
+}

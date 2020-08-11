@@ -174,11 +174,19 @@
             <h6 class="mb-1">
               <mat-chip-list>
                 <mat-chip *ngIf="programaItem.eDoTipoConsumo()" color="primary" selected>
-                  {{programaItem.mostrarObjetivo()}}</mat-chip>
+                  {{programaItem.mostrarObjetivo()}}
+                </mat-chip>
                 <mat-chip *ngIf="!programaItem.eDoTipoConsumo()"> {{programaItem.mostrarObjetivo()}}</mat-chip>
                 <span>&nbsp;&nbsp;</span>{{programaItem.mostrarDescricao()}}
               </mat-chip-list>
             </h6>
+            <span class="switch-ativo">
+              <i>Ativo</i>
+              <span>&nbsp;&nbsp;&nbsp;</span>
+              <igx-switch [checked]="programaItem.ativo" class="switch" [checked]="programaItem.ativo"
+              (change)="mudarAtivo(programaItem)">
+              </igx-switch>
+            </span>
           </div>
           <p>{{programaItem.mostrarObservacao()}}</p>
 
