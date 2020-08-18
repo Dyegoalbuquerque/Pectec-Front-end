@@ -1,19 +1,20 @@
-<div class="conteudo">
-  <br/>
-  <br/>
-  <mat-card>
+
+  <mat-card class="conteudo">
+    <br/>
     <mat-card-title>Login</mat-card-title>
     <mat-card-content>
-      <form [formGroup]="form" (ngSubmit)="submit()">
+      <form [formGroup]="form" (ngSubmit)="submeter()">
         <p>
           <mat-form-field>
-            <input type="text" matInput placeholder="username" formControlName="username">
+            <input type="text" matInput placeholder="login" formControlName="login">
+            <mat-icon matSuffix>person</mat-icon>
           </mat-form-field>
         </p>
 
         <p>
           <mat-form-field>
             <input type="password" matInput placeholder="senha" formControlName="senha">
+            <mat-icon matSuffix>lock</mat-icon>
           </mat-form-field>
         </p>
 
@@ -21,13 +22,8 @@
           {{ error }}
         </p>
 
-        <div class="button">
-
-          <a mat-button>Cancelar</a>
-          <button mat-raised-button color="success" type="button">Enviar</button>
-        </div>
-
+          <button mat-raised-button color="success">Entrar</button>
+        
       </form>
     </mat-card-content>
   </mat-card>
-</div>

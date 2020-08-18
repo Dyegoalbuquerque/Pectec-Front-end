@@ -5,8 +5,9 @@
   }
 
   .mat-form-field {
+    padding: 25px;
     width: 100%;
-    min-width: 300px;
+    min-width: 350px;
   }
 
   mat-card-title,
@@ -27,6 +28,6 @@
     justify-content: flex-end;
   }
 
-  .conteudo{
-    background-color: green;
-  }
+.conteudo{
+  background-color: white;
+}

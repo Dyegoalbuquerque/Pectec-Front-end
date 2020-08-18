@@ -219,14 +219,6 @@
           <td mat-cell *matCellDef="let element"> {{element.descricao}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="na">
-
-          <th mat-header-cell *matHeaderCellDef> </th>
-          <td mat-cell *matCellDef="let element">
-            <a class="remover" mat-raised-button color="warn">n/a</a>
-          </td>
-        </ng-container>
-
         <ng-container matColumnDef="editar">
 
           <th mat-header-cell *matHeaderCellDef> </th>
@@ -235,11 +227,11 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="verificar">
+        <ng-container matColumnDef="ok">
 
           <th mat-header-cell *matHeaderCellDef> </th>
           <td mat-cell *matCellDef="let element">
-            <a class="recibo" mat-raised-button color="success">verificar</a>
+            <a class="recibo" mat-raised-button color="success" [disabled]="element.status == 'OK'">ok</a>
           </td>
         </ng-container>
 

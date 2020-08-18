@@ -8,7 +8,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MaterialModule } from './material-module';
 import { HttpClientModule } from "@angular/common/http";
 import { LoginComponent } from './components/login/login.component';
-import { ManejoComponent, AnimalComponent, CicloResumoComponent,
+import { UplComponent, UCComponent, AnimalComponent, CicloResumoComponent,
          FichaComponent, ProgramaFormComponent, CicloReproducaoComponent, CicloSimularFormComponent } from './components/manejo';
 import { CustoComponent, LancamentoComponent, ReciboComponent } from './components/custo';
 import { EstoqueComponent, RacaoComponent, EstoqueFormComponent,
@@ -22,7 +22,6 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { IgxTreeGridModule, IgxInputGroupModule, IgxRadioModule, IgxDialogModule, IgxButtonModule, 
          IgxRippleModule, IgxSwitchModule, IgxSliderModule } from "igniteui-angular";
-import { LoginRoutingModule } from './components/login/login.routing';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { 
 	IgxGridModule,
@@ -31,7 +30,7 @@ import {
 
 @NgModule({
   declarations: [
-    AppComponent, LoginComponent, ManejoComponent, CicloResumoComponent, ReciboComponent,
+    AppComponent, LoginComponent, UplComponent, UCComponent, CicloResumoComponent, ReciboComponent,
     CustoComponent, FichaComponent, LancamentoComponent, CicloSimularFormComponent, LoginComponent,
     AnimalComponent, CicloReproducaoComponent, EstoqueComponent, EstoqueHistoricoComponent,
     RacaoComponent, EstoqueFormComponent, ProgramaFormComponent, ConsumoComponent,
@@ -42,7 +41,7 @@ import {
                     RacaoComponent, EstoqueFormComponent, ProgramaFormComponent, 
                     ConsumoFormComponent, VendaAnimalComponent],
   imports: [
-    BrowserModule, AppRoutingModule, LoginRoutingModule, FormsModule,
+    BrowserModule, AppRoutingModule, FormsModule,
     ReactiveFormsModule, MaterialModule, HttpClientModule,
     BrowserAnimationsModule,IgxTreeGridModule , IgxInputGroupModule, IgxGridModule,IgxFocusModule,
     IgxDialogModule, IgxButtonModule, IgxRippleModule, IgxSwitchModule, IgxSliderModule, 

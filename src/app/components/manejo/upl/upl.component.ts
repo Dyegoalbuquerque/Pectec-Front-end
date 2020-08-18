@@ -13,26 +13,28 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { RelatorioUplPdf } from '../../relatorioUplPdf';
 import { MatTableDataSource } from '@angular/material/table';
 import { Acontecimento } from 'src/app/models/acontecimento';
+import { AcontecimentoItem } from 'src/app/models/acontecimentoItem';
 
 
 @Component({
-  templateUrl: './manejo.component.html',
-  styleUrls: ['./manejo.component.css']
+  templateUrl: './upl.component.html',
+  styleUrls: ['./upl.component.css']
 })
-export class ManejoComponent implements OnInit {
+export class UplComponent implements OnInit {
 
   constructor(private manejoService: ManejoService, public dialog: MatDialog,
     private notifications: NotificationsService, private spinner: NgxSpinnerService) {
     this.animalComportamento = new AnimalComportamento([]);
     this.femeas = [];
+    this.programa = new Programa();
     this.tagSelecionada = new Tag('');
-    this.colunasAcontecimentos = ['descricao', 'na', 'editar', 'verificar'];
-    this.dataSourceAcontecimento = new MatTableDataSource<Acontecimento>([]);
+    this.colunasAcontecimentos = ['descricao', 'editar', 'ok'];
+    this.dataSourceAcontecimento = new MatTableDataSource<AcontecimentoItem>([]);
     this.programaItensSelecionados = [];
   }
 
   colunasAcontecimentos: any[];
-  dataSourceAcontecimento: MatTableDataSource<Acontecimento>;
+  dataSourceAcontecimento: MatTableDataSource<AcontecimentoItem>;
   animalComportamento: AnimalComportamento;
   femeas: Animal[];
   filhotes: Animal[];
@@ -50,17 +52,13 @@ export class ManejoComponent implements OnInit {
     this.obterAcontecimentos();
   }
 
-  obterAcontecimentos() {
+  async obterAcontecimentos() {
+
     try {
-      let lista = [];
-      for (let i = 0; i < 20; i++) {
-        let acontecimento = new Acontecimento();
-        acontecimento.descricao = "É um suplemento essenciais e colina, que auxilia no metabolismo, nas suas fases de desenvolvimento. Auxilia na recomposição e manutenção da microbiota intestinal equilibrada.";
-        lista.push(acontecimento);
-      }
-      this.dataSourceAcontecimento = new MatTableDataSource<Acontecimento>(lista);
-    }
-    catch (e) {
+      let acontecimentos = await this.manejoService.obterAcontecimentos("2020-01-06T03:00:00.000Z","2020-01-07T03:00:00.000Z");
+      this.dataSourceAcontecimento = new MatTableDataSource<AcontecimentoItem>(acontecimentos);
+      
+    } catch (e) {
       console.error(e);
     }
   }

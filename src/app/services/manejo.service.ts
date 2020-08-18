@@ -5,6 +5,8 @@ import {
 } from '../models';
 import { plainToClass } from "class-transformer";
 import { RelatorioUpl } from '../models/relatorioUpl';
+import { Acontecimento } from '../models/acontecimento';
+import { AcontecimentoItem } from '../models/acontecimentoItem';
 
 @Injectable({
   providedIn: 'root'
@@ -111,8 +113,14 @@ export class ManejoService {
     return plainToClass(ProgramaItem, data);
   }
 
-  async obterRelatorioUpl(dataInicial: string , dataFinal: string): Promise<RelatorioUpl> {
+  async obterRelatorioUpl(dataInicial: string, dataFinal: string): Promise<RelatorioUpl> {
     let data = await this.httpclient.get<RelatorioUpl>(`${this.ApiUrl}/relatorios/upl?dataInicial=${dataInicial}&dataFinal=${dataFinal}`).toPromise();
     return plainToClass(RelatorioUpl, data);
+  }
+
+  async obterAcontecimentos(dataInicial: string, dataFinal: string): Promise<AcontecimentoItem[]> {
+    let data = await this.httpclient.get<AcontecimentoItem[]>(`${this.ApiUrl}/acontecimentos?dataInicio=${dataInicial}&dataFinal=${dataFinal}`).toPromise();
+    data = plainToClass(AcontecimentoItem, data);
+    return data;
   }
 }

@@ -1,6 +1,12 @@
+import { AcontecimentoItem } from './acontecimentoItem';
 
 export class Acontecimento{
     
     constructor(){ }
-    descricao: string;
+    
+    id: number;
+    setor: string;
+    data: string;
+    status: string;
+    itens: AcontecimentoItem[];
 }

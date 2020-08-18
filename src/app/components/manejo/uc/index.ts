@@ -5,5 +5,4 @@ export * from './ciclo-simular-form/ciclo.simular.form.component';
 export * from './ciclo-resumo/ciclo.resumo.component'; 
 export * from './animal-ficha/ficha.component';
 export * from './upl/upl.component';
-export * from './uc/uc.component';
 export * from './programa-form/programa.form.component';

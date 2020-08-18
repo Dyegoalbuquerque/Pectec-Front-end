@@ -1,5 +1,5 @@
 <!-- Toolbar -->
-<mat-toolbar>
+<mat-toolbar *ngIf="currentUser">
 
   <mat-toolbar-row>
     <span>
@@ -16,7 +16,7 @@
         <mat-icon>list</mat-icon>
         <span>UPL - Unidade produtora de leitão</span>
       </button>
-      <button mat-menu-item> 
+      <button mat-menu-item routerLink="/uc"> 
         <mat-icon>list</mat-icon>
         <span>UC - Unidade de creche</span>
       </button>
