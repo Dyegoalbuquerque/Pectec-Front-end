@@ -17,14 +17,19 @@ export class AnimalComportamento {
     calcularQuantidadeDiasAteHoje(data: string) {
 
         var dataInicio = new Date(data);
+        var hoje = new Date();
 
-        var subtracao = Math.abs(new Date().getTime() - dataInicio.getTime());
+        var subtracao = Math.abs(hoje.getTime() - dataInicio.getTime());
         return Math.ceil(subtracao / (1000 * 60 * 60 * 24));
     }
 
     calcularAlertaDeParicao(femea: Animal) {
 
         let acompanhamentoAtivo = this.obterCicloAtivo(femea);
+
+        if(new Date().getTime() >= new Date(acompanhamentoAtivo.dataPartoPrevisao).getTime()){
+            return 0;
+        }
 
         return this.calcularQuantidadeDiasAteHoje(acompanhamentoAtivo.dataPartoPrevisao);
     }
@@ -101,6 +106,11 @@ export class AnimalComportamento {
 
     taEmAlertaDeParto(femea) {
         let dias = this.calcularAlertaDeParicao(femea);
+        let ciclo = this.obterCicloAtivo(femea);
+
+        if(new Date().getTime() >= new Date(ciclo.dataPartoPrevisao).getTime()){
+            return true;
+        }
 
         return dias > 0 && dias <= 10;
     }
