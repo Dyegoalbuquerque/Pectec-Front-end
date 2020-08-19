@@ -7,7 +7,8 @@ import { CicloReproducao } from 'src/app/models/cicloReproducao';
 import { Tag, Animal } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { RelatorioUplPdf } from '../../relatorioUplPdf';
+import { CicloCrescimento } from 'src/app/models/cicloCrescimento';
+import { RelatorioUCPdf } from '../../relatorioUCPdf';
 
 
 @Component({
@@ -19,12 +20,12 @@ export class UCComponent implements OnInit {
   constructor(private manejoService: ManejoService, public dialog: MatDialog,
     private notifications: NotificationsService, private spinner: NgxSpinnerService) {
     this.animalComportamento = new AnimalComportamento([]);
-    this.femeas = [];
+    this.ciclos = [];
     this.tagSelecionada = new Tag('');
   }
 
   animalComportamento: AnimalComportamento;
-  femeas: Animal[];
+  ciclos: CicloCrescimento[];
   filhotes: Animal[];
   ciclosRepdorucao: CicloReproducao[];
   tagSelecionada: Tag;
@@ -37,7 +38,7 @@ export class UCComponent implements OnInit {
 
   async obterCiclosCrescimento() {
     try {
-      this.femeas = await this.manejoService.obterCiclosReproducao(2020);
+      this.ciclos = await this.manejoService.obterCiclosCrescimento();
     } catch (e) {
       console.error(e);
     }
@@ -48,10 +49,10 @@ export class UCComponent implements OnInit {
       let dataInicio = "2020-01-01T03:00:00.000Z";
       let dataFinal = new Date().toString();
 
-      let relatorioUpl = await this.manejoService.obterRelatorioUpl(dataInicio, dataFinal);
-      let relatorioPdf = new RelatorioUplPdf();
+      let relatorioUC = await this.manejoService.obterRelatorioUC(dataInicio, dataFinal);
+      let relatorioPdf = new RelatorioUCPdf();
 
-      relatorioPdf.gerarRelatorioUpl(relatorioUpl);
+      relatorioPdf.gerarRelatorioUC(relatorioUC);
 
     } catch (e) {
       console.error(e);

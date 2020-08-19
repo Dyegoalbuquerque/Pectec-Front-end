@@ -7,6 +7,8 @@ import { plainToClass } from "class-transformer";
 import { RelatorioUpl } from '../models/relatorioUpl';
 import { Acontecimento } from '../models/acontecimento';
 import { AcontecimentoItem } from '../models/acontecimentoItem';
+import { CicloCrescimento } from '../models/cicloCrescimento';
+import { RelatorioUC } from '../models/relatorioUC';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +36,11 @@ export class ManejoService {
   async obterCiclosReproducao(ano: number): Promise<Animal[]> {
     let data = await this.httpclient.get<Animal[]>(`${this.ApiUrl}/ciclos-reproducao?ano=${ano}`).toPromise();
     return plainToClass(Animal, data);
+  }
+
+  async obterCiclosCrescimento(): Promise<CicloCrescimento[]> {
+    let data = await this.httpclient.get<CicloCrescimento[]>(`${this.ApiUrl}/ciclos-crescimento/ativo`).toPromise();
+    return plainToClass(CicloCrescimento, data);
   }
 
   async obterCausaObitos(): Promise<CausaObito[]> {
@@ -116,6 +123,11 @@ export class ManejoService {
   async obterRelatorioUpl(dataInicial: string, dataFinal: string): Promise<RelatorioUpl> {
     let data = await this.httpclient.get<RelatorioUpl>(`${this.ApiUrl}/relatorios/upl?dataInicial=${dataInicial}&dataFinal=${dataFinal}`).toPromise();
     return plainToClass(RelatorioUpl, data);
+  }
+
+  async obterRelatorioUC(dataInicial: string, dataFinal: string): Promise<RelatorioUC> {
+    let data = await this.httpclient.get<RelatorioUC>(`${this.ApiUrl}/relatorios/uc?dataInicial=${dataInicial}&dataFinal=${dataFinal}`).toPromise();
+    return plainToClass(RelatorioUC, data);
   }
 
   async obterAcontecimentos(dataInicial: string, dataFinal: string): Promise<AcontecimentoItem[]> {

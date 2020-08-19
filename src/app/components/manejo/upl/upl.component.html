@@ -1,4 +1,4 @@
-<h5>Upl</h5>
+<h5>Upl - unidade produtora de leitão</h5>
 
 <mat-tab-group>
   <!-- controle de ciclos -->
@@ -16,9 +16,9 @@
       <mat-menu #upl="matMenu">
         <button mat-menu-item (click)="abrirAnimalDialog()">Nova matriz</button>
         <button mat-menu-item (click)="gerarRelatorioUpl()">Relatório da Upl</button>
-        <button mat-menu-item>Relatório de matrizes</button>
-        <button mat-menu-item>Relatório de previsões</button>
-        <button mat-menu-item (click)="abrirSimuladorCiclo()">Simular ciclo da Upl</button>
+        <button mat-menu-item disabled>Relatório de matrizes</button>
+        <button mat-menu-item disabled>Relatório de previsões</button>
+        <button mat-menu-item (click)="abrirSimuladorCiclo()" disabled>Simular ciclo da Upl</button>
       </mat-menu>
     </p>
     <br />

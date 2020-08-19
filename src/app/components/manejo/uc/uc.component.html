@@ -1,4 +1,4 @@
-<h5>UC</h5>
+<h5>UC - unidade de creche</h5>
 
 <mat-tab-group>
   <!-- controle de ciclos -->
@@ -21,88 +21,40 @@
 
     <div class="lista-animal">
       <mat-accordion>
-        <mat-expansion-panel *ngFor="let femea of femeas" (opened)="panelOpenState = true"
+        <mat-expansion-panel *ngFor="let ciclo of ciclos" (opened)="panelOpenState = true"
           (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <mat-icon matSuffix *ngIf="femea.pertenceAgranja()">star_border</mat-icon>
-              &nbsp;&nbsp; Nº matriz {{femea.numero}}
+              &nbsp;&nbsp; Nº ciclo {{ciclo.id}}
 
               <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-              {{femea.raca}}
+              Entrada em {{ciclo.dataEntrada | date: 'dd/MM/yyyy'}}
               <span>&nbsp;&nbsp;&nbsp;</span>
 
               <mat-chip-list>
 
-                <mat-chip *ngIf="animalComportamento.taNoPeriodoEntreGestacaoElactacao(femea)" color="primary" selected>
-                  {{animalComportamento.obterSituacao(femea.tag)}}
-                  {{animalComportamento.calcularDiasDesdeFecundacao(femea)}} dias
-                </mat-chip>
-
-                <mat-chip *ngIf="femea.taEmSituacaoDeIDC()">
-                  {{animalComportamento.obterSituacao(femea.tag)}}
-                </mat-chip>
-
-                <mat-chip *ngIf="animalComportamento.taEmConfirmacaoGestacaoEnaoTaEmAlerta(femea)">
-                  {{animalComportamento.obterSituacao(femea.tag)}}
-                  {{animalComportamento.calcularDiasDesdeFecundacao(femea)}} dias
-                </mat-chip>
-                <mat-chip *ngIf="animalComportamento.taEmAlertaDeConfirmacaoDeGestacao(femea)" color="warn" selected>
-                  {{animalComportamento.obterSituacao(femea.tag)}}
-                  {{animalComportamento.calcularDiasDesdeFecundacao(femea)}} dias
+                <mat-chip color="primary" selected>
+                  {{animalComportamento.calcularQuantidadeDiasAteHoje(ciclo.dataNascimento)}} dias
                 </mat-chip>
               </mat-chip-list>
 
               <span>&nbsp;&nbsp;</span>
 
-              <span *ngIf="animalComportamento.foiParida(femea)">
-                {{animalComportamento.calcularQuantidadeFilhotesAtual(femea)}} leitões
-              </span>
-
-              <span>&nbsp;&nbsp;</span>
-
-              <span *ngIf="animalComportamento.foiParida(femea)">
-                {{animalComportamento.calcularQuantidadeDiasDeParida(femea)}} dias
+              <span>
+                {{ciclo.calcularQuantidadeAnimalAtual()}} animais
               </span>
 
             </mat-panel-title>
             <mat-panel-description>
 
-              <span *ngIf="animalComportamento.foiFecundadaEnaoPariu(femea)">
-
-                cobertura em {{animalComportamento.obterDataCobertura(femea) | date: 'dd/MM/yyyy'}}
-                <span>&nbsp;&nbsp;</span>
-
-                <strong>parto provável em
-                  {{animalComportamento.obterDataPartoPrevisao(femea) | date: 'dd/MM/yyyy'}}
-                </strong>
-
-                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
-                <mat-chip color="warn" *ngIf="animalComportamento.taEmAlertaDeParto(femea)" selected>
-                  FALTAM {{animalComportamento.calcularAlertaDeParicao(femea)}} dias
-                </mat-chip>
-              </span>
-
-              <span *ngIf="animalComportamento.foiParida(femea)">
-
-                parto em {{animalComportamento.obterDataPartoReal(femea) | date: 'dd/MM/yyyy'}}
-                <span>&nbsp;&nbsp;</span>
-
-                <strong>desmame provável em
-                  {{animalComportamento.obterDataDesmamePrevisao(femea) | date: 'dd/MM/yyyy'}}
-                </strong>
+              <span>
+                <strong>encerrar ciclo em</strong>
               </span>
 
             </mat-panel-description>
           </mat-expansion-panel-header>
 
-          <a mat-raised-button (click)="abrirFichaDialog(femea.id)">Exibir ficha</a>
-          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          <a mat-raised-button color="warn" (click)="abrirCicloReproducaoDialog(femea.id)">Ciclo de reprodução</a>
-          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          <a mat-raised-button (click)="abrirAnimalDialog(femea.id)">Dados da matriz</a>
-
+          <a mat-raised-button color="warn">Ciclo de crescimento</a>
         </mat-expansion-panel>
       </mat-accordion>
     </div>
