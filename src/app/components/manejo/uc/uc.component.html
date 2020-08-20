@@ -30,6 +30,8 @@
               <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
               Entrada em {{ciclo.dataEntrada | date: 'dd/MM/yyyy'}}
               <span>&nbsp;&nbsp;&nbsp;</span>
+              {{ciclo.local.nome}}
+              <span>&nbsp;&nbsp;&nbsp;</span>
 
               <mat-chip-list>
 
@@ -48,7 +50,8 @@
             <mat-panel-description>
 
               <span>
-                <strong>encerrar ciclo em</strong>
+                <strong>encerrar ciclo de crescimento em</strong>
+                {{ciclo.dataEncerramento | date: 'dd/MM/yyyy'}}
               </span>
 
             </mat-panel-description>

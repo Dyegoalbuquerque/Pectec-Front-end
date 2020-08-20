@@ -1,3 +1,4 @@
+import { Local } from './local';
 
 export class CicloCrescimento {
 
@@ -12,6 +13,7 @@ export class CicloCrescimento {
     quantidadeSaida: number;
     quantidadeAnimalMorto:number;
     localId: number;
+    local: Local;
     valorEntrada: number;
     valorSaida: number;
     pesoAnimalEntrada:number;
