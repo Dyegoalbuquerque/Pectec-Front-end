@@ -45,6 +45,9 @@ export class RelatorioUplPdf {
         documento.text("PLD médio geral (Kg)", 20, 165);
         documento.text("PMLD médio geral (Kg)", 20, 175);
         documento.text("Taxa de mortalidade geral (%)", 20, 185);
+        documento.text("Retorno de cio (%)", 20, 195);
+        documento.text("Aborto (%)", 20, 205);
+        documento.text("Taxa de parição (%)", 20, 215);
 
         documento.setFont("courier");
         documento.setFontStyle("bolditalic");
@@ -65,6 +68,9 @@ export class RelatorioUplPdf {
         documento.text(relatorio.pldMedioGeral.toString(), 180, 165, null, null, 'right');
         documento.text(relatorio.pmldMedioGeral.toString(), 180, 175, null, null, 'right');
         documento.text(`${relatorio.taxaMortalidade.toString()}%`, 180, 185, null, null, 'right');
+        documento.text(`${relatorio.taxaRetornoCio.toString()}%`, 180, 195, null, null, 'right');
+        documento.text(`${relatorio.taxaAborto.toString()}%`, 180, 205, null, null, 'right');
+        documento.text(`${relatorio.taxaParicao.toString()}%`, 180, 215, null, null, 'right');
 
         documento.save(`relatorio-upl-${dataInicialTexto}-${dataFinalTexto}.pdf`);
     }

@@ -14,6 +14,9 @@ export class RelatorioUpl {
     quantidadeTotalIDC: number;
     quantidadeTotalLeitaoVivo: number;
     taxaMortalidade: number;
+    taxaRetornoCio: number;
+    taxaAborto: number;
+    taxaParicao: number;
     nlnMedioGeral: number;
     nldMedioGeral: number;
     plnMedioGeral: number;

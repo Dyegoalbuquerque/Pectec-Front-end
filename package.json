@@ -41,6 +41,7 @@
     "igniteui-angular": "^8.2.16",
     "jqwidgets-scripts": "^9.0.0",
     "jspdf": "^1.5.3",
+    "jspdf-autotable": "^3.5.9",
     "jszip": "^3.1.5",
     "ng2-charts": "^2.3.0",
     "ng5-slider": "^1.2.4",

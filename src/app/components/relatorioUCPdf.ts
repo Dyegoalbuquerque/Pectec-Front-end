@@ -40,6 +40,6 @@ export class RelatorioUCPdf {
         documento.text(relatorio.quantidadeAnimais.toString(), 180, 45, null, null, 'right');
         documento.text(`${relatorio.taxaMortalidade.toString()}%`, 180, 55, null, null, 'right');
 
-        documento.save(`relatorio-upl-${dataInicialTexto}-${dataFinalTexto}.pdf`);
+        documento.save(`relatorio-uc-${dataInicialTexto}-${dataFinalTexto}.pdf`);
     }
 }

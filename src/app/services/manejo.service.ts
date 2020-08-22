@@ -9,6 +9,7 @@ import { Acontecimento } from '../models/acontecimento';
 import { AcontecimentoItem } from '../models/acontecimentoItem';
 import { CicloCrescimento } from '../models/cicloCrescimento';
 import { RelatorioUC } from '../models/relatorioUC';
+import { RelatorioMatriz } from '../models/relatorioMatriz';
 
 @Injectable({
   providedIn: 'root'
@@ -123,6 +124,11 @@ export class ManejoService {
   async obterRelatorioUpl(dataInicial: string, dataFinal: string): Promise<RelatorioUpl> {
     let data = await this.httpclient.get<RelatorioUpl>(`${this.ApiUrl}/relatorios/upl?dataInicial=${dataInicial}&dataFinal=${dataFinal}`).toPromise();
     return plainToClass(RelatorioUpl, data);
+  }
+
+  async obterRelatorioMatriz(dataInicial: string, dataFinal: string): Promise<RelatorioMatriz> {
+    let data = await this.httpclient.get<RelatorioMatriz>(`${this.ApiUrl}/relatorios/matriz?dataInicial=${dataInicial}&dataFinal=${dataFinal}`).toPromise();
+    return plainToClass(RelatorioMatriz, data);
   }
 
   async obterRelatorioUC(dataInicial: string, dataFinal: string): Promise<RelatorioUC> {

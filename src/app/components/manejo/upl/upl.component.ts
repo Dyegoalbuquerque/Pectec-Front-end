@@ -14,6 +14,7 @@ import { RelatorioUplPdf } from '../../relatorioUplPdf';
 import { MatTableDataSource } from '@angular/material/table';
 import { Acontecimento } from 'src/app/models/acontecimento';
 import { AcontecimentoItem } from 'src/app/models/acontecimentoItem';
+import { RelatorioMatrizPdf } from '../../relatorioMatrizPdf';
 
 
 @Component({
@@ -138,13 +139,28 @@ export class UplComponent implements OnInit {
 
   async gerarRelatorioUpl() {
     try {
-      let dataInicio = "2020-01-01T03:00:00.000Z";
+      let dataInicio = "2019-01-01T03:00:00.000Z";
       let dataFinal = new Date().toString();
 
       let relatorioUpl = await this.manejoService.obterRelatorioUpl(dataInicio, dataFinal);
       let relatorioPdf = new RelatorioUplPdf();
 
       relatorioPdf.gerarRelatorioUpl(relatorioUpl);
+
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async gerarRelatorioMatriz() {
+    try {
+      let dataInicio = "2019-01-01T03:00:00.000Z";
+      let dataFinal = new Date().toString();
+
+      let relatorioMatriz = await this.manejoService.obterRelatorioMatriz(dataInicio, dataFinal);
+      let relatorioPdf = new RelatorioMatrizPdf();
+
+      relatorioPdf.gerarRelatorioMatriz(relatorioMatriz);
 
     } catch (e) {
       console.error(e);

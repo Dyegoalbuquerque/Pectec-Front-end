@@ -34,9 +34,9 @@
   <mat-label class="required">Origem do consumo</mat-label>
   <mat-select (selectionChange)="mudarOrigemConsumo(consumo.origemId)" [disabled]="consumo.id > 0 && consumo.origemId" [(ngModel)]="consumo.origemId">
     <mat-option *ngFor="let origem of origens" [value]="origem.id">
-      {{origem.descricao}} - 
+      {{origem.subcategoria.descricao}} - 
       {{origem.quantidadeEntradaReal}}
-      {{origem.unidadeMedida}}&nbsp;disponível
+      {{origem.subcategoria.unidadeMedida}}&nbsp;disponível
     </mat-option>
   </mat-select>
 </mat-form-field>

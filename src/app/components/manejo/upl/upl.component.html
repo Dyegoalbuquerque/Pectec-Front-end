@@ -16,7 +16,7 @@
       <mat-menu #upl="matMenu">
         <button mat-menu-item (click)="abrirAnimalDialog()">Nova matriz</button>
         <button mat-menu-item (click)="gerarRelatorioUpl()">Relatório da Upl</button>
-        <button mat-menu-item disabled>Relatório de matrizes</button>
+        <button mat-menu-item (click)="gerarRelatorioMatriz()">Relatório de matrizes</button>
         <button mat-menu-item disabled>Relatório de previsões</button>
         <button mat-menu-item (click)="abrirSimuladorCiclo()" disabled>Simular ciclo da Upl</button>
       </mat-menu>
