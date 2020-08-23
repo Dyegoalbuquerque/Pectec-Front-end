@@ -1,12 +1,10 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ManejoService } from '../../../services/manejo.service';
 import { Animal } from 'src/app/models/animal';
 import { CicloReproducao } from 'src/app/models';
-
+import { AnimalComportamento } from '../animal/animalComportamento';
 
 @Component({
   selector: 'ficha-dialog',
@@ -17,21 +15,31 @@ export class FichaComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<FichaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Animal, private manejoService: ManejoService) {
-    this.femea = data;
-    this.menu = ['Ciclos de reprodução', 'Consumos', 'Doenças'];
+    this.animal = data;
+    this.menu = ['Ciclos de reprodução', 'Consumos', 'Doenças'];  
+    this.colunasCiclos = ['status', 'reprodutor', 'fecundacao', 'parto', 'desmame', 'vv', 'nm', 
+                          'morto', 'pln', 'pld', 'doado', 'adotado', 'desmamado'];
     this.dataSourceCiclos = new MatTableDataSource<CicloReproducao>([]);
+    this.animalComportamento = new AnimalComportamento();
   }
-
+  animalComportamento: AnimalComportamento;
+  colunasCiclos: string[];
   menu: string[];
   dataSourceCiclos: MatTableDataSource<CicloReproducao>;
-  femea: Animal;
+  animal: Animal;
+  ciclosReproducao: CicloReproducao[];
 
   ngOnInit() {
-    this.obterFichaAnimal(this.femea.id);
+    this.obterFichaAnimal(this.animal.id);
   }
 
   async obterFichaAnimal(id: number) {
-
+    try {
+      this.animal = await this.manejoService.obterFichaAnimal(id);
+      this.dataSourceCiclos = new MatTableDataSource<CicloReproducao>(this.animal.ciclos);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   fechar(): void {

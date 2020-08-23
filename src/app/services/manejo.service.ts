@@ -66,8 +66,8 @@ export class ManejoService {
     return plainToClass(ProgramaItem, data);
   }
 
-  async obterFichaAnimal(numero: number): Promise<Animal> {
-    let data = await this.httpclient.get<Animal>(`${this.ApiUrl}/animal/${numero}/ficha`).toPromise();
+  async obterFichaAnimal(id: number): Promise<Animal> {
+    let data = await this.httpclient.get<Animal>(`${this.ApiUrl}/animal/${id}/ficha`).toPromise();
     return plainToClass(Animal, data);
   }
 

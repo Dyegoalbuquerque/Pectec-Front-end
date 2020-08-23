@@ -3,7 +3,9 @@ import { CicloReproducao } from './cicloReproducao';
 
 export class Animal{
     
-    constructor(){ }
+    constructor(id?: number){ 
+        this.id = id;
+    }
     id: number;
     especieId: number;
     tag: string;

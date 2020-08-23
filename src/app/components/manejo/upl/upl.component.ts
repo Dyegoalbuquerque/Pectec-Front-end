@@ -189,15 +189,11 @@ export class UplComponent implements OnInit {
     this.selecionarProgramaItens();
   }
 
-  abrirFichaDialog(numero: number): void {
+  abrirFichaDialog(id: number): void {
     const dialogRef = this.dialog.open(FichaComponent, {
       width: '1200px',
-      height: '700px',
-      data: new Animal()
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.obterFemeas();
+      height: '600px',
+      data: new Animal(id)
     });
   }
 

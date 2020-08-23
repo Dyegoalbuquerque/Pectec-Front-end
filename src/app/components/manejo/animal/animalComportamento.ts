@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 
 export class AnimalComportamento {
 
-    constructor(situacoes: Tag[]) {
+    constructor(situacoes?: Tag[]) {
         this.situacoes = situacoes;
     }
 
@@ -57,12 +57,12 @@ export class AnimalComportamento {
 
     obterCicloAtivo(item) {
 
-        if (item.acompanhamentos == null) {
+        if (item.ciclos == null) {
             return null;
         }
 
-        if (item.acompanhamentos.length > 0) {
-            return item.acompanhamentos[0];
+        if (item.ciclos.length > 0) {
+            return item.ciclos[0];
         }
         return null;
     }

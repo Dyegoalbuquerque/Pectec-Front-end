@@ -25,6 +25,13 @@
     font-size: large;
     font-weight: bold;
   }
+
+  .tabela-ciclos {
+    overflow: auto;
+    width: 100%;
+    margin-left: 2px;
+    margin-right: 2px;
+  }
   
   mat-card{
     margin-bottom: 10px;

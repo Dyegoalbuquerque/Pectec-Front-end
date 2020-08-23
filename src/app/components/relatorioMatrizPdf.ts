@@ -18,7 +18,7 @@ export class RelatorioMatrizPdf {
         var logo = new Image();
         logo.src = "assets/img/logo.jpg";
 
-        const colunas = ["Nº matriz", "Qtde Ciclos", "NLN", "NLD", "PMLD", "PMLN", "(%) Aborto",
+        const colunas = ["Nº matriz", "Nº Ciclos", "NLN", "NLD", "PMLN", "PMLD", "(%) Aborto",
             "(%) Parição", "(%) Mortalidade", "(%) Retorno cio"]
 
         const cabecalho = () => {
@@ -46,7 +46,7 @@ export class RelatorioMatrizPdf {
         let itens = [];
         relatorio.itens.forEach(r => {
 
-            let valores = [r.numero, r.quantidadeCiclos, r.nln, r.nld, r.pmld, r.pmln, 
+            let valores = [r.numero, r.quantidadeCiclos, r.nln, r.nld, r.pmln, r.pmld, 
                            r.taxaAborto, r.taxaParicao, r.taxaMortalidade, r.taxaRetornoCio];
 
             itens.push(valores);
