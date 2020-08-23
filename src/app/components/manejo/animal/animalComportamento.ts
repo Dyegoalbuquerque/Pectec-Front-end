@@ -117,6 +117,9 @@ export class AnimalComportamento {
 
     obterSituacao(sigla) {
 
+        if(!this.situacoes){
+            return '';
+        }
         let tag = this.situacoes.filter(x => x.sigla == sigla)[0];
 
         return tag ? tag.nome : '';

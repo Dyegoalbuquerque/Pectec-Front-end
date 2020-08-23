@@ -8,6 +8,7 @@
   <mat-chip color="primary">Idade {{animalComportamento.calcularQuantidadeDiasAteHoje(animal.dataNascimento)}} dias</mat-chip>
   <mat-chip color="primary">Raça {{animal.raca}}</mat-chip>
   <mat-chip color="primary" *ngIf="animal.quantidadeCiclo">Quantidade ciclos {{animal.quantidadeCiclo}}</mat-chip>
+  <mat-chip color="primary">Tag {{animalComportamento.obterSituacao(animal.tag)}}</mat-chip>
 </mat-chip-list>
 
 <br />
