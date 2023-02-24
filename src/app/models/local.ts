@@ -5,6 +5,7 @@ export class Local{
     }
 
     id: number;
+    area: string;
     nome: string;
-    paiId: number;
+    descricao: string;
 }

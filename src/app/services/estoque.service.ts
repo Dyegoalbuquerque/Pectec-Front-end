@@ -11,7 +11,7 @@ import { plainToClass } from 'class-transformer';
 
 export class EstoqueService {
 
-  ApiUrl = 'http://localhost:5001/api/estoques';
+  ApiUrl = 'http://localhost:5000/api/estoques';
   constructor(private httpclient: HttpClient) { }
 
   async obterEstoqueRealPorCodigoCategoria(codigo: string): Promise<Estoque[]> {

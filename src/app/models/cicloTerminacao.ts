@@ -1,6 +1,6 @@
 import { Local } from './local';
 
-export class CicloCrescimento {
+export class CicloTerminacao {
 
     constructor() { }
 
@@ -27,11 +27,11 @@ export class CicloCrescimento {
     calcularQuantidadeAnimalAtual() {
 
         let entrada = this.quantidadeEntrada ? this.quantidadeEntrada : 0;
-        let saida = this.quantidadeSaida ? this.quantidadeSaida : 0;
         let semDestino = this.quantidadeSemDestino ? this.quantidadeSemDestino : 0;
+        let separados = this.quantidadeSeparado ? this.quantidadeSeparado : 0;
         let mortos = this.quantidadeAnimalMorto ? this.quantidadeAnimalMorto : 0;
 
-        let quantidade = entrada - (saida + semDestino + mortos);
+        let quantidade = entrada - (separados + semDestino + mortos);
 
         return quantidade;
     }

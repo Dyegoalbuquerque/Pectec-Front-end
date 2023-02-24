@@ -8,11 +8,13 @@ import { ConsumoComponent } from './components/consumo/consumo.component';
 import { VendaComponent } from './components/venda/venda/venda.component';
 import { LoginComponent } from './components/login/login.component';
 import { UCComponent } from './components/manejo/uc/uc.component';
+import { UTComponent } from './components/manejo/ut/ut.component';
 
 const routes: Routes = [  
   {path: 'consumos', component: ConsumoComponent, canActivate: [AuthGuard] },
   {path: 'upl', component: UplComponent, canActivate: [AuthGuard] },
   {path: 'uc', component: UCComponent, canActivate: [AuthGuard] },
+  {path: 'ut', component: UTComponent, canActivate: [AuthGuard] },
   {path: 'custos', component: CustoComponent, canActivate: [AuthGuard] },
   {path: 'estoque', component: EstoqueComponent, canActivate: [AuthGuard] },
   {path: 'venda', component: VendaComponent, canActivate: [AuthGuard] },

@@ -9,7 +9,7 @@ import { Paginacao } from '../paginacao';
 })
 export class VendaService {
 
-  ApiUrl = 'http://localhost:5004/api/vendas';
+  ApiUrl = 'http://localhost:5002/api/vendas';
   constructor(private httpclient: HttpClient) { }
 
   async obterVendas(ano: number, paginacao: Paginacao): Promise<Paginacao> {

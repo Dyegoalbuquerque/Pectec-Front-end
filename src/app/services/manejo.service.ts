@@ -7,7 +7,7 @@ import { plainToClass } from "class-transformer";
 import { RelatorioUpl } from '../models/relatorioUpl';
 import { Acontecimento } from '../models/acontecimento';
 import { AcontecimentoItem } from '../models/acontecimentoItem';
-import { CicloCrescimento } from '../models/cicloCrescimento';
+import { CicloTerminacao } from '../models/cicloTerminacao';
 import { RelatorioUC } from '../models/relatorioUC';
 import { RelatorioMatriz } from '../models/relatorioMatriz';
 
@@ -39,9 +39,9 @@ export class ManejoService {
     return plainToClass(Animal, data);
   }
 
-  async obterCiclosCrescimento(): Promise<CicloCrescimento[]> {
-    let data = await this.httpclient.get<CicloCrescimento[]>(`${this.ApiUrl}/ciclos-crescimento/ativo`).toPromise();
-    return plainToClass(CicloCrescimento, data);
+  async obterCiclosTerminacao(): Promise<CicloTerminacao[]> {
+    let data = await this.httpclient.get<CicloTerminacao[]>(`${this.ApiUrl}/ciclos-terminacao/ativo`).toPromise();
+    return plainToClass(CicloTerminacao, data);
   }
 
   async obterCausaObitos(): Promise<CausaObito[]> {

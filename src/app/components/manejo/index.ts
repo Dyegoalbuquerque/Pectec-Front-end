@@ -6,4 +6,5 @@ export * from './ciclo-resumo/ciclo.resumo.component';
 export * from './animal-ficha/ficha.component';
 export * from './upl/upl.component';
 export * from './uc/uc.component';
+export * from './ut/ut.component';
 export * from './programa-form/programa.form.component';

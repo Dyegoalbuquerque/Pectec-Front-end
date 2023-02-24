@@ -7,15 +7,15 @@ import { CicloReproducao } from 'src/app/models/cicloReproducao';
 import { Tag, Animal } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { CicloCrescimento } from 'src/app/models/cicloTerminacao';
+import { CicloTerminacao } from 'src/app/models/cicloTerminacao';
 import { RelatorioUCPdf } from '../../relatorioUCPdf';
 
 
 @Component({
-  templateUrl: './uc.component.html',
-  styleUrls: ['./uc.component.css']
+  templateUrl: './ut.component.html',
+  styleUrls: ['./ut.component.css']
 })
-export class UCComponent implements OnInit {
+export class UTComponent implements OnInit {
 
   constructor(private manejoService: ManejoService, public dialog: MatDialog,
     private notifications: NotificationsService, private spinner: NgxSpinnerService) {
@@ -25,7 +25,7 @@ export class UCComponent implements OnInit {
   }
 
   animalComportamento: AnimalComportamento;
-  ciclos: CicloCrescimento[];
+  ciclos: CicloTerminacao[];
   filhotes: Animal[];
   ciclosRepdorucao: CicloReproducao[];
   tagSelecionada: Tag;
@@ -33,12 +33,12 @@ export class UCComponent implements OnInit {
   panelOpenState = false;
 
   ngOnInit() {
-    this.obterCiclosCrescimento();
+    this.obterCiclosTerminacao();
   }
 
-  async obterCiclosCrescimento() {
+  async obterCiclosTerminacao() {
     try {
-      this.ciclos = await this.manejoService.obterCiclosCrescimento();
+      this.ciclos = await this.manejoService.obterCiclosTerminacao();
     } catch (e) {
       console.error(e);
     }

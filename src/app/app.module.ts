@@ -8,7 +8,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MaterialModule } from './material-module';
 import { HttpClientModule } from "@angular/common/http";
 import { LoginComponent } from './components/login/login.component';
-import { UplComponent, UCComponent, AnimalComponent, CicloResumoComponent,
+import { UplComponent, UCComponent, UTComponent, AnimalComponent, CicloResumoComponent,
          FichaComponent, ProgramaFormComponent, CicloReproducaoComponent, CicloSimularFormComponent } from './components/manejo';
 import { CustoComponent, LancamentoComponent, ReciboComponent } from './components/custo';
 import { EstoqueComponent, RacaoComponent, EstoqueFormComponent,
@@ -30,7 +30,7 @@ import {
 
 @NgModule({
   declarations: [
-    AppComponent, LoginComponent, UplComponent, UCComponent, CicloResumoComponent, ReciboComponent,
+    AppComponent, LoginComponent, UplComponent, UCComponent, UTComponent, CicloResumoComponent, ReciboComponent,
     CustoComponent, FichaComponent, LancamentoComponent, CicloSimularFormComponent, LoginComponent,
     AnimalComponent, CicloReproducaoComponent, EstoqueComponent, EstoqueHistoricoComponent,
     RacaoComponent, EstoqueFormComponent, ProgramaFormComponent, ConsumoComponent,

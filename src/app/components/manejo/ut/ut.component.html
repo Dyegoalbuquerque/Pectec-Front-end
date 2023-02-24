@@ -1,0 +1,65 @@
+<h5>UT - unidade de terminação</h5>
+
+<mat-tab-group>
+  <!-- controle de ciclos -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Controle ciclos de terminação
+    </ng-template>
+
+    <p>
+      Acompanhe os ciclos de terminação da granja.
+
+      <button mat-raised-button color="success" class="right" [matMenuTriggerFor]="upl">
+        Ações
+      </button>
+      <mat-menu #upl="matMenu">
+        <button mat-menu-item (click)="gerarRelatorioUC()">Relatório da UT</button>
+      </mat-menu>
+    </p>
+    <br />
+
+    <div class="lista-animal">
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let ciclo of ciclos" (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              &nbsp;&nbsp; Nº ciclo {{ciclo.id}}
+
+              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              Entrada em {{ciclo.dataEntrada | date: 'dd/MM/yyyy'}}
+              <span>&nbsp;&nbsp;&nbsp;</span>
+              {{ciclo.local.area }} - {{ciclo.local.nome}}
+              <span>&nbsp;&nbsp;&nbsp;</span>
+
+              <mat-chip-list>
+
+                <mat-chip color="primary" selected>
+                  {{animalComportamento.calcularQuantidadeDiasAteHoje(ciclo.dataNascimento)}} dias
+                </mat-chip>
+              </mat-chip-list>
+
+              <span>&nbsp;&nbsp;</span>
+
+              <span>
+                {{ciclo.calcularQuantidadeAnimalAtual()}} animais
+              </span>
+
+            </mat-panel-title>
+            <mat-panel-description>
+
+              <span>
+                <strong>encerrar ciclo de terminação em</strong>
+                {{ciclo.dataEncerramento | date: 'dd/MM/yyyy'}}
+              </span>
+
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <a mat-raised-button color="warn">Ciclo de terminação</a>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </mat-tab>
+</mat-tab-group>

@@ -55,10 +55,10 @@ export class LoginComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
-                    this.router.navigate(['/upl']);
+                    this.router.navigate(['/ut']);
                 },
                 error => {
-                    this.router.navigate(['/upl']);
+                    this.router.navigate(['/ut']);
                     this.error = error;
                     this.loading = false;
                 });
