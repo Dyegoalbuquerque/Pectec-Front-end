@@ -11,9 +11,6 @@ import { Tag, Animal, Programa, ProgramaItem } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { RelatorioUplPdf } from '../../relatorioUplPdf';
-import { MatTableDataSource } from '@angular/material/table';
-import { Acontecimento } from 'src/app/models/acontecimento';
-import { AcontecimentoItem } from 'src/app/models/acontecimentoItem';
 import { RelatorioMatrizPdf } from '../../relatorioMatrizPdf';
 
 
@@ -29,13 +26,9 @@ export class UplComponent implements OnInit {
     this.femeas = [];
     this.programa = new Programa();
     this.tagSelecionada = new Tag('');
-    this.colunasAcontecimentos = ['descricao', 'editar', 'ok'];
-    this.dataSourceAcontecimento = new MatTableDataSource<AcontecimentoItem>([]);
     this.programaItensSelecionados = [];
   }
 
-  colunasAcontecimentos: any[];
-  dataSourceAcontecimento: MatTableDataSource<AcontecimentoItem>;
   animalComportamento: AnimalComportamento;
   femeas: Animal[];
   filhotes: Animal[];
@@ -50,19 +43,8 @@ export class UplComponent implements OnInit {
   ngOnInit() {
     this.obterFemeas();
     this.obterPrograma("AM");
-    this.obterAcontecimentos();
   }
 
-  async obterAcontecimentos() {
-
-    try {
-      let acontecimentos = await this.manejoService.obterAcontecimentos("2020-01-06T03:00:00.000Z","2020-01-07T03:00:00.000Z");
-      this.dataSourceAcontecimento = new MatTableDataSource<AcontecimentoItem>(acontecimentos);
-      
-    } catch (e) {
-      console.error(e);
-    }
-  }
 
   async obterPrograma(tipoPrograma: string) {
     try {

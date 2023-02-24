@@ -10,10 +10,13 @@ import { AuthenticationService } from './services/authentication.service';
 })
 export class AppComponent implements OnInit {
   currentUser: any;
-  ngOnInit() { }
-  constructor(private router: Router, private authenticationService: AuthenticationService) 
-  {
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+
+  constructor(private router: Router, private authenticationService: AuthenticationService) { }
+
+  ngOnInit() {
+    if (this.authenticationService.currentUser) {
+      this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    }
   }
 
   logout() {

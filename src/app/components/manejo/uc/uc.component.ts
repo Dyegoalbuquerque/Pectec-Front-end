@@ -7,7 +7,6 @@ import { CicloReproducao } from 'src/app/models/cicloReproducao';
 import { Tag, Animal } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { CicloCrescimento } from 'src/app/models/cicloTerminacao';
 import { RelatorioUCPdf } from '../../relatorioUCPdf';
 
 
@@ -25,7 +24,7 @@ export class UCComponent implements OnInit {
   }
 
   animalComportamento: AnimalComportamento;
-  ciclos: CicloCrescimento[];
+  ciclos: [];
   filhotes: Animal[];
   ciclosRepdorucao: CicloReproducao[];
   tagSelecionada: Tag;
@@ -38,7 +37,6 @@ export class UCComponent implements OnInit {
 
   async obterCiclosCrescimento() {
     try {
-      this.ciclos = await this.manejoService.obterCiclosCrescimento();
     } catch (e) {
       console.error(e);
     }

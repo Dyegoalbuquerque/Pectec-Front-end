@@ -36,7 +36,7 @@
 
     <span class="toolbar-spacer"></span>
     <button mat-button>
-      <mat-icon matBadge="3" matBadgeColor="warn" class="toolbar-icon" aria-hidden="false">notifications</mat-icon>
+      <mat-icon matBadge="" matBadgeColor="warn" class="toolbar-icon" aria-hidden="false">notifications</mat-icon>
     </button>
     <button mat-button [matMenuTriggerFor]="perfil">
       <mat-icon class="toolbar-icon button-toolbar" aria-hidden="false">person</mat-icon>
@@ -51,9 +51,6 @@
 
 <div class="main">
   <div class="content" role="main">
-    <ngx-spinner bdColor="rgba(34,139,34,0.2)" size="medium">
-      <p class="loading">Aguarde...</p>
-    </ngx-spinner>
     <router-outlet></router-outlet>
   </div>
 </div>

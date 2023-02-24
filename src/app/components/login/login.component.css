@@ -4,8 +4,8 @@
     margin: 100px 0px;
   }
 
-  .mat-form-field {
-    padding: 25px;
+  mat-form-field {
+    padding: 5px;
     width: 100%;
     min-width: 350px;
   }
@@ -30,4 +30,16 @@
 
 .conteudo{
   background-color: white;
+}
+
+.login{
+  margin-top: 20px;
+}
+
+.senha{
+  margin-top: 20px;
+}
+
+.button-entrar{
+  width: 100%;
 }

@@ -203,43 +203,7 @@
     </div>
     <br /><br />
   </mat-tab>
-  <!-- acontecimentos diário -->
-  <mat-tab>
-    <ng-template mat-tab-label>
-      Acontecimentos diário
-    </ng-template>
 
-
-    <div class="tabela-lancamento  mat-elevation-z8">
-      <br />
-      <table mat-table [dataSource]="dataSourceAcontecimento">
-
-        <ng-container matColumnDef="descricao">
-          <th mat-header-cell *matHeaderCellDef> Descrição </th>
-          <td mat-cell *matCellDef="let element"> {{element.descricao}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="editar">
-
-          <th mat-header-cell *matHeaderCellDef> </th>
-          <td mat-cell *matCellDef="let element">
-            <a class="remover" mat-raised-button color="primary">editar</a>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="ok">
-
-          <th mat-header-cell *matHeaderCellDef> </th>
-          <td mat-cell *matCellDef="let element">
-            <a class="recibo" mat-raised-button color="success" [disabled]="element.status == 'OK'">ok</a>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="colunasAcontecimentos; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: colunasAcontecimentos;"></tr>
-      </table>
-    </div>
-  </mat-tab>
 </mat-tab-group>
 
 

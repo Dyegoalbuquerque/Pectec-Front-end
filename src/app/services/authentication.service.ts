@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { User } from '../models/user';
 
 @Injectable({ providedIn: 'root' })
@@ -10,8 +10,10 @@ export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
 
-    constructor(private http: HttpClient) {
-        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    constructor(private http: HttpClient, private router: Router) {
+        let local = localStorage.getItem('currentUser');
+        let user = local ? JSON.parse(atob(local)) : new User();
+        this.currentUserSubject =  new BehaviorSubject<User>(user);
         this.currentUser = this.currentUserSubject.asObservable();
     }
 
@@ -19,19 +21,39 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
-    login(username: string, password: string) {
-        this.currentUserSubject.next(new User());
-        return this.http.post<any>(`${environment.apiUrl}/users/authenticate`, { username, password })
-            .pipe(map(user => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                this.currentUserSubject.next(user);
-                return user;
-            }));
+    
+    private loginMock(usuario: User): Observable<any> {
+        let retornoMock: any = {};
+
+        if (usuario.login !== "" && usuario.senha !== "") {
+            retornoMock.sucesso = true;
+            retornoMock.usuario = usuario;
+            retornoMock.token = "TokenQueSeriaGeradoPelaAPI";
+            return of(retornoMock);
+        }
+
+        retornoMock.sucesso = false;
+        retornoMock.usuario = usuario;
+        return of(retornoMock);
+    }
+
+
+    login(usuario: User) {
+
+        return this.loginMock(usuario).pipe(tap((resposta) => {
+
+            if (!resposta.sucesso) return;
+
+            localStorage.setItem('token', btoa(JSON.stringify("TokenQueSeriaGeradoPelaAPI")));
+            localStorage.setItem('currentUser', btoa(JSON.stringify(usuario)));
+
+            this.currentUserSubject.next(usuario);
+            this.router.navigate(['/']);
+        }));
     }
 
     logout() {
-        // remove user from local storage to log user out
+        localStorage.removeItem('token');
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
     }

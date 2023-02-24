@@ -19,7 +19,7 @@ const routes: Routes = [
   {path: 'estoque', component: EstoqueComponent, canActivate: [AuthGuard] },
   {path: 'venda', component: VendaComponent, canActivate: [AuthGuard] },
   {path: 'login', component: LoginComponent },
-  {path: '', redirectTo: '/upl', pathMatch: 'full' }
+  {path: '', redirectTo: '/ut', pathMatch: 'full' }
  ];
 
 @NgModule({
