@@ -14,7 +14,8 @@
         Ações
       </button>
       <mat-menu #upl="matMenu">
-        <button mat-menu-item (click)="gerarRelatorioUC()">Relatório da UT</button>
+        <button mat-menu-item (click)="gerarRelatorioUC()">Relatório da UT</button>        
+        <button mat-menu-item (click)="abrirCicloDialog()">Novo ciclo</button>
       </mat-menu>
     </p>
     <br />
@@ -57,7 +58,7 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
 
-          <a mat-raised-button color="warn">Ciclo de terminação</a>
+          <a mat-raised-button color="warn">Detalhes</a>
         </mat-expansion-panel>
       </mat-accordion>
     </div>

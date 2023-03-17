@@ -7,6 +7,7 @@ import { CicloReproducao } from 'src/app/models/cicloReproducao';
 import { Tag, Animal } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
+import {CicloTerminacaoComponent} from '../ciclo-terminacao/cicloTerminacao.component';
 import { CicloTerminacao } from 'src/app/models/cicloTerminacao';
 import { RelatorioUCPdf } from '../../relatorioUCPdf';
 
@@ -41,6 +42,26 @@ export class UTComponent implements OnInit {
       this.ciclos = await this.manejoService.obterCiclosTerminacao();
     } catch (e) {
       console.error(e);
+    }
+  }
+
+  async abrirCicloDialog(id: number) {
+
+    let parametrosDialog = { width: '480px', height: '550px', data: new Animal() };
+
+    if (id) {
+      parametrosDialog.data = await this.manejoService.obterAnimalPorId(id);
+      const dialogRef = this.dialog.open(CicloTerminacaoComponent, parametrosDialog);
+
+      dialogRef.afterClosed().subscribe(result => {
+        this.obterCiclosTerminacao();
+      });
+    } else {
+      const dialogRef = this.dialog.open(CicloTerminacaoComponent, parametrosDialog);
+
+      dialogRef.afterClosed().subscribe(result => {
+        this.obterCiclosTerminacao();
+      });
     }
   }
 

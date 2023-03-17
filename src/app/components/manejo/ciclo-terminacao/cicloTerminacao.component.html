@@ -1,0 +1,69 @@
+<h5>Ciclo terminação</h5>
+
+<br />
+<mat-divider></mat-divider>
+<span class="required legenda-campos-obrigatorios">campos obrigatórios</span>
+<br />
+<br />
+
+
+<mat-form-field>
+  <mat-label class="required">Data de nascimento</mat-label>
+  <input matInput [matDatepicker]="picker1" [(ngModel)]="cicloTerminacao.dataNascimento">
+  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+  <mat-datepicker #picker1></mat-datepicker>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Data de entrada</mat-label>
+  <input matInput [matDatepicker]="picker2" [(ngModel)]="cicloTerminacao.dataEntrada">
+  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+  <mat-datepicker #picker2></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label  class="required">Quantidade de entrada</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="cicloTerminacao.quantidadeEntrada">
+  <mat-icon matSuffix>filter_9</mat-icon>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label>Quantidade de saída</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="cicloTerminacao.quantidadeSaida">
+  <mat-icon matSuffix>filter_9</mat-icon>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label class="required">Peso médio entrada</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="cicloTerminacao.pesoAnimalEntrada">
+  <mat-icon matSuffix>filter_9</mat-icon>
+</mat-form-field>
+
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Valor entrada</mat-label>
+  <input matInput type="number" class="example-right-align" [(ngModel)]="cicloTerminacao.valorEntrada">
+  <mat-icon matSuffix>money</mat-icon>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label class="required">Local </mat-label>
+  <mat-select [(ngModel)]="cicloTerminacao.localId">
+    <mat-option [value]="">
+      Selecione
+    </mat-option>
+    <mat-option *ngFor="let local of locais" [value]="local.id">
+      {{local.area}} -  {{local.nome}} - {{local.descricao}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="fechar()">Cancelar</button>
+  <button mat-button color="success" cdkFocusInitial (click)="salvar()">Salvar</button>
+</mat-dialog-actions>

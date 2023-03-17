@@ -9,7 +9,7 @@ import { MaterialModule } from './material-module';
 import { HttpClientModule } from "@angular/common/http";
 import { LoginComponent } from './components/login/login.component';
 import { UplComponent, UCComponent, UTComponent, AnimalComponent, CicloResumoComponent,
-         FichaComponent, ProgramaFormComponent, CicloReproducaoComponent, CicloSimularFormComponent } from './components/manejo';
+         FichaComponent, ProgramaFormComponent, CicloReproducaoComponent, CicloSimularFormComponent, CicloTerminacaoComponent } from './components/manejo';
 import { CustoComponent, LancamentoComponent, ReciboComponent } from './components/custo';
 import { EstoqueComponent, RacaoComponent, EstoqueFormComponent,
          EstoqueHistoricoComponent } from './components/estoque';
@@ -34,12 +34,12 @@ import {
     CustoComponent, FichaComponent, LancamentoComponent, CicloSimularFormComponent, LoginComponent,
     AnimalComponent, CicloReproducaoComponent, EstoqueComponent, EstoqueHistoricoComponent,
     RacaoComponent, EstoqueFormComponent, ProgramaFormComponent, ConsumoComponent,
-    ConsumoFormComponent, VendaComponent, VendaAnimalComponent
+    ConsumoFormComponent, VendaComponent, VendaAnimalComponent, CicloTerminacaoComponent
   ],
   entryComponents: [CicloResumoComponent, FichaComponent, LancamentoComponent, CicloSimularFormComponent, 
     AnimalComponent, CicloReproducaoComponent, EstoqueHistoricoComponent, ReciboComponent,
                     RacaoComponent, EstoqueFormComponent, ProgramaFormComponent, 
-                    ConsumoFormComponent, VendaAnimalComponent],
+                    ConsumoFormComponent, VendaAnimalComponent, CicloTerminacaoComponent],
   imports: [
     BrowserModule, AppRoutingModule, FormsModule,
     ReactiveFormsModule, MaterialModule, HttpClientModule,
