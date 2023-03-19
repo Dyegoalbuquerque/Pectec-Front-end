@@ -13,9 +13,9 @@
       <button mat-raised-button color="success" class="right" [matMenuTriggerFor]="upl">
         Ações
       </button>
-      <mat-menu #upl="matMenu">
-        <button mat-menu-item (click)="gerarRelatorioUC()">Relatório da UT</button>        
+      <mat-menu #upl="matMenu">    
         <button mat-menu-item (click)="abrirCicloDialog()">Novo ciclo</button>
+        <button mat-menu-item (click)="gerarRelatorioUC()">Relatório da UT</button>    
       </mat-menu>
     </p>
     <br />

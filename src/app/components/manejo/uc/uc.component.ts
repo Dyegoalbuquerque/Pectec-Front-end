@@ -3,11 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ManejoService } from '../../../services';
 import { AnimalComportamento } from '..';
-import { CicloReproducao } from 'src/app/models/cicloReproducao';
+import { CicloCreche } from 'src/app/models/cicloCreche';
 import { Tag, Animal } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { RelatorioUCPdf } from '../../relatorioUCPdf';
+import { CicloCrecheComponent } from '../ciclo-creche/cicloCreche.component';
 
 
 @Component({
@@ -24,9 +25,8 @@ export class UCComponent implements OnInit {
   }
 
   animalComportamento: AnimalComportamento;
-  ciclos: [];
+  ciclos: CicloCreche[];
   filhotes: Animal[];
-  ciclosRepdorucao: CicloReproducao[];
   tagSelecionada: Tag;
 
   panelOpenState = false;
@@ -37,8 +37,29 @@ export class UCComponent implements OnInit {
 
   async obterCiclosCrescimento() {
     try {
+      this.ciclos = await this.manejoService.obterCiclosCreche();
     } catch (e) {
       console.error(e);
+    }
+  }
+
+  async abrirCicloDialog(id: number) {
+
+    let parametrosDialog = { width: '480px', height: '550px', data: new Animal() };
+
+    if (id) {
+      parametrosDialog.data = await this.manejoService.obterAnimalPorId(id);
+      const dialogRef = this.dialog.open(CicloCrecheComponent, parametrosDialog);
+
+      dialogRef.afterClosed().subscribe(result => {
+        this.obterCiclosCrescimento();
+      });
+    } else {
+      const dialogRef = this.dialog.open(CicloCrecheComponent, parametrosDialog);
+
+      dialogRef.afterClosed().subscribe(result => {
+        this.obterCiclosCrescimento();
+      });
     }
   }
 

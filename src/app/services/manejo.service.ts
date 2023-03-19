@@ -11,6 +11,7 @@ import { CicloTerminacao } from '../models/cicloTerminacao';
 import { RelatorioUC } from '../models/relatorioUC';
 import { RelatorioMatriz } from '../models/relatorioMatriz';
 import { Local } from '../models/local';
+import { CicloCreche } from '../models/cicloCreche';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,11 @@ export class ManejoService {
   async obterCiclosTerminacao(): Promise<CicloTerminacao[]> {
     let data = await this.httpclient.get<CicloTerminacao[]>(`${this.ApiUrl}/ciclos-terminacao/ativo`).toPromise();
     return plainToClass(CicloTerminacao, data);
+  }
+
+  async obterCiclosCreche(): Promise<CicloCreche[]> {
+    let data = await this.httpclient.get<CicloCreche[]>(`${this.ApiUrl}/ciclos-creche/ativo`).toPromise();
+    return plainToClass(CicloCreche, data);
   }
 
   async obterCausaObitos(): Promise<CausaObito[]> {
@@ -157,5 +163,15 @@ export class ManejoService {
     let data = await this.httpclient.get<Local[]>(`${this.ApiUrl}/locais`).toPromise();
     data = plainToClass(Local, data);
     return data;
+  }
+
+  async salvarCicloCreche(item: CicloCreche): Promise<CicloCreche> {
+    let data = await this.httpclient.post<CicloCreche>(`${this.ApiUrl}/ciclo-creche`, item).toPromise();
+    return plainToClass(CicloCreche, data);
+  }
+
+  async atualizarCicloCreche(item: CicloCreche): Promise<CicloCreche> {
+    let data = await this.httpclient.put<CicloCreche>(`${this.ApiUrl}/ciclo-creche/`, item).toPromise();
+    return plainToClass(CicloCreche, data);
   }
 }

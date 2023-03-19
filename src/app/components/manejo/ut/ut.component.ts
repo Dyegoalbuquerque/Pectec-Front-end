@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ManejoService } from '../../../services';
 import { AnimalComportamento } from '..';
-import { CicloReproducao } from 'src/app/models/cicloReproducao';
 import { Tag, Animal } from 'src/app/models';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -28,7 +27,6 @@ export class UTComponent implements OnInit {
   animalComportamento: AnimalComportamento;
   ciclos: CicloTerminacao[];
   filhotes: Animal[];
-  ciclosRepdorucao: CicloReproducao[];
   tagSelecionada: Tag;
 
   panelOpenState = false;
