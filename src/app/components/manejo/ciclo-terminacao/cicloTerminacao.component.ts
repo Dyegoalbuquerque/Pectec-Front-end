@@ -17,11 +17,12 @@ export class CicloTerminacaoComponent implements OnInit {
 
   cicloTerminacao: CicloTerminacao;
   locais: Local[];
-
+  tempos: any[];
 
   ngOnInit() {
     this.cicloTerminacao = this.data;
     this.obterLocais();
+    this.obterTempos();
   }
 
   async obterLocais() {
@@ -51,13 +52,18 @@ export class CicloTerminacaoComponent implements OnInit {
     }
   }
 
+  obterTempos() {
+    this.tempos = [{ valor: 140 }, { valor: 145 }, { valor: 150 }];
+  }
+
+
   fechar(): void {
     this.dialogRef.close();
   }
 
-  validar(item: CicloTerminacao): boolean {console.log(item)
+  validar(item: CicloTerminacao): boolean {
     return item.dataNascimento && item.dataEntrada && item.pesoAnimalEntrada > 0 &&
-      item.localId > 0 && item.quantidadeEntrada > 0 && item.valorEntrada > 0;
+      item.localId > 0 && item.quantidadeEntrada > 0 && item.valorEntrada > 0 && item.tempoCiclo > 0;
   }
 
   mostrarMensagem(mensagem: string, action: string) {

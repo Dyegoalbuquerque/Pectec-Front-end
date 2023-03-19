@@ -8,12 +8,12 @@
     </ng-template>
 
     <p>
-      Acompanhe os ciclos de crescimento da granja.
+      Acompanhe os ciclos de creche da granja.
 
-      <button mat-raised-button color="success" class="right" [matMenuTriggerFor]="upl">
+      <button mat-raised-button color="success" class="right" [matMenuTriggerFor]="uc">
         Ações
       </button>
-      <mat-menu #upl="matMenu">
+      <mat-menu #uc="matMenu">
         <button mat-menu-item (click)="abrirCicloDialog()">Novo ciclo</button>
         <button mat-menu-item (click)="gerarRelatorioUC()">Relatório da UC</button>    
       </mat-menu>
@@ -30,8 +30,8 @@
 
               <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
               Entrada em {{ciclo.dataEntrada | date: 'dd/MM/yyyy'}}
-              <span>&nbsp;&nbsp;&nbsp;</span>
-              {{ciclo.local.nome}}
+              <span>&nbsp;&nbsp;&nbsp;</span>            
+              {{ciclo.local.area }} - {{ciclo.local.nome}}
               <span>&nbsp;&nbsp;&nbsp;</span>
 
               <mat-chip-list>
@@ -51,14 +51,14 @@
             <mat-panel-description>
 
               <span>
-                <strong>encerrar ciclo de crescimento em</strong>
+                <strong>encerrar ciclo de creche em</strong>
                 {{ciclo.dataEncerramento | date: 'dd/MM/yyyy'}}
               </span>
 
             </mat-panel-description>
           </mat-expansion-panel-header>
 
-          <a mat-raised-button color="warn">Ciclo de crescimento</a>
+          <a mat-raised-button color="warn">Detalhes</a>
         </mat-expansion-panel>
       </mat-accordion>
     </div>

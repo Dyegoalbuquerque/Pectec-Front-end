@@ -12,6 +12,7 @@ export class CicloCreche {
     quantidadeEntrada: number;
     quantidadeSaida: number;
     quantidadeAnimalMorto:number;
+    tempoCiclo: number;
     localId: number;
     local: Local;
     valorEntrada: number;

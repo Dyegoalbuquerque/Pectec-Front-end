@@ -63,6 +63,20 @@
   </mat-select>
 </mat-form-field>
 
+<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+<mat-form-field>
+  <mat-label class="required">Tempo de ciclo </mat-label>
+  <mat-select [(ngModel)]="cicloCreche.tempoCiclo">
+    <mat-option [value]="">
+      Selecione
+    </mat-option>
+    <mat-option *ngFor="let tempo of tempos" [value]="tempo.valor">
+      {{tempo.valor}} dias
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close (click)="fechar()">Cancelar</button>
   <button mat-button color="success" cdkFocusInitial (click)="salvar()">Salvar</button>

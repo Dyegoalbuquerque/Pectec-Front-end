@@ -10,10 +10,10 @@
     <p>
       Acompanhe os ciclos de terminação da granja.
 
-      <button mat-raised-button color="success" class="right" [matMenuTriggerFor]="upl">
+      <button mat-raised-button color="success" class="right" [matMenuTriggerFor]="ut">
         Ações
       </button>
-      <mat-menu #upl="matMenu">    
+      <mat-menu #ut="matMenu">    
         <button mat-menu-item (click)="abrirCicloDialog()">Novo ciclo</button>
         <button mat-menu-item (click)="gerarRelatorioUC()">Relatório da UT</button>    
       </mat-menu>

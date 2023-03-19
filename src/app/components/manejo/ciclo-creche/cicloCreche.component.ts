@@ -17,11 +17,12 @@ export class CicloCrecheComponent implements OnInit {
 
   cicloCreche: CicloCreche;
   locais: Local[];
-
+  tempos: any[];
 
   ngOnInit() {
     this.cicloCreche = this.data;
     this.obterLocais();
+    this.obterTempos();
   }
 
   async obterLocais() {
@@ -51,13 +52,17 @@ export class CicloCrecheComponent implements OnInit {
     }
   }
 
+  obterTempos() {
+    this.tempos = [{ valor: 140 }, { valor: 145 }, { valor: 150 }];
+  }
+
   fechar(): void {
     this.dialogRef.close();
   }
 
   validar(item: CicloCreche): boolean {
     return item.dataNascimento && item.dataEntrada && item.pesoAnimalEntrada > 0 &&
-      item.localId > 0 && item.quantidadeEntrada > 0 && item.valorEntrada > 0;
+      item.localId > 0 && item.quantidadeEntrada > 0 && item.valorEntrada > 0 && item.tempoCiclo > 0;
   }
 
   mostrarMensagem(mensagem: string, action: string) {

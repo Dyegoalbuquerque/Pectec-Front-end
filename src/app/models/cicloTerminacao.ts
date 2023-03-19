@@ -11,7 +11,8 @@ export class CicloTerminacao {
     dataEncerramento: string;
     quantidadeEntrada: number;
     quantidadeSaida: number;
-    quantidadeAnimalMorto:number;
+    quantidadeAnimalMorto:number;    
+    tempoCiclo: number;
     localId: number;
     local: Local;
     valorEntrada: number;
