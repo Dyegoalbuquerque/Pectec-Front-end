@@ -43,12 +43,12 @@ export class UCComponent implements OnInit {
     }
   }
 
-  async abrirCicloDialog(id: number) {
+  abrirCicloDialog(ciclo: CicloCreche) {
 
-    let parametrosDialog = { width: '480px', height: '550px', data: new Animal() };
+    let parametrosDialog = { width: '480px', height: '550px', data: new CicloCreche() };
 
-    if (id) {
-      parametrosDialog.data = await this.manejoService.obterAnimalPorId(id);
+    if (ciclo.id || ciclo.dataEntrada) {
+      parametrosDialog.data = ciclo;
       const dialogRef = this.dialog.open(CicloCrecheComponent, parametrosDialog);
 
       dialogRef.afterClosed().subscribe(result => {

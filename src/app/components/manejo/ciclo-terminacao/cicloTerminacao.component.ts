@@ -34,7 +34,8 @@ export class CicloTerminacaoComponent implements OnInit {
 
       if (this.validar(this.cicloTerminacao)) {
 
-        if (this.cicloTerminacao.id > 0) {
+
+        if (this.cicloTerminacao.id || this.cicloTerminacao.dataEntrada) {
           this.cicloTerminacao = await this.manejoService.atualizarCicloTerminacao(this.cicloTerminacao);
           this.mostrarMensagem("Salvo com sucesso", "ciclo Terminacao");
           this.fechar();
@@ -63,7 +64,7 @@ export class CicloTerminacaoComponent implements OnInit {
 
   validar(item: CicloTerminacao): boolean {
     return item.dataNascimento && item.dataEntrada && item.pesoAnimalEntrada > 0 &&
-      item.localId > 0 && item.quantidadeEntrada > 0 && item.valorEntrada > 0 && item.tempoCiclo > 0;
+      item.localId && item.quantidadeEntrada > 0 && item.valorEntrada > 0 && item.tempoCiclo > 0;
   }
 
   mostrarMensagem(mensagem: string, action: string) {

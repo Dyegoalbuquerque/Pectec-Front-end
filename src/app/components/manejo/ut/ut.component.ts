@@ -43,12 +43,12 @@ export class UTComponent implements OnInit {
     }
   }
 
-  async abrirCicloDialog(id: number) {
+  abrirCicloDialog(ciclo: CicloTerminacao) {
 
-    let parametrosDialog = { width: '480px', height: '550px', data: new Animal() };
+    let parametrosDialog = { width: '480px', height: '550px', data: new CicloTerminacao() };
 
-    if (id) {
-      parametrosDialog.data = await this.manejoService.obterAnimalPorId(id);
+    if (ciclo.id || ciclo.dataEntrada) {
+      parametrosDialog.data = ciclo;
       const dialogRef = this.dialog.open(CicloTerminacaoComponent, parametrosDialog);
 
       dialogRef.afterClosed().subscribe(result => {

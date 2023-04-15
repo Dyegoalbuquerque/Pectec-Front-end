@@ -34,7 +34,7 @@ export class CicloCrecheComponent implements OnInit {
 
       if (this.validar(this.cicloCreche)) {
 
-        if (this.cicloCreche.id > 0) {
+        if (this.cicloCreche.id || this.cicloCreche.dataEntrada) {
           this.cicloCreche = await this.manejoService.atualizarCicloCreche(this.cicloCreche);
           this.mostrarMensagem("Salvo com sucesso", "ciclo Terminacao");
           this.fechar();
@@ -62,7 +62,7 @@ export class CicloCrecheComponent implements OnInit {
 
   validar(item: CicloCreche): boolean {
     return item.dataNascimento && item.dataEntrada && item.pesoAnimalEntrada > 0 &&
-      item.localId > 0 && item.quantidadeEntrada > 0 && item.valorEntrada > 0 && item.tempoCiclo > 0;
+      item.localId  && item.quantidadeEntrada > 0 && item.valorEntrada > 0 && item.tempoCiclo > 0;
   }
 
   mostrarMensagem(mensagem: string, action: string) {
