@@ -31,8 +31,9 @@ export class CicloTerminacao {
         let semDestino = this.quantidadeSemDestino ? this.quantidadeSemDestino : 0;
         let separados = this.quantidadeSeparado ? this.quantidadeSeparado : 0;
         let mortos = this.quantidadeAnimalMorto ? this.quantidadeAnimalMorto : 0;
+        let saida = this.quantidadeSaida ? this.quantidadeSaida : 0;
 
-        let quantidade = entrada - (separados + semDestino + mortos);
+        let quantidade = entrada - (separados + semDestino + mortos + saida);
 
         return quantidade;
     }
