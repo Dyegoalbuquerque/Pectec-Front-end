@@ -35,8 +35,13 @@
     <p>
       Um lançamento registra um gasto de saída com data de vencimento ou uma entrada de valor.
 
-      <button mat-raised-button color="success" class="right" (click)="abrirLancamentoDialog()">Criar
-        lançamento</button>
+        <button mat-raised-button color="success" class="right" [matMenuTriggerFor]="upl">
+          Ações
+        </button>
+        <mat-menu #upl="matMenu">
+          <button mat-menu-item (click)="abrirLancamentoDialog()">Criar lançamento</button>
+          <button mat-menu-item (click)="gerarRelatorioCusto()">Relatório de custo</button>
+        </mat-menu>
     </p>
 
     <br />

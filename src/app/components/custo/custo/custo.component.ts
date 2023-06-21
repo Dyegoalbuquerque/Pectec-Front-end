@@ -11,6 +11,7 @@ import { IgxTreeGridComponent } from "igniteui-angular";
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import { Paginacao } from 'src/app/paginacao';
+import { RelatorioCustoPdf } from '../../relatorioCustoPdf';
 import { BalancoLancamento } from 'src/app/models/balancoLancamento';
 
 
@@ -115,6 +116,21 @@ export class CustoComponent implements OnInit {
     } catch (e) {
       console.error(e);
       this.mostrarMensagem("Ocorreu um problema", "Lançamento");
+    }
+  }
+
+  async gerarRelatorioCusto() {
+    try {
+      let dataInicio = "2019-01-01T03:00:00.000Z";
+      let dataFinal = new Date().toString();
+
+      let relatorioCusto = await this.custoService.obterRelatorio(dataInicio, dataFinal);
+      let relatorioPdf = new RelatorioCustoPdf();
+
+      relatorioPdf.gerarRelatorioCusto(relatorioCusto);
+
+    } catch (e) {
+      console.error(e);
     }
   }
 

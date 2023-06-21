@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Lancamento, BalancoLancamento } from '../models';
 import { Paginacao } from '../paginacao';
 import { plainToClass } from "class-transformer";
+import { RelatorioCusto } from '../models/relatorioCusto';
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,10 @@ export class CustoService {
     let retorno = await this.httpclient.get<BalancoLancamento>(`${this.ApiUrl}/lancamentos/balanco?ano=${ano}`).toPromise();
     retorno = plainToClass(BalancoLancamento, retorno);
     return retorno;
+  }
+
+  async obterRelatorio(dataInicial: string, dataFinal: string): Promise<RelatorioCusto> {
+    let data = await this.httpclient.get<RelatorioCusto>(`${this.ApiUrl}/relatorios/custo?dataInicial=${dataInicial}&dataFinal=${dataFinal}`).toPromise();
+    return plainToClass(RelatorioCusto, data);
   }
 }
